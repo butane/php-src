@@ -1,5 +1,5 @@
 --TEST--
-Test fscanf() function: usage variations - char formats with chars 
+Test fscanf() function: usage variations - char formats with chars
 --FILE--
 <?php
 
@@ -10,9 +10,9 @@ Test fscanf() function: usage variations - char formats with chars
 
 /* Test fscanf() to scan different chars using different char format types */
 
-$file_path = dirname(__FILE__);
+$file_path = __DIR__;
 
-echo "*** Test fscanf(): different char format types with chars ***\n"; 
+echo "*** Test fscanf(): different char format types with chars ***\n";
 
 // create a file
 $filename = "$file_path/fscanf_variation26.tmp";
@@ -52,7 +52,11 @@ foreach($char_formats as $char_format) {
   rewind($file_handle);
   echo "\n-- iteration $counter --\n";
   while( !feof($file_handle) ) {
-    var_dump( fscanf($file_handle,$char_format) );
+    try {
+      var_dump(fscanf($file_handle,$char_format));
+    } catch (ValueError $exception) {
+      echo $exception->getMessage() . "\n";
+    }
   }
   $counter++;
 }
@@ -61,11 +65,11 @@ echo "\n*** Done ***";
 ?>
 --CLEAN--
 <?php
-$file_path = dirname(__FILE__);
+$file_path = __DIR__;
 $filename = "$file_path/fscanf_variation26.tmp";
 unlink($filename);
 ?>
---EXPECTF--
+--EXPECT--
 *** Test fscanf(): different char format types with chars ***
 
 -- iteration 1 --
@@ -207,21 +211,11 @@ array(1) {
 bool(false)
 
 -- iteration 7 --
-
-Warning: fscanf(): Bad scan conversion character " " in %s on line %d
-NULL
-
-Warning: fscanf(): Bad scan conversion character " " in %s on line %d
-NULL
-
-Warning: fscanf(): Bad scan conversion character " " in %s on line %d
-NULL
-
-Warning: fscanf(): Bad scan conversion character " " in %s on line %d
-NULL
-
-Warning: fscanf(): Bad scan conversion character " " in %s on line %d
-NULL
+Bad scan conversion character " "
+Bad scan conversion character " "
+Bad scan conversion character " "
+Bad scan conversion character " "
+Bad scan conversion character " "
 bool(false)
 
 -- iteration 8 --
@@ -353,4 +347,3 @@ array(0) {
 bool(false)
 
 *** Done ***
-

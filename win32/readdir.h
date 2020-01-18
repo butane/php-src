@@ -15,14 +15,12 @@ extern "C" {
 
 #include "ioutil.h"
 
-#define php_readdir_r readdir_r
-
 /* struct dirent - same as Unix */
 struct dirent {
 	long d_ino;					/* inode (always 1 in WIN32) */
 	off_t d_off;					/* offset to this dirent */
 	unsigned short d_reclen;			/* length of d_name */
-	char *d_name;	/* null terminated filename in the current encoding, glyph number <= 255 wchar_t's + \0 byte */
+	char d_name[1];	/* null terminated filename in the current encoding, glyph number <= 255 wchar_t's + \0 byte */
 };
 
 /* typedef DIR - not the same as Unix */
@@ -39,7 +37,6 @@ typedef struct DIR_W32 DIR;
 /* Function prototypes */
 DIR *opendir(const char *);
 struct dirent *readdir(DIR *);
-int readdir_r(DIR *, struct dirent *, struct dirent **);
 int closedir(DIR *);
 int rewinddir(DIR *);
 

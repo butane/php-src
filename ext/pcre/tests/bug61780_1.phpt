@@ -2,22 +2,22 @@
 Bug #61780 (Inconsistent PCRE captures in match results): numeric subpatterns
 --FILE--
 <?php
-preg_match('/(4)?(2)?\d/', '23456', $matches);
+preg_match('/(4)?(2)?\d/', '23456', $matches, PREG_UNMATCHED_AS_NULL);
 var_export($matches);
 echo "\n\n";
-preg_match('/(4)?(2)?\d/', '23456', $matches, PREG_OFFSET_CAPTURE);
+preg_match('/(4)?(2)?\d/', '23456', $matches, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);
 var_export($matches);
 echo "\n\n";
-preg_match_all('/(4)?(2)?\d/', '123456', $matches);
+preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_UNMATCHED_AS_NULL);
 var_export($matches);
 echo "\n\n";
-preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_OFFSET_CAPTURE);
+preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);
 var_export($matches);
 echo "\n\n";
-preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_SET_ORDER);
+preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_SET_ORDER | PREG_UNMATCHED_AS_NULL);
 var_export($matches);
 echo "\n\n";
-preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+preg_match_all('/(4)?(2)?\d/', '123456', $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);
 var_export($matches);
 ?>
 --EXPECT--
@@ -95,7 +95,11 @@ array (
   ),
   1 => 
   array (
-    0 => NULL,
+    0 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
     1 => 
     array (
       0 => NULL,
@@ -106,18 +110,34 @@ array (
       0 => '4',
       1 => 3,
     ),
-    3 => NULL,
+    3 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
   ),
   2 => 
   array (
-    0 => NULL,
+    0 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
     1 => 
     array (
       0 => '2',
       1 => 1,
     ),
-    2 => NULL,
-    3 => NULL,
+    2 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
+    3 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
   ),
 )
 
@@ -125,6 +145,8 @@ array (
   0 => 
   array (
     0 => '1',
+    1 => NULL,
+    2 => NULL,
   ),
   1 => 
   array (
@@ -136,10 +158,13 @@ array (
   array (
     0 => '45',
     1 => '4',
+    2 => NULL,
   ),
   3 => 
   array (
     0 => '6',
+    1 => NULL,
+    2 => NULL,
   ),
 )
 
@@ -150,6 +175,16 @@ array (
     array (
       0 => '1',
       1 => 0,
+    ),
+    1 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
+    2 => 
+    array (
+      0 => NULL,
+      1 => -1,
     ),
   ),
   1 => 
@@ -182,6 +217,11 @@ array (
       0 => '4',
       1 => 3,
     ),
+    2 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
   ),
   3 => 
   array (
@@ -189,6 +229,16 @@ array (
     array (
       0 => '6',
       1 => 5,
+    ),
+    1 => 
+    array (
+      0 => NULL,
+      1 => -1,
+    ),
+    2 => 
+    array (
+      0 => NULL,
+      1 => -1,
     ),
   ),
 )

@@ -45,7 +45,7 @@ class a implements IteratorAggregate {
 $array = new a();
 
 foreach ($array as $property => $value) {
-	print "$property: $value\n";    
+	print "$property: $value\n";
 }
 
 #$array = $array->getIterator();
@@ -58,17 +58,16 @@ echo "===2nd===\n";
 $array = new ai();
 
 foreach ($array as $property => $value) {
-	print "$property: $value\n";    
+	print "$property: $value\n";
 }
 
 echo "===3rd===\n";
 
 foreach ($array as $property => $value) {
-	print "$property: $value\n";    
+	print "$property: $value\n";
 }
 
 ?>
-===DONE===
 --EXPECT--
 0: foo
 1: bar
@@ -81,4 +80,3 @@ foreach ($array as $property => $value) {
 0: foo
 1: bar
 2: baz
-===DONE===

@@ -37,9 +37,7 @@ foreach($rit as $k=>$v)
 	echo str_repeat('  ',$rit->getDepth()+1)."$k=>$v\n";
 }
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 <ul>
   0=>a
   <ul>
@@ -59,4 +57,3 @@ foreach($rit as $k=>$v)
   </ul>
   3=>d
 <ul>
-===DONE===

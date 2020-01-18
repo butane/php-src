@@ -1,7 +1,7 @@
 --TEST--
 Bug #70124 (null ptr deref / seg fault in ZEND_HANDLE_EXCEPTION_SPEC_HANDLER)
 --FILE--
-<?php 
+<?php
 
 try  {
 	echo base_convert([array_search(chr(48),chr(48),chr(48),chr(48),chr(48),$f("test"))],chr(48));
@@ -39,8 +39,8 @@ try  {
 }
 ?>
 --EXPECTF--
-Notice: Undefined variable: f in %sbug70124.php on line %d
-string(30) "Function name must be a string"
+Warning: Undefined variable: f in %s on line %d
+string(34) "Value of type null is not callable"
 string(31) "Call to undefined method A::y()"
 string(31) "Call to undefined method A::y()"
 string(34) "Call to undefined function bar\y()"

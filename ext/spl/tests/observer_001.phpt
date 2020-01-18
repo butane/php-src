@@ -16,7 +16,7 @@ class ObserverImpl implements SplObserver
 	{
 		echo $this->name . '->' . __METHOD__ . '(' . $subject->getName() . ");\n";
 	}
-	
+
 	function getName()
 	{
 		return $this->name;
@@ -93,7 +93,6 @@ $sub->attach($ob3);
 
 $sub->notify();
 ?>
-===DONE===
 --EXPECT--
 $sub->SubjectImpl::attach($ob1);
 $sub->SubjectImpl::attach($ob1);
@@ -113,4 +112,3 @@ $sub->SubjectImpl::notify();
 $sub->SubjectImpl::attach($ob3);
 $sub->SubjectImpl::notify();
 $ob3->ObserverImpl::update($sub);
-===DONE===

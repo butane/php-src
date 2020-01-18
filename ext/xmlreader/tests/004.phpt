@@ -1,11 +1,10 @@
 --TEST--
-XMLReader: libxml2 XML Reader, attributes test 
+XMLReader: libxml2 XML Reader, attributes test
 --SKIPIF--
 <?php if (!extension_loaded("xmlreader")) print "skip"; ?>
 --FILE--
-<?php 
-/* $Id$ */
-$filename = dirname(__FILE__) . '/_004.xml';
+<?php
+$filename = __DIR__ . '/_004.xml';
 
 $xmlstring = '<?xml version="1.0" encoding="UTF-8"?>
 <books><book num="1" idx="2">book1</book></books>';
@@ -32,7 +31,6 @@ while ($reader->read()) {
 $reader->close();
 unlink($filename);
 ?>
-===DONE===
 --EXPECT--
 books
 book
@@ -41,4 +39,3 @@ book
    Attribute Name: idx
    Attribute Value: 2
 #text
-===DONE===

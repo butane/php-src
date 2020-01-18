@@ -9,8 +9,8 @@ phar.require_hash=0
 phar.readonly=0
 --FILE--
 <?php
-$fname = dirname(__FILE__) . '/' . basename(__FILE__, '.php') . '.phar.zip.php';
-$f2name = dirname(__FILE__) . '/files/metadata.phar.zip';
+$fname = __DIR__ . '/' . basename(__FILE__, '.php') . '.phar.zip.php';
+$f2name = __DIR__ . '/files/metadata.phar.zip';
 $pname = 'phar://' . $fname;
 $p2name = 'phar://' . $f2name;
 
@@ -53,9 +53,8 @@ foreach($files as $name => $cont) {
 }
 var_dump($phar->getMetadata());
 ?>
-===DONE===
 --CLEAN--
-<?php unlink(dirname(__FILE__) . '/' . basename(__FILE__, '.clean.php') . '.phar.zip.php'); ?>
+<?php unlink(__DIR__ . '/' . basename(__FILE__, '.clean.php') . '.phar.zip.php'); ?>
 --EXPECT--
 string(1) "a"
 string(1) "b"
@@ -84,4 +83,3 @@ array(2) {
 }
 bool(true)
 string(2) "hi"
-===DONE===

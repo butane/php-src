@@ -1,7 +1,7 @@
 --TEST--
 SimpleXML: Element check
 --SKIPIF--
-<?php if (!extension_loaded("simplexml")) print "skip"; ?> 
+<?php if (!extension_loaded("simplexml")) print "skip"; ?>
 --FILE--
 <?php
 
@@ -19,7 +19,5 @@ if ($ok) {
          print "Error\n";
 }
 ?>
-===DONE===
 --EXPECT--
 Works
-===DONE===

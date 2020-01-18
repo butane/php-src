@@ -1,8 +1,6 @@
 /*
    +----------------------------------------------------------------------+
-   | PHP Version 7                                                        |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 1997-2017 The PHP Group                                |
+   | Copyright (c) The PHP Group                                          |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -16,13 +14,13 @@
    +----------------------------------------------------------------------+
  */
 
-/* $Id$ */
-
+#include "php.h"
+#include "SAPI.h"
 #include "win32/console.h"
 
 
 PHP_WINUTIL_API BOOL php_win32_console_fileno_is_console(zend_long fileno)
-{
+{/*{{{*/
 	BOOL result = FALSE;
 	HANDLE handle = (HANDLE) _get_osfhandle(fileno);
 
@@ -33,10 +31,10 @@ PHP_WINUTIL_API BOOL php_win32_console_fileno_is_console(zend_long fileno)
 		}
 	}
 	return result;
-}
+}/*}}}*/
 
 PHP_WINUTIL_API BOOL php_win32_console_fileno_has_vt100(zend_long fileno)
-{
+{/*{{{*/
 	BOOL result = FALSE;
 	HANDLE handle = (HANDLE) _get_osfhandle(fileno);
 
@@ -55,10 +53,10 @@ PHP_WINUTIL_API BOOL php_win32_console_fileno_has_vt100(zend_long fileno)
 		}
 	}
 	return result;
-}
+}/*}}}*/
 
 PHP_WINUTIL_API BOOL php_win32_console_fileno_set_vt100(zend_long fileno, BOOL enable)
-{
+{/*{{{*/
 	BOOL result = FALSE;
 	HANDLE handle = (HANDLE) _get_osfhandle(fileno);
 
@@ -90,4 +88,29 @@ PHP_WINUTIL_API BOOL php_win32_console_fileno_set_vt100(zend_long fileno, BOOL e
 		}
 	}
 	return result;
-}
+}/*}}}*/
+
+PHP_WINUTIL_API BOOL php_win32_console_is_own(void)
+{/*{{{*/
+	if (!IsDebuggerPresent()) {
+		CONSOLE_SCREEN_BUFFER_INFO csbi;
+		DWORD pl[1];
+		BOOL ret0 = FALSE, ret1 = FALSE;
+
+		if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+			ret0 = !csbi.dwCursorPosition.X && !csbi.dwCursorPosition.Y;
+		}
+
+		ret1 = GetConsoleProcessList(pl, 1) == 1;
+
+		return ret0 && ret1;
+	}
+
+	return FALSE;
+}/*}}}*/
+
+PHP_WINUTIL_API BOOL php_win32_console_is_cli_sapi(void)
+{/*{{{*/
+	return strlen(sapi_module.name) >= sizeof("cli") - 1 && !strncmp(sapi_module.name, "cli", sizeof("cli") - 1);
+}/*}}}*/
+

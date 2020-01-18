@@ -14,8 +14,6 @@ class ChildClass extends TestClass {}
 echo TestClass::getClassName() . "\n";
 echo ChildClass::getClassName() . "\n";
 ?>
-==DONE==
---EXPECTF--
+--EXPECT--
 TestClass
 ChildClass
-==DONE==

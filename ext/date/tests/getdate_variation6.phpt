@@ -1,11 +1,11 @@
 --TEST--
-Test getdate() function : usage variation - Passing strings containing numbers  
+Test getdate() function : usage variation - Passing strings containing numbers
 --FILE--
 <?php
 /* Prototype  : array getdate([int timestamp])
- * Description: Get date/time information 
+ * Description: Get date/time information
  * Source code: ext/date/php_date.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing getdate() : usage variation ***\n";
@@ -25,8 +25,7 @@ foreach($inputs as $key => $value) {
       var_dump( getdate($value) );
 };
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing getdate() : usage variation ***
 
 --String 0--
@@ -106,4 +105,3 @@ array(11) {
   [0]=>
   int(-10)
 }
-===DONE===

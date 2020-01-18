@@ -6,7 +6,7 @@ Bug #29674 (inherited method doesn't have access to private variables of the der
 class BaseClass
 {
 	private $private_base = "Base";
-	
+
 	function printVars ()
 	{
 		var_dump($this->private_base);
@@ -33,7 +33,7 @@ $obj->printVars();
 ===BASE===
 string(4) "Base"
 
-Notice: Undefined property: BaseClass::$private_child in %sbug29674.php on line %d
+Warning: Undefined property: BaseClass::$private_child in %s on line %d
 NULL
 ===CHILD===
 string(4) "Base"

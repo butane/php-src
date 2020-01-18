@@ -40,7 +40,9 @@ const mbfl_encoding mbfl_encoding_uuencode = {
 	"x-uuencode",
 	NULL,
 	NULL,
-	MBFL_ENCTYPE_SBCS
+	MBFL_ENCTYPE_SBCS,
+	NULL,
+	NULL
 };
 
 const struct mbfl_convert_vtbl vtbl_uuencode_8bit = {
@@ -87,7 +89,7 @@ int mbfl_filt_conv_uudec(int c, mbfl_convert_filter * filter)
 			}
 			if (filter->cache == 5)
 			{
-				/* thats good enough - wait for a newline */
+				/* that's good enough - wait for a newline */
 				filter->status = uudec_state_until_newline;
 				filter->cache = 0;
 			}
@@ -148,5 +150,3 @@ int mbfl_filt_conv_uudec(int c, mbfl_convert_filter * filter)
 	}
 	return c;
 }
-
-

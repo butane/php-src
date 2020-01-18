@@ -25,7 +25,7 @@ $exp = [
 	[470,470, 548,549, 566,532, 488,453],
 	[492,439, 595,481, 604,458, 502,416]
 ];
-$cwd = dirname(__FILE__);
+$cwd = __DIR__;
 $font = "$cwd/Tuffy.ttf";
 $delta_t = 360.0 / 16; # Make 16 steps around
 $g = imagecreate(800, 800);
@@ -38,7 +38,7 @@ $cos_t = cos(deg2rad($delta_t));
 $sin_t = sin(deg2rad($delta_t));
 for ($angle = 0.0, $i = 0; $angle < 360.0; $angle += $delta_t, $i++) {
   $bbox = imagettftext($g, 24, $angle, 400+$x, 400+$y, $black, $font, 'ABCDEF');
-  imagepolygon($g, $bbox, 4, $red);
+  imagepolygon($g, $bbox, $red);
   printf("%2d: ", $i);
   for ($j = 0; $j < 8; $j++) {
 	if ($bbox[$j] >= $exp[$i][$j] - 1 && $bbox[$j] <= $exp[$i][$j] + 1) {
@@ -55,7 +55,7 @@ for ($angle = 0.0, $i = 0; $angle < 360.0; $angle += $delta_t, $i++) {
 imagepng($g, "$cwd/bug43073.png");
 ?>
 --CLEAN--
-<?php @unlink(dirname(__FILE__) . '/bug43073.png'); ?>
+<?php @unlink(__DIR__ . '/bug43073.png'); ?>
 --EXPECT--
  0: ........
  1: ........

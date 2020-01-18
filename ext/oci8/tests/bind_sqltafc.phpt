@@ -5,7 +5,7 @@ Bind tests with SQLT_AFC
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -87,9 +87,7 @@ oci8_test_sql_execute($c, $stmtarray);
 oci_close($c);
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 Test 0 - base table creation without binds
 array(5) {
   ["ID"]=>
@@ -205,4 +203,3 @@ array(5) {
     NULL
   }
 }
-===DONE===

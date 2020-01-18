@@ -1,7 +1,5 @@
 --TEST--
 serialize()/unserialize() objects
---SKIPIF--
-<?php if (!interface_exists('Serializable')) die('skip Interface Serialzable not defined'); ?>
 --FILE--
 <?php
 
@@ -11,7 +9,7 @@ function do_autoload($class_name)
 {
 	if ($class_name != 'autoload_not_available')
 	{
-		require_once(dirname(__FILE__) . '/' . strtolower($class_name) . '.p5c');
+		require_once(__DIR__ . '/' . strtolower($class_name) . '.inc');
 	}
 	echo __FUNCTION__ . "($class_name)\n";
 }
@@ -48,17 +46,17 @@ class TestOld
 	{
 		echo __METHOD__ . "()\n";
 	}
-	
+
 	function unserialize($serialized)
 	{
 		echo __METHOD__ . "()\n";
 	}
-	
+
 	function __wakeup()
 	{
 		echo __METHOD__ . "()\n";
 	}
-	
+
 	function __sleep()
 	{
 		echo __METHOD__ . "()\n";
@@ -81,17 +79,17 @@ class TestNew implements Serializable
 			return "2";
 		}
 	}
-	
+
 	function unserialize($serialized)
 	{
 		echo __METHOD__ . "()\n";
 	}
-	
+
 	function __wakeup()
 	{
 		echo __METHOD__ . "()\n";
 	}
-	
+
 	function __sleep()
 	{
 		echo __METHOD__ . "()\n";
@@ -129,8 +127,6 @@ var_dump(unserialize('O:19:"autoload_implements":0:{}'));
 echo "===AutoNA===\n";
 var_dump(unserialize('O:22:"autoload_not_available":0:{}'));
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 ===O1===
 TestOld::__sleep()
@@ -184,4 +180,3 @@ object(__PHP_Incomplete_Class)#%d (1) {
   ["__PHP_Incomplete_Class_Name"]=>
   string(22) "autoload_not_available"
 }
-===DONE===

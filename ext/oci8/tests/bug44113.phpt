@@ -1,15 +1,15 @@
 --TEST--
 Bug #44113 (New collection creation can fail with OCI-22303)
 --SKIPIF--
-<?php 
+<?php
 $target_dbs = array('oracledb' => true, 'timesten' => false);  // test runs on these DBs
-require(dirname(__FILE__).'/skipif.inc');
+require(__DIR__.'/skipif.inc');
 if (getenv('SKIP_SLOW_TESTS')) die('skip slow tests excluded by request');
 ?>
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -21,7 +21,7 @@ oci8_test_sql_execute($c, $stmtarray);
 
 // Run Test
 // The test can take some time to complete and can exceed PHP's test
-// timout limit on slow networks.
+// timeout limit on slow networks.
 
 for ($x = 0; $x < 70000; $x++) {
 	if (!($var = oci_new_collection($c, 'BUG44113_LIST_T'))) {

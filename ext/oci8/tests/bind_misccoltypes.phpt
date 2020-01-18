@@ -3,12 +3,12 @@ Bind miscellaneous column types using default types
 --SKIPIF--
 <?php
 $target_dbs = array('oracledb' => true, 'timesten' => false);  // test runs on these DBs
-require(dirname(__FILE__).'/skipif.inc');
-?> 
+require(__DIR__.'/skipif.inc');
+?>
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -268,9 +268,7 @@ oci8_test_sql_execute($c, $stmtarray);
 oci_close($c);
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 TEST86 insert all ORATYPE values
 
 TEST87 SELECT all values using DEFINEs
@@ -363,4 +361,3 @@ array(1) {
     string(9) "09-APR-10"
   }
 }
-===DONE===

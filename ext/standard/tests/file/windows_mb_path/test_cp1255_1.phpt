@@ -1,8 +1,8 @@
 --TEST--
-Test mkdir/rmdir cp1255 path 
+Test mkdir/rmdir cp1255 path
 --SKIPIF--
 <?php
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 skip_if_not_win();
 if (getenv("SKIP_SLOW_TESTS")) die("skip slow test");
@@ -19,7 +19,7 @@ default_charset=cp1255
 #vim: set encoding=cp1255
 */
 
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 $item = "כללים מרובים";
 $prefix = create_data("dir_cp1255", "${item}42", 1255);
@@ -39,8 +39,7 @@ var_dump(rmdir($subpath));
 remove_data("dir_cp1255");
 
 ?>
-===DONE===
---EXPECTF--	
+--EXPECTF--
 bool(true)
 bool(true)
 bool(true)
@@ -51,4 +50,3 @@ bool(true)
 string(%d) "%s\כללים מרובים42\כללים מרובים4"
 Active code page: %d
 bool(true)
-===DONE===

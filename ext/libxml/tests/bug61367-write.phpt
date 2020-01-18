@@ -1,7 +1,7 @@
 --TEST--
 Bug #61367: open_basedir bypass in libxml RSHUTDOWN: write test
 --SKIPIF--
-<?php if(!extension_loaded('dom')) echo 'skip'; ?>
+<?php if(!extension_loaded('dom')) echo 'skip dom extension not available'; ?>
 --INI--
 open_basedir=.
 --FILE--
@@ -10,7 +10,7 @@ open_basedir=.
 class StreamExploiter {
 	public function stream_close (  ) {
 		$doc = new DOMDocument;
-		$doc->appendChild($doc->createTextNode('hello')); 
+		$doc->appendChild($doc->createTextNode('hello'));
 		var_dump($doc->save(dirname(getcwd()) . '/bad'));
 	}
 
@@ -42,5 +42,5 @@ bool(true)
 
 Warning: DOMDocument::save(): open_basedir restriction in effect. File(%s) is not within the allowed path(s): (.) in %s on line %d
 
-Warning: DOMDocument::save(%s): failed to open stream: Operation not permitted in %s on line %d
+Warning: DOMDocument::save(%s): Failed to open stream: Operation not permitted in %s on line %d
 bool(false)

@@ -1,8 +1,6 @@
 /*
    +----------------------------------------------------------------------+
-   | PHP Version 7                                                        |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 1997-2017 The PHP Group                                |
+   | Copyright (c) The PHP Group                                          |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -16,8 +14,6 @@
    |          Stefan Esser <sesser@php.net> (resume functions)            |
    +----------------------------------------------------------------------+
  */
-
-/* $Id$ */
 
 #ifndef	_INCLUDED_FTP_H
 #define	_INCLUDED_FTP_H
@@ -60,6 +56,7 @@ PHP_FUNCTION(ftp_pasv);
 PHP_FUNCTION(ftp_get);
 PHP_FUNCTION(ftp_fget);
 PHP_FUNCTION(ftp_put);
+PHP_FUNCTION(ftp_append);
 PHP_FUNCTION(ftp_fput);
 PHP_FUNCTION(ftp_size);
 PHP_FUNCTION(ftp_mdtm);

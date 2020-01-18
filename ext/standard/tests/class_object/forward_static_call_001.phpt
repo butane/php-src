@@ -57,8 +57,7 @@ echo "-\n";
 C::test3();
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 A
 -
 B
@@ -80,4 +79,3 @@ C
 -
 B
 C
-===DONE===

@@ -5,7 +5,7 @@ Test ctype_cntrl() function : usage variations - different integers
 --FILE--
 <?php
 /* Prototype  : bool ctype_cntrl(mixed $c)
- * Description: Checks for control character(s) 
+ * Description: Checks for control character(s)
  * Source code: ext/ctype/ctype.c
  */
 
@@ -26,8 +26,7 @@ for ($i = 0; $i < 256; $i++) {
 
 setlocale(LC_CTYPE, $orig);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ctype_cntrl() : usage variations ***
 character code 0 is control character
 character code 1 is control character
@@ -62,4 +61,3 @@ character code 29 is control character
 character code 30 is control character
 character code 31 is control character
 character code 127 is control character
-===DONE===

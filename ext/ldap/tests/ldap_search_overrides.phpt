@@ -34,7 +34,6 @@ var_dump(
 	$option
 );
 ?>
-===DONE===
 --CLEAN--
 <?php
 include "connect.inc";
@@ -81,7 +80,7 @@ array(4) {
       ["count"]=>
       int(1)
       [0]=>
-      string(4) "oops"
+      string(%d) "%s"
     }
     [3]=>
     string(12) "userpassword"
@@ -142,7 +141,7 @@ array(4) {
       ["count"]=>
       int(1)
       [0]=>
-      string(15) "oopsIDitItAgain"
+      string(%d) "%s"
     }
     [3]=>
     string(12) "userpassword"
@@ -194,7 +193,7 @@ array(4) {
       ["count"]=>
       int(1)
       [0]=>
-      string(17) "0r1g1na1 passw0rd"
+      string(%d) "%s"
     }
     [3]=>
     string(12) "userpassword"
@@ -212,4 +211,3 @@ bool(true)
 int(33)
 bool(true)
 int(44)
-===DONE===

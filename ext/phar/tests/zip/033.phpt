@@ -8,8 +8,8 @@ phar.require_hash=0
 --FILE--
 <?php
 
-$fname = dirname(__FILE__) . '/' . basename(__FILE__, '.php') . '.phar.zip';
-$fname2 = dirname(__FILE__) . '/' . basename(__FILE__, '.php') . '.2.phar.zip';
+$fname = __DIR__ . '/' . basename(__FILE__, '.php') . '.phar.zip';
+$fname2 = __DIR__ . '/' . basename(__FILE__, '.php') . '.2.phar.zip';
 $alias = 'phar://hio';
 
 $phar = new Phar($fname);
@@ -38,11 +38,10 @@ try {
 	echo $e->getMessage() . "\n";
 }
 ?>
-===DONE===
 --CLEAN--
 <?php
-unlink(dirname(__FILE__) . '/' . basename(__FILE__, '.clean.php') . '.phar.zip');
-unlink(dirname(__FILE__) . '/' . basename(__FILE__, '.clean.php') . '.2.phar.zip');
+unlink(__DIR__ . '/' . basename(__FILE__, '.clean.php') . '.phar.zip');
+unlink(__DIR__ . '/' . basename(__FILE__, '.clean.php') . '.2.phar.zip');
 ?>
 --EXPECT--
 bool(false)
@@ -53,4 +52,3 @@ bool(true)
 bool(true)
 bool(false)
 bool(true)
-===DONE===

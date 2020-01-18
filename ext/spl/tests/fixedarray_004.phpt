@@ -12,7 +12,5 @@ try {
 }
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 string(29) "Index invalid or out of range"
-===DONE===

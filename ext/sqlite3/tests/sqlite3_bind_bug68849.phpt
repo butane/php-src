@@ -34,8 +34,7 @@ $r = $s->execute();
 var_dump($r->fetchArray(SQLITE3_ASSOC));
 
 ?>
-==DONE==
---EXPECTF--
+--EXPECT--
 array(3) {
   ["a"]=>
   int(1)
@@ -68,4 +67,3 @@ array(3) {
   ["c"]=>
   float(3.15)
 }
-==DONE==

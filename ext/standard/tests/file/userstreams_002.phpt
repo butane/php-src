@@ -22,7 +22,11 @@ function test($name, $fd, $return_value) {
 	$data['wrapper_data']->return_value = $return_value;
 	$r = array($fd);
 	$w = $e = null;
-	var_dump(stream_select($r, $w, $e, 0) !== false);
+	try {
+		var_dump(stream_select($r, $w, $e, 0) !== false);
+	} catch (TypeError|ValueError $e) {
+		echo $e->getMessage(), "\n";
+	}
 }
 
 var_dump(stream_wrapper_register('test', 'test_wrapper'));
@@ -50,45 +54,33 @@ bool(true)
 
 Warning: stream_select(): test_wrapper_base::stream_cast is not implemented! in %s
 
-Warning: stream_select(): cannot represent a stream of type user-space as a select()able descriptor in %s
-
-Warning: stream_select(): No stream arrays were passed in %s
-bool(false)
+Warning: stream_select(): Cannot represent a stream of type user-space as a select()able descriptor in %s
+No stream arrays were passed
 
 ------ return value is false: -------
 
-Warning: stream_select(): cannot represent a stream of type user-space as a select()able descriptor in %s
-
-Warning: stream_select(): No stream arrays were passed in %s
-bool(false)
+Warning: stream_select(): Cannot represent a stream of type user-space as a select()able descriptor in %s
+No stream arrays were passed
 
 ------ return value not a stream resource: -------
 
-Warning: stream_select(): supplied argument is not a valid stream resource in %s
-
 Warning: stream_select(): test_wrapper::stream_cast must return a stream resource in %s
 
-Warning: stream_select(): cannot represent a stream of type user-space as a select()able descriptor in %s
-
-Warning: stream_select(): No stream arrays were passed in %s
-bool(false)
+Warning: stream_select(): Cannot represent a stream of type user-space as a select()able descriptor in %s
+No stream arrays were passed
 
 ------ return value is stream itself: -------
 
 Warning: stream_select(): test_wrapper::stream_cast must not return itself in %s
 
-Warning: stream_select(): cannot represent a stream of type user-space as a select()able descriptor in %s
-
-Warning: stream_select(): No stream arrays were passed in %s
-bool(false)
+Warning: stream_select(): Cannot represent a stream of type user-space as a select()able descriptor in %s
+No stream arrays were passed
 
 ------ return value cannot be casted: -------
 
 Warning: stream_select(): test_wrapper_base::stream_cast is not implemented! in %s
 
-Warning: stream_select(): cannot represent a stream of type user-space as a select()able descriptor in %s
+Warning: stream_select(): Cannot represent a stream of type user-space as a select()able descriptor in %s
 
-Warning: stream_select(): cannot represent a stream of type user-space as a select()able descriptor in %s
-
-Warning: stream_select(): No stream arrays were passed in %s
-bool(false)
+Warning: stream_select(): Cannot represent a stream of type user-space as a select()able descriptor in %s
+No stream arrays were passed

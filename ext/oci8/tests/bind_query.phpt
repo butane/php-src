@@ -5,7 +5,7 @@ Bind with various WHERE conditions
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -62,9 +62,7 @@ $stmtarray = array(
 oci8_test_sql_execute($c, $stmtarray);
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 Test 1
 array(1) {
   [0]=>
@@ -75,4 +73,3 @@ string(4) "FORD"
 string(6) "MILLER"
 Test 3
 string(4) "FORD"
-===DONE===

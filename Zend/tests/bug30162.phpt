@@ -24,7 +24,7 @@ class hariCow extends FIIFO {
 		} catch(Exception $e) {
 		}
 	}
-	
+
 	public function __toString() {
 		return "Rusticus in asino sedet.";
 	}
@@ -41,9 +41,8 @@ $db = new hariCow;
 
 var_dump($db);
 ?>
-===DONE===
 --EXPECTF--
-Notice: Undefined variable: db in %sbug30162.php on line 35
+Warning: Undefined variable: db in %s on line %d
 NULL
 object(hariCow)#%d (2) {
   ["x"]=>
@@ -51,4 +50,3 @@ object(hariCow)#%d (2) {
   ["y"]=>
   string(1) "y"
 }
-===DONE===

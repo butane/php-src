@@ -16,9 +16,7 @@ foreach($obj as $ak=>&$av) {
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 0=>modify - 0=>modify
 0=>modify - 1=>1
 0=>modify - 2=>2
@@ -28,4 +26,3 @@ foreach($obj as $ak=>&$av) {
 2=>2 - 0=>modify
 2=>2 - 1=>1
 2=>2 - 2=>2
-===DONE===

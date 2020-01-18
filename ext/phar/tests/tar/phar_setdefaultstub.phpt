@@ -7,7 +7,7 @@ phar.readonly=0
 --FILE--
 <?php
 
-$fname = dirname(__FILE__) . '/' . basename(__FILE__, '.php') . '.phar.tar';
+$fname = __DIR__ . '/' . basename(__FILE__, '.php') . '.phar.tar';
 
 $phar = new Phar($fname);
 $phar['a.php'] = '<php echo "this is a\n"; ?>';
@@ -53,10 +53,9 @@ try {
 var_dump($phar->getStub());
 
 ?>
-===DONE===
 --CLEAN--
-<?php 
-unlink(dirname(__FILE__) . '/' . basename(__FILE__, '.clean.php') . '.phar.tar');
+<?php
+unlink(__DIR__ . '/' . basename(__FILE__, '.clean.php') . '.phar.tar');
 ?>
 --EXPECTF--
 string(51) "<?php echo "Hello World\n"; __HALT_COMPILER(); ?>
@@ -68,13 +67,12 @@ __HALT_COMPILER();"
 ============================================================================
 ============================================================================
 
-Warning: Phar::setDefaultStub(): method accepts no arguments for a tar- or zip-based phar stub, 1 given in %sphar_setdefaultstub.php on line %d
+Warning: Phar::setDefaultStub(): Method accepts no arguments for a tar- or zip-based phar stub, 1 given in %sphar_setdefaultstub.php on line %d
 string(60) "<?php // tar-based phar archive stub file
 __HALT_COMPILER();"
 ============================================================================
 ============================================================================
 
-Warning: Phar::setDefaultStub(): method accepts no arguments for a tar- or zip-based phar stub, 2 given in %sphar_setdefaultstub.php on line %d
+Warning: Phar::setDefaultStub(): Method accepts no arguments for a tar- or zip-based phar stub, 2 given in %sphar_setdefaultstub.php on line %d
 string(60) "<?php // tar-based phar archive stub file
 __HALT_COMPILER();"
-===DONE===

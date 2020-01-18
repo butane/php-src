@@ -17,7 +17,7 @@ $p = proc_open($cmd, $descs, $pipes, '.', $environment);
 if (is_resource($p)) {
 	$data = '';
 
-	while (1) {	
+	while (1) {
 		$w = $e = NULL;
 		$n = stream_select($pipes, $w, $e, 300);
 
@@ -46,10 +46,8 @@ if (is_resource($p)) {
 	echo "no process\n";
 }
 ?>
-==DONE==
 --EXPECTF--
-Notice: Array to string conversion in %s on line %d
+Warning: Array to string conversion in %s on line %d
 int(%d)
 int(0)
 bool(true)
-==DONE==

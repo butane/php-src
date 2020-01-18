@@ -3,7 +3,6 @@ Phar object: basics
 --SKIPIF--
 <?php
 if (!extension_loaded("phar")) die("skip");
-if (!extension_loaded("spl")) die("skip SPL not available");
 ?>
 --INI--
 phar.require_hash=0
@@ -42,10 +41,9 @@ try {
 }
 
 ?>
-===DONE===
 --CLEAN--
-<?php 
-unlink(dirname(__FILE__) . '/files/phar_oo_001.phar.php');
+<?php
+unlink(__DIR__ . '/files/phar_oo_001.phar.php');
 __halt_compiler();
 ?>
 --EXPECT--
@@ -53,4 +51,3 @@ string(5) "1.0.0"
 int(5)
 string(50) "Cannot call method on an uninitialized Phar object"
 string(29) "Cannot call constructor twice"
-===DONE===

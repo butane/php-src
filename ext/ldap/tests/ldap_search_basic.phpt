@@ -21,7 +21,6 @@ var_dump(
 	ldap_get_entries($link, $result)
 );
 ?>
-===DONE===
 --CLEAN--
 <?php
 include "connect.inc";
@@ -68,7 +67,7 @@ array(4) {
       ["count"]=>
       int(1)
       [0]=>
-      string(4) "oops"
+      string(%d) "%s"
     }
     [3]=>
     string(12) "userpassword"
@@ -129,7 +128,7 @@ array(4) {
       ["count"]=>
       int(1)
       [0]=>
-      string(15) "oopsIDitItAgain"
+      string(%d) "%s"
     }
     [3]=>
     string(12) "userpassword"
@@ -181,7 +180,7 @@ array(4) {
       ["count"]=>
       int(1)
       [0]=>
-      string(17) "0r1g1na1 passw0rd"
+      string(%d) "%s"
     }
     [3]=>
     string(12) "userpassword"
@@ -191,4 +190,3 @@ array(4) {
     string(%d) "cn=userC,cn=userB,%s"
   }
 }
-===DONE===

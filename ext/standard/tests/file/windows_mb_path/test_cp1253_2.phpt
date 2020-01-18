@@ -2,7 +2,7 @@
 Test fopen() for write cp1253
 --SKIPIF--
 <?php
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 skip_if_not_win();
 if (getenv("SKIP_SLOW_TESTS")) die("skip slow test");
@@ -19,7 +19,7 @@ internal_encoding=cp1253
 #vim: set encoding=cp1253
 */
 
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 $item = "διαδρομή δοκιμής";
 $prefix = create_data("dir_cp1253", "${item}42}", 1253);
@@ -40,8 +40,7 @@ get_basename_with_cp($fn, 1253);
 remove_data("dir_cp1253");
 
 ?>
-===DONE===
---EXPECTF--	
+--EXPECTF--
 resource(%d) of type (stream)
 int(25)
 bool(true)
@@ -52,4 +51,3 @@ string(%d) "διαδρομή δοκιμής33"
 bool(true)
 string(%d) "%s\διαδρομή δοκιμής33"
 Active code page: %d
-===DONE===

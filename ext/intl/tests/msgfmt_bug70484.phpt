@@ -4,8 +4,6 @@ Bug #70484 selectordinal doesn't work with named parameters
 <?php
 if (!extension_loaded('intl'))
 	die('skip intl extension not enabled');
-if (version_compare(INTL_ICU_VERSION, '5.0') < 0)
-	die('skip for ICU 5.0+');
 --FILE--
 <?php
 
@@ -36,8 +34,7 @@ foreach ($locale as $lc) {
 }
 
 ?>
-==DONE==
---EXPECT--
+--EXPECTF--
 de string key
 string(8) "42-other"
 string(11) "42,42-other"
@@ -55,15 +52,15 @@ string(4) "five"
 fr string key
 string(8) "42-other"
 string(11) "42,42-other"
-string(22) "2 147 483 643-other"
-string(26) "2 147 483 643,123-other"
+string(%d) "2%s147%s483%s643-other"
+string(%d) "2%s147%s483%s643,123-other"
 string(4) "five"
 
 fr numeric key
 string(8) "42-other"
 string(11) "42,42-other"
-string(22) "2 147 483 643-other"
-string(26) "2 147 483 643,123-other"
+string(%d) "2%s147%s483%s643-other"
+string(%d) "2%s147%s483%s643,123-other"
 string(4) "five"
 
 en string key
@@ -94,4 +91,3 @@ string(22) "2 147 483 643-other"
 string(26) "2 147 483 643,123-other"
 string(4) "five"
 
-==DONE==

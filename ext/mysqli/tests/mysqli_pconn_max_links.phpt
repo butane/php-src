@@ -59,7 +59,11 @@ mysqli.rollback_on_cached_plink=1
 			mysqli_errno($plink), mysqli_error($plink));
 	}
 
-	var_dump(mysqli_get_links_stats(1));
+	try {
+	    mysqli_get_links_stats(1);
+	} catch (ArgumentCountError $exception) {
+	    echo $exception->getMessage() . "\n";
+	}
 
 	echo "Before pconnect:";
 	var_dump(mysqli_get_links_stats());
@@ -92,12 +96,14 @@ mysqli.rollback_on_cached_plink=1
 	var_dump($row);
 
 	// change the password for the second DB user and kill the persistent connection
-	if (!mysqli_query($link, 'SET PASSWORD FOR pcontest = PASSWORD("newpass")') ||
+	if ((!mysqli_query($link, 'SET PASSWORD FOR pcontest = "newpass"') &&
+			!mysqli_query($link, 'SET PASSWORD FOR pcontest = PASSWORD("newpass")'))||
 			!mysqli_query($link, 'FLUSH PRIVILEGES'))
 		printf("[005] Cannot change PW of second DB user, [%d] %s\n", mysqli_errno($link), mysqli_error($link));
 
         // change the password for the second DB user and kill the persistent connection
-	if (!mysqli_query($link, 'SET PASSWORD FOR pcontest@localhost = PASSWORD("newpass")') ||
+	if ((!mysqli_query($link, 'SET PASSWORD FOR pcontest@localhost = "newpass"') &&
+		!mysqli_query($link, 'SET PASSWORD FOR pcontest@localhost = PASSWORD("newpass")')) ||
 			!mysqli_query($link, 'FLUSH PRIVILEGES'))
 		printf("[006] Cannot change PW of second DB user, [%d] %s\n", mysqli_errno($link), mysqli_error($link));
 
@@ -201,9 +207,8 @@ mysqli_query($link, 'DROP USER pcontest');
 
 mysqli_close($link);
 ?>
---EXPECTF--
-Warning: mysqli_get_links_stats(): no parameters expected in %s on line %d
-NULL
+--EXPECT--
+mysqli_get_links_stats() expects exactly 0 parameters, 1 given
 Before pconnect:array(3) {
   ["total"]=>
   int(1)
@@ -234,10 +239,6 @@ Before second pconnect:array(3) {
   ["cached_plinks"]=>
   int(0)
 }
-
-Warning: main(): MySQL server has gone away in %s on line %d
-
-Warning: main(): Error reading result set's header in %s line %d
 After second pconnect:array(3) {
   ["total"]=>
   int(1)

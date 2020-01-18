@@ -3,8 +3,8 @@ SPL: ArrayObject from object
 --FILE--
 <?php
 
-// This test also needs to exclude the protected and private variables 
-// since they cannot be accessed from the external object which iterates 
+// This test also needs to exclude the protected and private variables
+// since they cannot be accessed from the external object which iterates
 // them.
 
 class test
@@ -12,7 +12,7 @@ class test
 	public    $pub = "public";
 	protected $pro = "protected";
 	private   $pri = "private";
-	
+
 	function __construct()
 	{
 		$this->imp = "implicit";
@@ -34,9 +34,7 @@ foreach($test as $key => $val)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 test Object
 (
     [pub] => public
@@ -60,4 +58,3 @@ ArrayObject Object
 pub => public
 imp => implicit
 dyn => dynamic
-===DONE===

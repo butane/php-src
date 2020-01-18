@@ -4,7 +4,7 @@ Bug #71998 Function pg_insert does not insert when column type = inet
 <?php include("skipif.inc"); ?>
 --FILE--
 <?php
-// Kudos for the IP regex to 
+// Kudos for the IP regex to
 // http://stackoverflow.com/a/17871737/3358424
 
 include('config.inc');
@@ -55,7 +55,7 @@ $i = 0;
 $errors = 0;
 foreach ($ips as $ip) {
 	$data = array("id" => ++$i, "remote_addr" => $ip);
-	$r = @pg_insert($db, 'tmp_statistics', $data);   
+	$r = @pg_insert($db, 'tmp_statistics', $data);
 
 	if (!$r && in_array($ip, $bad)) {
 		$errors++;
@@ -70,13 +70,12 @@ $r = pg_query($db, "SELECT * FROM tmp_statistics");
 while (false != ($row = pg_fetch_row($r))) {
 	var_dump($row);
 }
-echo $errors, " errors catched\n";
+echo $errors, " errors caught\n";
 
 pg_query($db, "DROP TABLE tmp_statistics");
 pg_close($db);
 
 ?>
-==DONE==
 --EXPECT--
 array(2) {
   [0]=>
@@ -192,5 +191,4 @@ array(2) {
   [1]=>
   string(19) "2001:4f8:3:ba::/112"
 }
-7 errors catched
-==DONE==
+7 errors caught

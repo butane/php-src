@@ -1,7 +1,7 @@
 --TEST--
 libxml_set_external_entity_loader() variation: restore original handler; returning NULL
 --SKIPIF--
-<?php if (!extension_loaded('dom')) die('skip'); ?>
+<?php if (!extension_loaded('dom')) die('skip dom extension not available'); ?>
 --CLEAN--
 <?php
 @unlink(__DIR__ . "/foobar.dtd");
@@ -34,7 +34,6 @@ file_put_contents(__DIR__ . "/foobar.dtd", $dtd);
 var_dump($dd->validate());
 
 echo "Done.\n";
-
 --EXPECTF--
 string(10) "-//FOO/BAR"
 string(%d) "%sfoobar.dtd"

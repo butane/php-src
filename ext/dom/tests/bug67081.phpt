@@ -8,25 +8,24 @@ require_once('skipif.inc');
 <?php
 	$domDocument = new DOMDocument();
 	$domDocument->substituteEntities = true;
-	$domDocument->load(dirname(__FILE__) . DIRECTORY_SEPARATOR . "bug67081_0.xml");
+	$domDocument->load(__DIR__ . DIRECTORY_SEPARATOR . "bug67081_0.xml");
 	var_dump($domDocument->doctype->internalSubset);
 
 	$domDocument = new DOMDocument();
 	$domDocument->substituteEntities = true;
-	$domDocument->load(dirname(__FILE__) . DIRECTORY_SEPARATOR . "bug67081_1.xml");
+	$domDocument->load(__DIR__ . DIRECTORY_SEPARATOR . "bug67081_1.xml");
 	var_dump($domDocument->doctype->internalSubset);
 
 	$domDocument = new DOMDocument();
 	$domDocument->substituteEntities = true;
-	$domDocument->load(dirname(__FILE__) . DIRECTORY_SEPARATOR . "bug67081_2.xml");
+	$domDocument->load(__DIR__ . DIRECTORY_SEPARATOR . "bug67081_2.xml");
 	var_dump($domDocument->doctype->internalSubset);
 
 	$domDocument = new DOMDocument();
 	$domDocument->substituteEntities = true;
-	$domDocument->load(dirname(__FILE__) . DIRECTORY_SEPARATOR . "dom.xml");
+	$domDocument->load(__DIR__ . DIRECTORY_SEPARATOR . "dom.xml");
 	var_dump($domDocument->doctype->internalSubset);
 ?>
-===DONE===
 --EXPECT--
 string(19) "<!ELEMENT a EMPTY>
 "
@@ -44,4 +43,3 @@ string(277) "<!ENTITY % incent SYSTEM "dom.ent">
 <!ELEMENT root (foo)+>
 <!ATTLIST th title CDATA #IMPLIED>
 "
-===DONE===

@@ -17,7 +17,7 @@ class C {
 			$v="changed.$k";
 		}
 	}
-		
+
 	static function doForEach($obj) {
 		echo "in C::doForEach\n";
 		foreach ($obj as $k=>&$v) {
@@ -25,7 +25,7 @@ class C {
 			$v="changed.$k";
 		}
 	}
-	
+
 	function doForEachOnThis() {
 		echo "in C::doForEachOnThis\n";
 		foreach ($this as $k=>&$v) {
@@ -33,14 +33,14 @@ class C {
 			$v="changed.$k";
 		}
 	}
-	
+
 }
 
 class D extends C {
-	
+
 	private $f = "Original f";
 	protected $g = "Original g";
-	
+
 	static function doForEach($obj) {
 		echo "in D::doForEach\n";
 		foreach ($obj as $k=>&$v) {
@@ -63,7 +63,7 @@ class E extends D {
 	public $b = "Overridden b";
 	public $c = "Overridden c";
 	protected $d = "Overridden d";
-	private $e = "Overridden e";	
+	private $e = "Overridden e";
 
 	static function doForEach($obj) {
 		echo "in E::doForEach\n";
@@ -166,7 +166,6 @@ foreach ($myE as $k=>&$v) {
 }
 var_dump($myE);
 ?>
-===DONE===
 --EXPECTF--
 Iterate over various generations from within overridden methods:
 
@@ -584,4 +583,3 @@ object(E)#%d (8) {
   ["e":"C":private]=>
   string(10) "Original e"
 }
-===DONE===

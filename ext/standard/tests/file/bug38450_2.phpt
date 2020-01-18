@@ -101,10 +101,7 @@ var_dump($myvar);
 
 echo "Done\n";
 ?>
---EXPECTF--	
-
-Warning: fopen(var://myvar): failed to open stream: "VariableStream::stream_open" call failed in %s on line %d
-
+--EXPECTF--
 Fatal error: Uncaught Exception: constructor in %s:%d
 Stack trace:
 #0 [internal function]: VariableStream->__construct()

@@ -36,7 +36,7 @@ class bar extends test {
 	public function __construct() {
 		$this->foobar = 2;
 		$this->a = 200;
-		
+
 		$p = new reflectionproperty($this, 'foobar');
 		var_dump($p->getValue($this), $p->isDefault(), $p->isPublic());
 	}
@@ -45,7 +45,6 @@ class bar extends test {
 new bar;
 
 ?>
-===DONE===
 --EXPECTF--
 object(ReflectionProperty)#%d (2) {
   ["name"]=>
@@ -73,4 +72,3 @@ object(ReflectionProperty)#%d (2) {
 int(2)
 bool(false)
 bool(true)
-===DONE===

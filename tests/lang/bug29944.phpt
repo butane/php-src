@@ -11,10 +11,8 @@ switch ($a) {
 			return false;
 		}
 		echo foo($b);
-}		
+}
 ?>
 
-===DONE===
 --EXPECT--
 1
-===DONE===

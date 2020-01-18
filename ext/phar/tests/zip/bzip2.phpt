@@ -2,7 +2,6 @@
 Phar: process bzip2-compressed zip entry
 --SKIPIF--
 <?php if (!extension_loaded("phar")) die("skip"); ?>
-<?php if (!extension_loaded("spl")) die("skip SPL not available"); ?>
 <?php if (!extension_loaded("bz2")) die("skip bz2 not available"); ?>
 --FILE--
 <?php
@@ -17,7 +16,6 @@ try {
 	echo $e->getMessage() . "\n";
 }
 ?>
-===DONE===
 --EXPECT--
 <?php
 include dirname(__FILE__) . '/corrupt_zipmaker.php.inc';
@@ -80,4 +78,3 @@ $a->addFile('hi', null, 'hii', null, null, 'compress', 'compress', 11);
 $a->writeZip(dirname(__FILE__) . '/compress_unsupunknown.zip');
 ?>
 string(175) "hitheresuperlongzipistoostupidtodowhatIsaysoIhavetousethisridiculouslylongaliasbecauseitisstupiddidImentionthatalreadythemadnessdoesnotstopIhateinfozipIhateinfozipIhateinfozip"
-===DONE===

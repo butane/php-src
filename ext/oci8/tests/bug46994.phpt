@@ -3,12 +3,12 @@ Bug #46994 (CLOB size does not update when using CLOB IN OUT param in stored pro
 --SKIPIF--
 <?php
 $target_dbs = array('oracledb' => true, 'timesten' => false);  // test runs on these DBs
-require(dirname(__FILE__).'/skipif.inc');
-?> 
+require(__DIR__.'/skipif.inc');
+?>
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -69,9 +69,7 @@ oci8_test_sql_execute($c, $stmtarray);
 oci_close($c);
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 Test 1
 string(26) "This should be the output."
 Test 2
@@ -80,4 +78,3 @@ Test 3
 string(26) "This should be the output."
 Test 4
 string(26) "This should be the output."
-===DONE===

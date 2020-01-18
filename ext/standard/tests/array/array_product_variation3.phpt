@@ -3,9 +3,9 @@ Test array_product() function : variation
 --FILE--
 <?php
 /* Prototype  : mixed array_product(array input)
- * Description: Returns the product of the array entries 
+ * Description: Returns the product of the array entries
  * Source code: ext/standard/array.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing array_product() : variations - negative numbers***\n";
@@ -27,8 +27,7 @@ var_dump( array_product(array(-99999999.9, 99999999.1)));
 
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing array_product() : variations - negative numbers***
 
 -- Testing array_product() function with one negative number --
@@ -45,4 +44,3 @@ float(-1.5)
 
 -- Testing array_product() function with negative floats --
 float(-9.9999999E+15)
-===DONE===

@@ -2,7 +2,6 @@
 Phar object: iterating via SplFileObject
 --SKIPIF--
 <?php if (!extension_loaded("phar")) die("skip"); ?>
-<?php if (!extension_loaded("spl")) die("skip SPL not available"); ?>
 --INI--
 phar.require_hash=0
 --FILE--
@@ -80,13 +79,12 @@ foreach($v as $k => $d)
 }
 
 ?>
-===DONE===
 --CLEAN--
-<?php 
-unlink(dirname(__FILE__) . '/files/phar_oo_008.phar.php');
+<?php
+unlink(__DIR__ . '/files/phar_oo_008.phar.php');
 __halt_compiler();
 ?>
---EXPECTF--
+--EXPECT--
 ===1===
 0=>1,2,3
 
@@ -116,4 +114,3 @@ MyCSVFile2::getCurrentLine
 3=>2|a|b
 MyCSVFile2::getCurrentLine
 5=>3|c|'e'
-===DONE===

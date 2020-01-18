@@ -9,10 +9,10 @@ session.cache_limiter=nocache
 
 ob_start();
 
-/* 
+/*
  * Prototype : string session_cache_limiter([string $cache_limiter])
  * Description : Get and/or set the current cache limiter
- * Source code : ext/session/session.c 
+ * Source code : ext/session/session.c
  */
 
 echo "*** Testing session_cache_limiter() : variation ***\n";
@@ -32,15 +32,11 @@ ob_end_flush();
 *** Testing session_cache_limiter() : variation ***
 string(7) "nocache"
 bool(true)
-
-Warning: session_cache_limiter(): Cannot change cache limiter when session is active in %s on line 15
-bool(false)
+string(7) "nocache"
 
 Warning: session_cache_limiter(): Cannot change cache limiter when session is active in %s on line 16
 bool(false)
-
-Warning: session_cache_limiter(): Cannot change cache limiter when session is active in %s on line 17
-bool(false)
+string(7) "nocache"
 bool(true)
 string(7) "nocache"
 Done

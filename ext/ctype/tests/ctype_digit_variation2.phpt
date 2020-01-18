@@ -5,7 +5,7 @@ Test ctype_digit() function : usage variations - different integers
 --FILE--
 <?php
 /* Prototype  : bool ctype_digit(mixed $c)
- * Description: Checks for numeric character(s) 
+ * Description: Checks for numeric character(s)
  * Source code: ext/ctype/ctype.c
  */
 
@@ -26,8 +26,7 @@ for ($i = 0; $i < 256; $i++) {
 
 setlocale(LC_CTYPE, $orig);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ctype_digit() : usage variations ***
 character code 48 is a numeric digit
 character code 49 is a numeric digit
@@ -39,4 +38,3 @@ character code 54 is a numeric digit
 character code 55 is a numeric digit
 character code 56 is a numeric digit
 character code 57 is a numeric digit
-===DONE===

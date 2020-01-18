@@ -1,7 +1,7 @@
 --TEST--
 ZE2 ArrayAccess and ArrayReferenceProxy with references
 --FILE--
-<?php 
+<?php
 
 // NOTE: This will become part of SPL
 
@@ -9,7 +9,7 @@ class ArrayReferenceProxy implements ArrayAccess
 {
 	private $object;
 	private $element;
-	
+
 	function __construct(ArrayAccess $object, array &$element)
 	{
 		echo __METHOD__ . "(Array)\n";
@@ -41,7 +41,7 @@ class ArrayReferenceProxy implements ArrayAccess
 class Peoples implements ArrayAccess
 {
 	public $person;
-	
+
 	function __construct()
 	{
 		$this->person = array(array('name'=>'Foo'));
@@ -95,8 +95,6 @@ $people[0]['name'] = 'BlaBla';
 var_dump($people[0]['name']);
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 string(3) "Foo"
 string(6) "FooBar"
@@ -165,4 +163,3 @@ ArrayReferenceProxy::offsetSet(Array, name, BlaBla)
 ArrayReferenceProxy::__construct(Array)
 ArrayReferenceProxy::offsetGet(Array, name)
 string(6) "BlaBla"
-===DONE===

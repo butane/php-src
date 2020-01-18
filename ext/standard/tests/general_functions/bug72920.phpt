@@ -7,9 +7,10 @@ class Foo {
 }
 
 try {
-	var_dump(constant('Foo::C1'));
+    var_dump(constant('Foo::C1'));
 } catch (Error $e) {
-	var_dump($e->getMessage());
+    echo $e->getMessage(), "\n";
 }
+?>
 --EXPECT--
-string(35) "Cannot access private const Foo::C1"
+Cannot access private const Foo::C1

@@ -2,14 +2,14 @@
 MySQL PDO->prepare(), native PS
 --SKIPIF--
 <?php
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'skipif.inc');
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'skipif.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 MySQLPDOTest::skip();
 $db = MySQLPDOTest::factory();
 ?>
 --FILE--
 <?php
-	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 	$db = MySQLPDOTest::factory();
 
 	function prepex($offset, &$db, $query, $input_params = null, $error_info = null, $suppress_warning = false) {
@@ -233,7 +233,7 @@ $db = MySQLPDOTest::factory();
 		prepex(44, $db, 'DELETE FROM test');
 		prepex(45, $db, 'INSERT INTO test(id, label) VALUES (1, ?), (2, ?)',
 			array('row', 'row'));
-		$stmt = prepex(46, $db, 'SELECT id, label FROM test');
+		$stmt = prepex(46, $db, 'SELECT id, label FROM test ORDER BY id');
 		$tmp = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$exp = array(
 			0 => array(
@@ -337,11 +337,11 @@ $db = MySQLPDOTest::factory();
 ?>
 --CLEAN--
 <?php
-require dirname(__FILE__) . '/mysql_pdo_test.inc';
+require __DIR__ . '/mysql_pdo_test.inc';
 $db = MySQLPDOTest::factory();
 $db->exec('DROP TABLE IF EXISTS test');
 ?>
---EXPECTF--
+--EXPECT--
 array(1) {
   [0]=>
   array(1) {

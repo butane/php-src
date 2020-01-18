@@ -3,7 +3,7 @@ Test curl_getinfo() function with basic functionality
 --CREDITS--
 Jean-Marc Fontaine <jmf@durcommefaire.net>
 --SKIPIF--
-<?php 
+<?php
 if (!extension_loaded("curl")) exit("skip curl extension not loaded");
 $curl_version = curl_version();
 if ($curl_version['version_number'] > 0x071201) {
@@ -16,7 +16,6 @@ if ($curl_version['version_number'] > 0x071201) {
   $info = curl_getinfo($ch);
   var_dump($info);
 ?>
-===DONE===
 --EXPECTF--
 array(2%d) {
   ["url"]=>
@@ -60,4 +59,3 @@ array(2%d) {
   ["redirect_time"]=>
   float(0)
 }
-===DONE===

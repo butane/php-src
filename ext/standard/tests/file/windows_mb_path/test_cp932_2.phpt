@@ -2,7 +2,7 @@
 Test fopen() for write to cp932 path
 --SKIPIF--
 <?php
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 skip_if_not_win();
 if (getenv("SKIP_SLOW_TESTS")) die("skip slow test");
@@ -19,7 +19,7 @@ internal_encoding=cp932
 #vim: set encoding=cp932
 */
 
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 $item = "テストマルチバイト・パス"; // cp932 string
 $prefix = create_data("dir_cp932", "${item}42}", 932);
@@ -40,8 +40,7 @@ get_basename_with_cp($fn, 932);
 remove_data("dir_cp932");
 
 ?>
-===DONE===
---EXPECTF--	
+--EXPECTF--
 resource(%d) of type (stream)
 int(25)
 bool(true)
@@ -52,4 +51,3 @@ string(%d) "テストマルチバイト・パス33"
 bool(true)
 string(%d) "%s\テストマルチバイト・パス33"
 Active code page: %d
-===DONE===

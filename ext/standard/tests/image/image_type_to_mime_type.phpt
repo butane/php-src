@@ -2,13 +2,12 @@
 image_type_to_mime_type()
 --SKIPIF--
 <?php
-	if (!function_exists('image_type_to_mime_type')) die('skip image_type_to_mime_type() not available');
 	require_once('skipif_imagetype.inc');
 ?>
 --FILE--
 <?php
 	// Note: SWC requires zlib
-	$dir = opendir(dirname(__FILE__)) or die('cannot open directory: '.dirname(__FILE__));
+	$dir = opendir(__DIR__) or die('cannot open directory: '.__DIR__);
 	$result = array();
 	$files  = array();
 	while (($file = readdir($dir)) !== FALSE) {
@@ -19,7 +18,7 @@ image_type_to_mime_type()
 	closedir($dir);
 	sort($files);
 	foreach($files as $file) {
-		$result[$file] = getimagesize(dirname(__FILE__)."/$file");
+		$result[$file] = getimagesize(__DIR__."/$file");
 		$result[$file] = image_type_to_mime_type($result[$file][2]);
 	}
 	var_dump($result);
@@ -27,13 +26,13 @@ image_type_to_mime_type()
 --EXPECT--
 array(16) {
   ["test-1pix.bmp"]=>
-  string(14) "image/x-ms-bmp"
+  string(9) "image/bmp"
   ["test12pix.webp"]=>
   string(10) "image/webp"
   ["test1bpix.bmp"]=>
-  string(14) "image/x-ms-bmp"
+  string(9) "image/bmp"
   ["test1pix.bmp"]=>
-  string(14) "image/x-ms-bmp"
+  string(9) "image/bmp"
   ["test1pix.jp2"]=>
   string(9) "image/jp2"
   ["test1pix.jpc"]=>
@@ -56,6 +55,6 @@ array(16) {
   string(9) "image/psd"
   ["test4pix.swf"]=>
   string(29) "application/x-shockwave-flash"
-  ["test4pix.tif"]=>
+  ["test4pix.tiff"]=>
   string(10) "image/tiff"
 }

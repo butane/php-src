@@ -9,7 +9,7 @@ if (substr(PHP_OS, 0, 3) != 'WIN') {
 --FILE--
 <?php
 /* Prototype  : mixed opendir(string $path[, resource $context])
- * Description: Open a directory and return a dir_handle 
+ * Description: Open a directory and return a dir_handle
  * Source code: ext/standard/dir.c
  */
 
@@ -19,7 +19,7 @@ if (substr(PHP_OS, 0, 3) != 'WIN') {
 
 echo "*** Testing opendir() : usage variation ***\n";
 
-$path = dirname(__FILE__) . "/私はガラスを食べられますopendir_variation3";
+$path = __DIR__ . "/私はガラスを食べられますopendir_variation3";
 mkdir($path);
 
 echo "\n-- Open directory first time: --\n";
@@ -37,10 +37,9 @@ if ($dh1 !== $dh2) {
 closedir($dh1);
 closedir($dh2);
 ?>
-===DONE===
 --CLEAN--
 <?php
-$path = dirname(__FILE__) . "/私はガラスを食べられますopendir_variation3";
+$path = __DIR__ . "/私はガラスを食べられますopendir_variation3";
 rmdir($path);
 ?>
 --EXPECTF--
@@ -53,4 +52,3 @@ resource(%d) of type (stream)
 resource(%d) of type (stream)
 
 New resource created
-===DONE===

@@ -12,9 +12,9 @@ if(!setlocale(LC_ALL, "POSIX")) {
 --FILE--
 <?php
 /* Prototype  : string strftime(string format [, int timestamp])
- * Description: Format a local time/date according to locale settings 
+ * Description: Format a local time/date according to locale settings
  * Source code: ext/date/php_date.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing strftime() : usage variation ***\n";
@@ -38,10 +38,9 @@ foreach($inputs as $key =>$value) {
       echo "\n--$key--\n";
 	  var_dump( $value );
 	  var_dump( strftime($value, $timestamp) );
-}	  
+}
 
 ?>
-===DONE===
 --EXPECT--
 *** Testing strftime() : usage variation ***
 
@@ -56,4 +55,3 @@ string(8) "08/08/08"
 --Preferred time representation--
 string(2) "%X"
 string(8) "08:08:08"
-===DONE===

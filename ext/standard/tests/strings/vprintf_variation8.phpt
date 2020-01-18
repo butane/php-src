@@ -3,7 +3,7 @@ Test vprintf() function : usage variations - string formats with non-string valu
 --FILE--
 <?php
 /* Prototype  : string vprintf(string format, array args)
- * Description: Return a formatted string 
+ * Description: Return a formatted string
  * Source code: ext/standard/formatted_print.c
 */
 
@@ -12,12 +12,10 @@ Test vprintf() function : usage variations - string formats with non-string valu
  * the '$format' and '$args' arguments of the function
 */
 
-error_reporting(E_ALL & ~E_NOTICE);
-
 echo "*** Testing vprintf() : string formats and non-string values ***\n";
 
 // defining array of string formats
-$formats = 
+$formats =
   '%s %+s %-s 
    %ls %Ls %4s %-4s
    %10.4s %-10.4s %04s %04.4s
@@ -34,7 +32,7 @@ $args_array = array(
         2.1234567e10, +2.7654321e10, -2.7654321e10,
         12345.780, 12.000000011111, -12.00000111111, -123456.234,
         3.33, +4.44, 1.11,-2.22 ),
-  
+
  // array of int values
  array(2, -2, +2,
        123456, 123456234, -12346789, +12346789,
@@ -56,9 +54,9 @@ $args_array = array(
          true, false, TRUE, FALSE,
          0, 1, 1, 0,
          1, TRUE, 0, FALSE),
-  
+
 );
- 
+
 // looping to test vprintf() with different string formats from the above $format array
 // and with non-string values from the above $args_array array
 $counter = 1;
@@ -66,13 +64,12 @@ foreach($args_array as $args) {
   echo "\n-- Iteration $counter --\n";
   $result = vprintf($formats, $args);
   echo "\n";
-  var_dump($result); 
+  var_dump($result);
   $counter++;
 }
 
 ?>
-===DONE===
---EXPECT--
+--EXPECTF--
 *** Testing vprintf() : string formats and non-string values ***
 
 -- Iteration 1 --
@@ -92,6 +89,42 @@ int(172)
 int(132)
 
 -- Iteration 3 --
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
+
+Warning: Array to string conversion in %s on line %d
 Array Array Array 
    Array s Array Array
          Arra Arra       Array Arra
@@ -106,4 +139,3 @@ int(131)
    #0 1 $1 _0
     1 1 1
 int(81)
-===DONE===

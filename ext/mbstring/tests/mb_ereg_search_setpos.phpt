@@ -3,6 +3,7 @@ mb_ereg_search_setpos() function
 --SKIPIF--
 <?php
 if (!extension_loaded('mbstring')) die('skip mbstring not enabled');
+if (!function_exists("mb_regex_encoding")) die("skip mb_regex_encoding() is not defined");
 ?>
 --FILE--
 <?php
@@ -21,7 +22,6 @@ foreach($positions as $pos) {
 	var_dump(mb_ereg_search_getpos());
 }
 ?>
-==DONE==
 --EXPECTF--
 bool(true)
 
@@ -65,6 +65,3 @@ int(0)
 Warning: mb_ereg_search_setpos(): Position is out of range in %s on line %d
 bool(false)
 int(0)
-==DONE==
-
-

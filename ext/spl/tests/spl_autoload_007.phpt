@@ -53,8 +53,6 @@ foreach($funcs as $idx => $func)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 string(22) "MyAutoLoader::notExist"
 Function 'MyAutoLoader::notExist' not found (class 'MyAutoLoader' does not have a method 'notExist')
@@ -66,7 +64,7 @@ string(22) "MyAutoLoader::autoLoad"
 ok
 
 string(22) "MyAutoLoader::dynaLoad"
-Function 'MyAutoLoader::dynaLoad' not callable (non-static method MyAutoLoader::dynaLoad() should not be called statically)
+Function 'MyAutoLoader::dynaLoad' not callable (non-static method MyAutoLoader::dynaLoad() cannot be called statically)
 
 array(2) {
   [0]=>
@@ -98,7 +96,7 @@ array(2) {
   [1]=>
   string(8) "dynaLoad"
 }
-Passed array specifies a non static method but no object (non-static method MyAutoLoader::dynaLoad() should not be called statically)
+Passed array specifies a non static method but no object (non-static method MyAutoLoader::dynaLoad() cannot be called statically)
 
 array(2) {
   [0]=>
@@ -116,7 +114,7 @@ array(2) {
   [1]=>
   string(8) "noAccess"
 }
-Passed array does not specify a callable method (cannot access protected method MyAutoLoader::noAccess())
+Passed array does not specify a callable static method (cannot access protected method MyAutoLoader::noAccess())
 
 array(2) {
   [0]=>
@@ -135,4 +133,3 @@ array(2) {
   string(8) "dynaLoad"
 }
 ok
-===DONE===

@@ -5,7 +5,7 @@ zend.multibyte=1
 zend.script_encoding=cp1251
 --SKIPIF--
 <?php
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 skip_if_not_win();
 if (getenv("SKIP_SLOW_TESTS")) die("skip slow test");
@@ -19,7 +19,7 @@ skip_if_no_required_exts("mbstring");
 #vim: set encoding=cp1251
 */
 
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 $item = "ïðèâåò7"; // cp1251 string
 $prefix = create_data("file_cp1251", $item);
@@ -41,8 +41,7 @@ var_dump(unlink($fn));
 remove_data("file_cp1251");
 
 ?>
-===DONE===
---EXPECTF--	
+--EXPECTF--
 resource(%d) of type (stream)
 int(25)
 bool(true)
@@ -54,4 +53,3 @@ bool(true)
 string(%d) "%s\Ð¿Ñ€Ð¸Ð²ÐµÑ‚7"
 Active code page: %d
 bool(true)
-===DONE===

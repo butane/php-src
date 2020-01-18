@@ -1,8 +1,6 @@
 /*
    +----------------------------------------------------------------------+
-   | PHP Version 7                                                        |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 1997-2017 The PHP Group                                |
+   | Copyright (c) The PHP Group                                          |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -16,8 +14,6 @@
    |          Jim Winstead <jimw@php.net>                                 |
    +----------------------------------------------------------------------+
  */
-
-/* $Id$ */
 
 /* {{{ includes
  */
@@ -140,8 +136,8 @@ PHPAPI int php_check_specific_open_basedir(const char *basedir, const char *path
 	char local_open_basedir[MAXPATHLEN];
 	char path_tmp[MAXPATHLEN];
 	char *path_file;
-	int resolved_basedir_len;
-	int resolved_name_len;
+	size_t resolved_basedir_len;
+	size_t resolved_name_len;
 	size_t path_len;
 	int nesting_level = 0;
 
@@ -168,11 +164,11 @@ PHPAPI int php_check_specific_open_basedir(const char *basedir, const char *path
 	while (VCWD_REALPATH(path_tmp, resolved_name) == NULL) {
 #if defined(PHP_WIN32) || defined(HAVE_SYMLINK)
 		if (nesting_level == 0) {
-			int ret;
+			ssize_t ret;
 			char buf[MAXPATHLEN];
 
 			ret = php_sys_readlink(path_tmp, buf, MAXPATHLEN - 1);
-			if (ret < 0) {
+			if (ret == -1) {
 				/* not a broken symlink, move along.. */
 			} else {
 				/* put the real path into the path buffer */
@@ -214,9 +210,9 @@ PHPAPI int php_check_specific_open_basedir(const char *basedir, const char *path
 
 	/* Resolve open_basedir to resolved_basedir */
 	if (expand_filepath(local_open_basedir, resolved_basedir) != NULL) {
-		int basedir_len = (int)strlen(basedir);
+		size_t basedir_len = strlen(basedir);
 		/* Handler for basedirs that end with a / */
-		resolved_basedir_len = (int)strlen(resolved_basedir);
+		resolved_basedir_len = strlen(resolved_basedir);
 #ifdef PHP_WIN32
 		if (basedir[basedir_len - 1] == PHP_DIR_SEPARATOR || basedir[basedir_len - 1] == '/') {
 #else
@@ -231,7 +227,7 @@ PHPAPI int php_check_specific_open_basedir(const char *basedir, const char *path
 				resolved_basedir[resolved_basedir_len] = '\0';
 		}
 
-		resolved_name_len = (int)strlen(resolved_name);
+		resolved_name_len = strlen(resolved_name);
 		if (path_tmp[path_len - 1] == PHP_DIR_SEPARATOR) {
 			if (resolved_name[resolved_name_len - 1] != PHP_DIR_SEPARATOR) {
 				resolved_name[resolved_name_len] = PHP_DIR_SEPARATOR;
@@ -355,7 +351,7 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
 	char *path_info;
 	char *filename = NULL;
 	zend_string *resolved_path = NULL;
-	int length;
+	size_t length;
 	zend_bool orig_display_errors;
 
 	path_info = SG(request_info).request_uri;
@@ -378,7 +374,7 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
 			pwbuf = emalloc(pwbuflen);
 #endif
 			length = s - (path_info + 2);
-			if (length > (int)sizeof(user) - 1) {
+			if (length > sizeof(user) - 1) {
 				length = sizeof(user) - 1;
 			}
 			memcpy(user, path_info + 2, length);
@@ -402,9 +398,9 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
 		}
 	} else
 #endif
-	if (PG(doc_root) && path_info && (length = (int)strlen(PG(doc_root))) &&
+	if (PG(doc_root) && path_info && (length = strlen(PG(doc_root))) &&
 		IS_ABSOLUTE_PATH(PG(doc_root), length)) {
-		int path_len = (int)strlen(path_info);
+		size_t path_len = strlen(path_info);
 		filename = emalloc(length + path_len + 2);
 		memcpy(filename, PG(doc_root), length);
 		if (!IS_SLASH(filename[length - 1])) {	/* length is never 0 */
@@ -420,7 +416,7 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
 
 
 	if (filename) {
-		resolved_path = zend_resolve_path(filename, (int)strlen(filename));
+		resolved_path = zend_resolve_path(filename, strlen(filename));
 	}
 
 	if (!resolved_path) {
@@ -439,7 +435,7 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
 		}
 		return FAILURE;
 	}
-	zend_string_release(resolved_path);
+	zend_string_release_ex(resolved_path, 0);
 
 	orig_display_errors = PG(display_errors);
 	PG(display_errors) = 0;
@@ -472,7 +468,7 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
 /* {{{ php_resolve_path
  * Returns the realpath for given filename according to include path
  */
-PHPAPI zend_string *php_resolve_path(const char *filename, int filename_length, const char *path)
+PHPAPI zend_string *php_resolve_path(const char *filename, size_t filename_length, const char *path)
 {
 	char resolved_path[MAXPATHLEN];
 	char trypath[MAXPATHLEN];
@@ -501,7 +497,7 @@ PHPAPI zend_string *php_resolve_path(const char *filename, int filename_length, 
 	     (IS_SLASH(filename[1]) ||
 	      ((filename[1] == '.') && IS_SLASH(filename[2])))) ||
 	    IS_ABSOLUTE_PATH(filename, filename_length) ||
-#if PHP_WIN32
+#ifdef PHP_WIN32
 		/* This should count as an absolute local path as well, however
 		   IS_ABSOLUTE_PATH doesn't care about this path form till now. It
 		   might be a big thing to extend, thus just a local handling for
@@ -532,7 +528,7 @@ PHPAPI zend_string *php_resolve_path(const char *filename, int filename_length, 
 		}
 		end = strchr(p, DEFAULT_DIR_SEPARATOR);
 		if (end) {
-			if (filename_length > (MAXPATHLEN - 2) || (end-ptr) > MAXPATHLEN || (end-ptr) + 1 + (size_t)filename_length + 1 >= MAXPATHLEN) {
+			if (filename_length > (MAXPATHLEN - 2) || (end-ptr) > MAXPATHLEN || (end-ptr) + 1 + filename_length + 1 >= MAXPATHLEN) {
 				ptr = end + 1;
 				continue;
 			}
@@ -543,7 +539,7 @@ PHPAPI zend_string *php_resolve_path(const char *filename, int filename_length, 
 		} else {
 			size_t len = strlen(ptr);
 
-			if (filename_length > (MAXPATHLEN - 2) || len > MAXPATHLEN || len + 1 + (size_t)filename_length + 1 >= MAXPATHLEN) {
+			if (filename_length > (MAXPATHLEN - 2) || len > MAXPATHLEN || len + 1 + filename_length + 1 >= MAXPATHLEN) {
 				break;
 			}
 			memcpy(trypath, ptr, len);
@@ -560,8 +556,11 @@ PHPAPI zend_string *php_resolve_path(const char *filename, int filename_length, 
 				if (wrapper->wops->url_stat) {
 					php_stream_statbuf ssb;
 
-					if (SUCCESS == wrapper->wops->url_stat(wrapper, trypath, 0, &ssb, NULL)) {
+					if (SUCCESS == wrapper->wops->url_stat(wrapper, trypath, PHP_STREAM_URL_STAT_QUIET, &ssb, NULL)) {
 						return zend_string_init(trypath, strlen(trypath), 0);
+					}
+					if (EG(exception)) {
+						return NULL;
 					}
 				}
 				continue;
@@ -597,8 +596,11 @@ PHPAPI zend_string *php_resolve_path(const char *filename, int filename_length, 
 					if (wrapper->wops->url_stat) {
 						php_stream_statbuf ssb;
 
-						if (SUCCESS == wrapper->wops->url_stat(wrapper, trypath, 0, &ssb, NULL)) {
+						if (SUCCESS == wrapper->wops->url_stat(wrapper, trypath, PHP_STREAM_URL_STAT_QUIET, &ssb, NULL)) {
 							return zend_string_init(trypath, strlen(trypath), 0);
+						}
+						if (EG(exception)) {
+							return NULL;
 						}
 					}
 					return NULL;
@@ -624,7 +626,7 @@ PHPAPI FILE *php_fopen_with_path(const char *filename, const char *mode, const c
 	char *pathbuf, *ptr, *end;
 	char trypath[MAXPATHLEN];
 	FILE *fp;
-	int filename_length;
+	size_t filename_length;
 	zend_string *exec_filename;
 
 	if (opened_path) {
@@ -635,7 +637,7 @@ PHPAPI FILE *php_fopen_with_path(const char *filename, const char *mode, const c
 		return NULL;
 	}
 
-	filename_length = (int)strlen(filename);
+	filename_length = strlen(filename);
 #ifndef PHP_WIN32
 	(void) filename_length;
 #endif
@@ -761,14 +763,14 @@ PHPAPI char *expand_filepath_with_mode(const char *filepath, char *real_path, co
 {
 	cwd_state new_state;
 	char cwd[MAXPATHLEN];
-	int copy_len;
-	int path_len;
+	size_t copy_len;
+	size_t path_len;
 
 	if (!filepath[0]) {
 		return NULL;
 	}
 
-	path_len = (int)strlen(filepath);
+	path_len = strlen(filepath);
 
 	if (IS_ABSOLUTE_PATH(filepath, path_len)) {
 		cwd[0] = '\0';
@@ -811,7 +813,7 @@ PHPAPI char *expand_filepath_with_mode(const char *filepath, char *real_path, co
 	}
 
 	new_state.cwd = estrdup(cwd);
-	new_state.cwd_length = (int)strlen(cwd);
+	new_state.cwd_length = strlen(cwd);
 
 	if (virtual_file_ex(&new_state, filepath, NULL, realpath_mode)) {
 		efree(new_state.cwd);
@@ -830,12 +832,3 @@ PHPAPI char *expand_filepath_with_mode(const char *filepath, char *real_path, co
 	return real_path;
 }
 /* }}} */
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: sw=4 ts=4 fdm=marker
- * vim<600: sw=4 ts=4
- */

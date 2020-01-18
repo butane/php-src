@@ -27,7 +27,7 @@ $inputs =  array (
 	'{"Jan":31,"Feb":29,"Mar":31,"April":30,"May":31,"June":30}',
 	'""',
 	'{}'
-);  
+);
 
 // loop through with each element of the $inputs array to test json_decode() function
 $count = 1;
@@ -39,8 +39,7 @@ foreach($inputs as $input) {
 }
 
 ?>
-===Done===
---EXPECTF-- 
+--EXPECTF--
 *** Testing json_decode() : basic functionality ***
 -- Iteration 1 --
 int(0)
@@ -175,4 +174,3 @@ object(stdClass)#%d (0) {
 }
 array(0) {
 }
-===Done===

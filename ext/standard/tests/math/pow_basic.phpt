@@ -18,9 +18,9 @@ $bases = array(23,
 				027,
 				"23",
 				"23.45",
-				"2.345e1",	
+				"2.345e1",
 				PHP_INT_MAX,
-				-PHP_INT_MAX - 1);			
+				-PHP_INT_MAX - 1);
 
 $exponents = array(0,
                1,
@@ -34,8 +34,8 @@ $exponents = array(0,
                500,
                -500,
                2147483647,
-			   -2147483648); 				
-					
+			   -2147483648);
+
 foreach($bases as $base) {
 	echo "\n\nBase = $base";
 	foreach($exponents as $exponent) {
@@ -46,7 +46,6 @@ foreach($bases as $base) {
 	echo "\n\n";
 }
 ?>
-===Done===
 --EXPECT--
 Base = 23
 ..... Exponent = 0 Result = 1
@@ -267,4 +266,3 @@ Base = -2147483648
 ..... Exponent = 2147483647 Result = -INF
 ..... Exponent = -2147483648 Result = 0
 
-===Done===

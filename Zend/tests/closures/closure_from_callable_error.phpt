@@ -193,9 +193,7 @@ catch (\Throwable $t) {
 echo "OK\n";
 
 ?>
-===DONE===
 --EXPECT--
-
 Cannot access privateInstance method statically
 Cannot access privateInstance method statically with colon scheme
 Cannot access privateInstance method
@@ -212,4 +210,3 @@ Function scope cannot closure over protected instance method
 Function scope cannot closure over private instance method
 Access private instance method of parent object through "self::" to parent method
 OK
-===DONE===

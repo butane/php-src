@@ -7,12 +7,10 @@ Clint Priest @ PhpTek09
 --FILE--
 <?php
 	$objDoc = new DomDocument();
-	
+
 	$objRef = $objDoc->createEntityReference('Test');
 	echo $objRef->nodeName . "\n";
 ?>
-===DONE===
 --EXPECT--
 Test
-===DONE===
 	

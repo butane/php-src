@@ -8,7 +8,7 @@ $types = array('SplDoublyLinkedList', 'SplObjectStorage', 'ArrayObject');
 foreach ($types as $type) {
 	// serialize an empty new object
 	$exp = serialize(new $type());
-	// hack to instanciate an object without constructor
+	// hack to instantiate an object without constructor
 	$str = sprintf('C:%d:"%s":0:{}', strlen($type), $type);
 	$obj = unserialize($str);
 	var_dump($obj);
@@ -18,7 +18,6 @@ foreach ($types as $type) {
 	var_dump($exp === $out);
 }
 ?>
-===DONE===
 --EXPECTF--
 object(SplDoublyLinkedList)#%d (2) {
   ["flags":"SplDoublyLinkedList":private]=>
@@ -40,4 +39,3 @@ object(ArrayObject)#%d (1) {
   }
 }
 bool(true)
-===DONE===

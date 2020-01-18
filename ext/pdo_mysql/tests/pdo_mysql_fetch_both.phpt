@@ -2,14 +2,14 @@
 MySQL PDOStatement->fetch()
 --SKIPIF--
 <?php
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'skipif.inc');
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'skipif.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 MySQLPDOTest::skip();
 $db = MySQLPDOTest::factory();
 ?>
 --FILE--
 <?php
-	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 	$db = MySQLPDOTest::factory();
 
 	function fetch($offset, &$db, $query, $expect = null) {
@@ -32,7 +32,7 @@ $db = MySQLPDOTest::factory();
 			}
 
 			if (!is_null($expect) && ($expect != $both)) {
-				printf("[%03d] Expected differes from returned data, dumping\n", $offset);
+				printf("[%03d] Expected differs from returned data, dumping\n", $offset);
 				var_dump($expect);
 				var_dump($both);
 			}
@@ -58,31 +58,5 @@ $db = MySQLPDOTest::factory();
 
 	print "done!";
 ?>
---EXPECTF--
-[002] Suspicious FETCH_BOTH result, dumping
-array(2) {
-  [0]=>
-  string(1) "1"
-  [1]=>
-  string(1) "1"
-}
-array(2) {
-  [1]=>
-  string(1) "1"
-  [2]=>
-  string(1) "1"
-}
-[002] Expected differes from returned data, dumping
-array(2) {
-  [0]=>
-  string(1) "1"
-  [1]=>
-  string(1) "1"
-}
-array(2) {
-  [1]=>
-  string(1) "1"
-  [2]=>
-  string(1) "1"
-}
+--EXPECT--
 done!

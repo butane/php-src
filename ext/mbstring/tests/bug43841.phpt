@@ -8,7 +8,7 @@ function_exists('mb_strrpos') or die("skip mb_strrpos() is not available in this
 --FILE--
 <?php
 /* Prototype  : int mb_strrpos(string $haystack, string $needle [, int $offset [, string $encoding]])
- * Description: Find position of last occurrence of a string within another 
+ * Description: Find position of last occurrence of a string within another
  * Source code: ext/mbstring/mbstring.c
  */
 
@@ -30,12 +30,14 @@ foreach ($offsets as $i) {
 	echo "mb_strrpos:\n";
 	var_dump(mb_strrpos('This is na English ta', 'a', $i));
 	echo "strrpos:\n";
-	var_dump(strrpos('This is na English ta', 'a', $i));
+	try {
+	    var_dump(strrpos('This is na English ta', 'a', $i));
+	} catch (ValueError $exception) {
+	    echo $exception->getMessage() . "\n";
+	}
 }
 ?>
-
 --EXPECTF--
-
 -- Offset is -25 --
 Multibyte String:
 
@@ -47,9 +49,7 @@ mb_strrpos:
 Warning: mb_strrpos(): Offset is greater than the length of haystack string in %s on line %d
 bool(false)
 strrpos:
-
-Warning: strrpos(): Offset is greater than the length of haystack string in %s on line %d
-bool(false)
+Offset not contained in string
 
 -- Offset is -24 --
 Multibyte String:
@@ -62,9 +62,7 @@ mb_strrpos:
 Warning: mb_strrpos(): Offset is greater than the length of haystack string in %s on line %d
 bool(false)
 strrpos:
-
-Warning: strrpos(): Offset is greater than the length of haystack string in %s on line %d
-bool(false)
+Offset not contained in string
 
 -- Offset is -13 --
 Multibyte String:

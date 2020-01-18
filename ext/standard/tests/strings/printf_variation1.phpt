@@ -40,44 +40,44 @@ $values = array(
 	      1,
 	      12345,
 	      -2345,
-	
+
 	      // float data
 /*5*/      10.5,
 	      -10.5,
 	      10.1234567e10,
 	      10.7654321E-10,
 	      .5,
-	
+
 	      // array data
 /*10*/    array(),
 	      array(0),
 	      array(1),
 	      array(1, 2),
 	      array('color' => 'red', 'item' => 'pen'),
-	
+
 	      // null data
 /*15*/    NULL,
 	      null,
-	
+
 	      // boolean data
 /*17*/    true,
 	      false,
 	      TRUE,
 	      FALSE,
-	
+
 	      // empty data
 /*21*/    "",
 	      '',
-	
+
 	      // object data
 /*23*/    new sample(),
-	
+
 	      // undefined data
 /*24*/    @$undefined_var,
-	
+
 	      // unset data
 /*25*/    @$unset_var,
-	
+
 	      // resource data
 /*26*/    $file_handle
 );
@@ -87,21 +87,33 @@ $values = array(
 $count = 1;
 foreach($values as $value) {
   echo "\n-- Iteration $count --\n";
-  
+
   // with default argument
-  $result = printf($value);
-  echo "\n";
-  var_dump($result);
-  
+  try {
+    $result = printf($value);
+    echo "\n";
+    var_dump($result);
+  } catch (TypeError $exception) {
+    echo $exception->getMessage() . "\n";
+  }
+
   // with two arguments
-  $result = printf($value, $arg1);
-  echo "\n";
-  var_dump($result);
+  try {
+    $result = printf($value, $arg1);
+    echo "\n";
+    var_dump($result);
+  } catch (TypeError $exception) {
+    echo $exception->getMessage() . "\n";
+  }
 
   // with three arguments
-  $result = printf($value, $arg1, $arg2);
-  echo "\n";
-  var_dump($result);
+  try {
+    $result = printf($value, $arg1, $arg2);
+    echo "\n";
+    var_dump($result);
+  } catch (TypeError $exception) {
+    echo $exception->getMessage() . "\n";
+  }
 
   $count++;
 };
@@ -110,7 +122,6 @@ foreach($values as $value) {
 fclose($file_handle);
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing printf() : with unexpected values for format argument ***
 
@@ -187,74 +198,29 @@ int(3)
 int(3)
 
 -- Iteration 10 --
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
 
 -- Iteration 11 --
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
 
 -- Iteration 12 --
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
 
 -- Iteration 13 --
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
 
 -- Iteration 14 --
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
-
-Notice: Array to string conversion in %s on line %d
-Array
-int(5)
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
+printf() expects parameter 1 to be string, array given
 
 -- Iteration 15 --
 
@@ -345,10 +311,6 @@ int(0)
 int(0)
 
 -- Iteration 26 --
-Resource id #%d
-int(%d)
-Resource id #%d
-int(%d)
-Resource id #%d
-int(%d)
-===DONE===
+printf() expects parameter 1 to be string, resource given
+printf() expects parameter 1 to be string, resource given
+printf() expects parameter 1 to be string, resource given

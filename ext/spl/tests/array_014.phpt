@@ -37,9 +37,7 @@ foreach($it as $v)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 int(11)
 int(5)
 int(4)
@@ -56,4 +54,3 @@ int(7)
 int(8)
 int(9)
 int(10)
-===DONE===

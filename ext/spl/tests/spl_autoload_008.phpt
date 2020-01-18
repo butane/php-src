@@ -18,7 +18,7 @@ class MyAutoLoader
 		echo __METHOD__ . "($className)\n";
 		throw new Exception('Bla');
 	}
-	
+
 	function dynaLoad($className)
 	{
 		echo __METHOD__ . "($className)\n";
@@ -49,9 +49,9 @@ foreach($funcs as $idx => $func)
 		if (count(spl_autoload_functions()))
 		{
 			echo "registered\n";
-			
+
 			var_dump(class_exists("NoExistingTestClass", true));
-		}		
+		}
 	}
 	catch (Exception $e)
 	{
@@ -63,8 +63,6 @@ foreach($funcs as $idx => $func)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 ====0====
 string(10) "MyAutoLoad"
@@ -80,7 +78,7 @@ Exception: Bla
 int(0)
 ====2====
 string(22) "MyAutoLoader::dynaLoad"
-LogicException: Function 'MyAutoLoader::dynaLoad' not callable (non-static method MyAutoLoader::dynaLoad() should not be called statically)
+LogicException: Function 'MyAutoLoader::dynaLoad' not callable (non-static method MyAutoLoader::dynaLoad() cannot be called statically)
 int(0)
 ====3====
 array(2) {
@@ -100,7 +98,7 @@ array(2) {
   [1]=>
   string(8) "dynaLoad"
 }
-LogicException: Passed array specifies a non static method but no object (non-static method MyAutoLoader::dynaLoad() should not be called statically)
+LogicException: Passed array specifies a non static method but no object (non-static method MyAutoLoader::dynaLoad() cannot be called statically)
 int(0)
 ====5====
 array(2) {
@@ -126,4 +124,3 @@ registered
 MyAutoLoader::dynaLoad(NoExistingTestClass)
 Exception: Bla
 int(0)
-===DONE===

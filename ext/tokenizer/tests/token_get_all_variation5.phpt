@@ -5,13 +5,13 @@ Test token_get_all() function : usage variations - with assignment operators
 --FILE--
 <?php
 /* Prototype  : array token_get_all(string $source)
- * Description: splits the given source into an array of PHP languange tokens
+ * Description: splits the given source into an array of PHP language tokens
  * Source code: ext/tokenizer/tokenizer.c
 */
 
 /*
  * Passing 'source' argument with different assignment operators to test them for tokens
- *  += - T_PLUS_EQUAL(277), -= - T_MINUS-EQUAL(276), 
+ *  += - T_PLUS_EQUAL(277), -= - T_MINUS-EQUAL(276),
  *  *= - T_MUL_EQUAL(275), /= - T_DIVIDE_EQUAL(274),
  *  %= - T_MOD_EQUAL(272), &= - T_AND_EQUAL(271),
  *  |= - T_OR_EQUAL(271), ^= - T_EXOR_EQUAL(269),

@@ -5,8 +5,8 @@ XMLReader: Bug #71805 XML files can generate UTF-8 error even if they are UTF-8
 --FILE--
 <?php
 
-TestXML(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'XMLReaderGood_bug71805.xml');
-TestXML(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'XMLReaderBad_bug71805.xml');
+TestXML(__DIR__ . DIRECTORY_SEPARATOR . 'XMLReaderGood_bug71805.xml');
+TestXML(__DIR__ . DIRECTORY_SEPARATOR . 'XMLReaderBad_bug71805.xml');
 
 function TestXML($file) {
 	$XR = new XMLReader;
@@ -32,8 +32,6 @@ function TestXML($file) {
 	return;
 }
 ?>
-===DONE===
 --EXPECTF--
 %sXMLReaderGood_bug71805.xml : Good!
 %sXMLReaderBad_bug71805.xml : Good!
-===DONE===

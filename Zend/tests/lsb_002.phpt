@@ -10,7 +10,7 @@ class TestClass {
 	protected static function staticFunction() {
 		return 'TestClassFunction';
 	}
-	
+
 	public function testStaticVar() {
 		return static::$staticVar;
 	}
@@ -52,8 +52,7 @@ echo $childClass2->testStaticVar() . "\n";
 echo $childClass2->testClassConst() . "\n";
 echo $childClass2->testStaticFunction() . "\n";
 ?>
-==DONE==
---EXPECTF--
+--EXPECT--
 TestClassStatic
 TestClassConst
 TestClassFunction
@@ -63,4 +62,3 @@ ChildClassFunction
 TestClassStatic
 TestClassConst
 TestClassFunction
-==DONE==

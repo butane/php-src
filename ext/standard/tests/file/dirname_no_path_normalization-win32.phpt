@@ -19,9 +19,7 @@ if (strlen($s) >= 10000) {
 	print "ERROR: " . PHP_EOL;
 	var_dump(dirname($s));
 	var_dump(strlen($s));
-} 
+}
 ?>
-===DONE===
 --EXPECT--
 OK
-===DONE===

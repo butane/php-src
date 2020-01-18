@@ -13,11 +13,11 @@ EOC;
     $tmpFile = tempnam(sys_get_temp_dir(), "bug69442");
     file_put_contents($tmpFile, $code);
 
-    exec($_SERVER['TEST_PHP_EXECUTABLE']." ".$tmpFile." 2>&1", $output);
+    exec($_SERVER['TEST_PHP_EXECUTABLE']." -d display_errors=1 -d error_reporting=E_ALL ".$tmpFile." 2>&1", $output);
     $output = join("\n", $output);
     unlink($tmpFile);
 
-    if (strstr($output, "pty pseudo terminal not supported on this system") !== false) {
+    if (strstr($output, "PTY pseudo terminal not supported on this system") !== false) {
         die("skip PTY pseudo terminals are not supported");
     }
 --FILE--
@@ -42,5 +42,3 @@ type 1 string(0) ""
 type 2 string(0) ""
 type 3 string(3) "42
 "
-
-

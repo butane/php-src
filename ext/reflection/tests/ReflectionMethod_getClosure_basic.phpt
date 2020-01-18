@@ -1,11 +1,11 @@
 --TEST--
-Test ReflectionMethod::getClosure() function : basic functionality 
+Test ReflectionMethod::getClosure() function : basic functionality
 --FILE--
 <?php
 /* Prototype  : public mixed ReflectionFunction::getClosure()
- * Description: Returns a dynamically created closure for the method 
+ * Description: Returns a dynamically created closure for the method
  * Source code: ext/reflection/php_reflection.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing ReflectionMethod::getClosure() : basic functionality ***\n";
@@ -46,10 +46,8 @@ $object->bar = 34;
 $closure();
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ReflectionMethod::getClosure() : basic functionality ***
 string(34) "Static Example class, Hello World!"
 string(22) "Example class, bar: 42"
 string(22) "Example class, bar: 34"
-===DONE===

@@ -4,10 +4,7 @@ IntlCalendar::get/setRepeatedWallTimeOption(): basic test
 <?php
 if (!extension_loaded('intl'))
 	die('skip intl extension not enabled');
-if (version_compare(INTL_ICU_VERSION, '49') < 0)
-	die('skip for ICU 49+');
 --FILE--
-
 <?php
 ini_set("intl.error_level", E_WARNING);
 ini_set("intl.default_locale", "nl");
@@ -35,9 +32,7 @@ var_dump(
 );
 
 ?>
-==DONE==
 --EXPECT--
-
 bool(true)
 int(0)
 int(1351387800)
@@ -46,4 +41,3 @@ bool(true)
 int(1)
 int(1351384200)
 int(1351384200)
-==DONE==

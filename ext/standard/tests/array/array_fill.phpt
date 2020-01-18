@@ -17,10 +17,8 @@ foreach($array1 as $start)
       }
    }
 }
-echo '== Done ==';
 ?>
-===============Done====================
---EXPECTF--
+--EXPECT--
 ===========================
 start: 0 num: 0 value: 1
 array(0) {
@@ -345,4 +343,3 @@ array(2) {
   [3]=>
   string(1) "f"
 }
-== Done =================Done====================

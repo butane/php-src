@@ -1,8 +1,6 @@
 /*
    +----------------------------------------------------------------------+
-   | PHP Version 7                                                        |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 1997-2017 The PHP Group                                |
+   | Copyright (c) The PHP Group                                          |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -17,8 +15,6 @@
    +----------------------------------------------------------------------+
  */
 
-/* $Id$ */
-
 /*#define DEBUG_MAIN_NETWORK 1*/
 
 #include "php.h"
@@ -30,6 +26,7 @@
 #ifdef PHP_WIN32
 # include <Ws2tcpip.h>
 # include "win32/inet.h"
+# include "win32/winutil.h"
 # define O_RDONLY _O_RDONLY
 # include "win32/param.h"
 #else
@@ -48,7 +45,9 @@
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
-#if HAVE_SYS_POLL_H
+#if HAVE_POLL_H
+#include <poll.h>
+#elif HAVE_SYS_POLL_H
 #include <sys/poll.h>
 #endif
 
@@ -269,22 +268,19 @@ PHPAPI int php_network_getaddresses(const char *host, int socktype, struct socka
 #define O_NONBLOCK O_NDELAY
 #endif
 
-#if !defined(__BEOS__)
-# define HAVE_NON_BLOCKING_CONNECT 1
-# ifdef PHP_WIN32
+#ifdef PHP_WIN32
 typedef u_long php_non_blocking_flags_t;
 #  define SET_SOCKET_BLOCKING_MODE(sock, save) \
      save = TRUE; ioctlsocket(sock, FIONBIO, &save)
 #  define RESTORE_SOCKET_BLOCKING_MODE(sock, save) \
 	 ioctlsocket(sock, FIONBIO, &save)
-# else
+#else
 typedef int php_non_blocking_flags_t;
 #  define SET_SOCKET_BLOCKING_MODE(sock, save) \
 	 save = fcntl(sock, F_GETFL, 0); \
 	 fcntl(sock, F_SETFL, save | O_NONBLOCK)
 #  define RESTORE_SOCKET_BLOCKING_MODE(sock, save) \
 	 fcntl(sock, F_SETFL, save)
-# endif
 #endif
 
 /* Connect to a socket using an interruptible connect with optional timeout.
@@ -300,7 +296,6 @@ PHPAPI int php_network_connect_socket(php_socket_t sockfd,
 		zend_string **error_string,
 		int *error_code)
 {
-#if HAVE_NON_BLOCKING_CONNECT
 	php_non_blocking_flags_t orig_flags;
 	int n;
 	int error = 0;
@@ -378,12 +373,6 @@ ok:
 		}
 	}
 	return ret;
-#else
-	if (asynchronous) {
-		php_error_docref(NULL, E_WARNING, "Asynchronous connect() not supported on this platform");
-	}
-	return (connect(sockfd, addr, addrlen) == 0) ? 0 : -1;
-#endif
 }
 /* }}} */
 
@@ -524,6 +513,8 @@ PHPAPI int php_network_parse_network_address_with_port(const char *addr, zend_lo
 	struct sockaddr_in6 *in6 = (struct sockaddr_in6*)sa;
 #endif
 
+	memset(sa, 0, sizeof(struct sockaddr));
+
 	if (*addr == '[') {
 		colon = memchr(addr + 1, ']', addrlen-1);
 		if (!colon || colon[1] != ':') {
@@ -566,7 +557,7 @@ PHPAPI int php_network_parse_network_address_with_port(const char *addr, zend_lo
 	if (n == 0) {
 		if (errstr) {
 			php_error_docref(NULL, E_WARNING, "Failed to resolve `%s': %s", tmp, ZSTR_VAL(errstr));
-			zend_string_release(errstr);
+			zend_string_release_ex(errstr, 0);
 		}
 		goto out;
 	}
@@ -634,7 +625,7 @@ PHPAPI void php_network_populate_name_from_sockaddr(
 			case AF_INET6:
 				buf = (char*)inet_ntop(sa->sa_family, &((struct sockaddr_in6*)sa)->sin6_addr, (char *)&abuf, sizeof(abuf));
 				if (buf) {
-					*textaddr = strpprintf(0, "%s:%d",
+					*textaddr = strpprintf(0, "[%s]:%d",
 						buf, ntohs(((struct sockaddr_in6*)sa)->sin6_port));
 				}
 
@@ -647,7 +638,7 @@ PHPAPI void php_network_populate_name_from_sockaddr(
 
 					if (ua->sun_path[0] == '\0') {
 						/* abstract name */
-						int len = strlen(ua->sun_path + 1) + 1;
+						int len = sl - sizeof(sa_family_t);
 						*textaddr = zend_string_init((char*)ua->sun_path, len, 0);
 					} else {
 						int len = strlen(ua->sun_path);
@@ -849,6 +840,9 @@ php_socket_t php_network_connect_socket_to_host(const char *host, unsigned short
 				int local_address_len = 0;
 
 				if (sa->sa_family == AF_INET) {
+					if (strchr(bindto,':')) {
+						goto skip_bind;
+					}
 					struct sockaddr_in *in4 = emalloc(sizeof(struct sockaddr_in));
 
 					local_address = (struct sockaddr*)in4;
@@ -879,7 +873,7 @@ php_socket_t php_network_connect_socket_to_host(const char *host, unsigned short
 #endif
 
 				if (!local_address || bind(sock, local_address, local_address_len)) {
-					php_error_docref(NULL, E_WARNING, "failed to bind to '%s:%d', system said: %s", bindto, bindport, strerror(errno));
+					php_error_docref(NULL, E_WARNING, "Failed to bind to '%s:%d', system said: %s", bindto, bindport, strerror(errno));
 				}
 skip_bind:
 				if (local_address) {
@@ -888,7 +882,7 @@ skip_bind:
 			}
 			/* free error string received during previous iteration (if any) */
 			if (error_string && *error_string) {
-				zend_string_release(*error_string);
+				zend_string_release_ex(*error_string, 0);
 				*error_string = NULL;
 			}
 
@@ -1027,20 +1021,8 @@ PHPAPI char *php_socket_strerror(long err, char *buf, size_t bufsize)
 	}
 	return buf;
 #else
-	char *sysbuf;
-	int free_it = 1;
-
-	if (!FormatMessage(
-				FORMAT_MESSAGE_ALLOCATE_BUFFER |
-				FORMAT_MESSAGE_FROM_SYSTEM |
-				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
-				err,
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-				(LPTSTR)&sysbuf,
-				0,
-				NULL)) {
-		free_it = 0;
+	char *sysbuf = php_win32_error_to_msg(err);
+	if (!sysbuf[0]) {
 		sysbuf = "Unknown Error";
 	}
 
@@ -1051,9 +1033,7 @@ PHPAPI char *php_socket_strerror(long err, char *buf, size_t bufsize)
 		buf[bufsize?(bufsize-1):0] = 0;
 	}
 
-	if (free_it) {
-		LocalFree(sysbuf);
-	}
+	php_win32_error_msg_free(sysbuf);
 
 	return buf;
 #endif
@@ -1070,28 +1050,15 @@ PHPAPI zend_string *php_socket_error_str(long err)
 	return zend_string_init(errstr, strlen(errstr), 0);
 #else
 	zend_string *ret;
-	char *sysbuf;
-	int free_it = 1;
 
-	if (!FormatMessage(
-				FORMAT_MESSAGE_ALLOCATE_BUFFER |
-				FORMAT_MESSAGE_FROM_SYSTEM |
-				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
-				err,
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-				(LPTSTR)&sysbuf,
-				0,
-				NULL)) {
-		free_it = 0;
+	char *sysbuf = php_win32_error_to_msg(err);
+	if (!sysbuf[0]) {
 		sysbuf = "Unknown Error";
 	}
 
 	ret = zend_string_init(sysbuf, strlen(sysbuf), 0);
 
-	if (free_it) {
-		LocalFree(sysbuf);
-	}
+	php_win32_error_msg_free(sysbuf);
 
 	return ret;
 #endif
@@ -1204,16 +1171,18 @@ PHPAPI void _php_emit_fd_setsize_warning(int max_fd)
 PHPAPI int php_poll2(php_pollfd *ufds, unsigned int nfds, int timeout)
 {
 	fd_set rset, wset, eset;
-	php_socket_t max_fd = SOCK_ERR;
+	php_socket_t max_fd = SOCK_ERR; /* effectively unused on Windows */
 	unsigned int i;
 	int n;
 	struct timeval tv;
 
+#ifndef PHP_WIN32
 	/* check the highest numbered descriptor */
 	for (i = 0; i < nfds; i++) {
 		if (ufds[i].fd > max_fd)
 			max_fd = ufds[i].fd;
 	}
+#endif
 
 	PHP_SAFE_MAX_FD(max_fd, nfds + 1);
 
@@ -1237,7 +1206,7 @@ PHPAPI int php_poll2(php_pollfd *ufds, unsigned int nfds, int timeout)
 		tv.tv_sec = timeout / 1000;
 		tv.tv_usec = (timeout - (tv.tv_sec * 1000)) * 1000;
 	}
-/* Reseting/initializing */
+/* Resetting/initializing */
 #ifdef PHP_WIN32
 	WSASetLastError(0);
 #else
@@ -1273,11 +1242,11 @@ struct hostent * gethostname_re (const char *host,struct hostent *hostbuf,char *
 	int herr,res;
 
 	if (*hstbuflen == 0) {
-		*hstbuflen = 1024; 
+		*hstbuflen = 1024;
 		*tmphstbuf = (char *)malloc (*hstbuflen);
 	}
 
-	while (( res = 
+	while (( res =
 		gethostbyname_r(host,hostbuf,*tmphstbuf,*hstbuflen,&hp,&herr))
 		&& (errno == ERANGE)) {
 		/* Enlarge the buffer. */
@@ -1288,7 +1257,7 @@ struct hostent * gethostname_re (const char *host,struct hostent *hostbuf,char *
 	if (res != SUCCESS) {
 		return NULL;
 	}
-		
+
 	return hp;
 }
 #endif
@@ -1303,7 +1272,7 @@ struct hostent * gethostname_re (const char *host,struct hostent *hostbuf,char *
 		*tmphstbuf = (char *)malloc (*hstbuflen);
 	}
 
-	while ((NULL == ( hp = 
+	while ((NULL == ( hp =
 		gethostbyname_r(host,hostbuf,*tmphstbuf,*hstbuflen,&herr)))
 		&& (errno == ERANGE)) {
 		/* Enlarge the buffer. */
@@ -1352,12 +1321,3 @@ PHPAPI struct hostent*	php_network_gethostbyname(char *name) {
 	return gethostname_re(name, &FG(tmp_host_info), &FG(tmp_host_buf), &FG(tmp_host_buf_len));
 #endif
 }
-
-/*
- * Local variables:
- * tab-width: 8
- * c-basic-offset: 8
- * End:
- * vim600: sw=4 ts=4 fdm=marker
- * vim<600: sw=4 ts=4
- */

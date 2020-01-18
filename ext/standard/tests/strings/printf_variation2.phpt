@@ -7,8 +7,6 @@ Test printf() function : usage variations - with all types of values for arg1 ar
  * Source code: ext/standard/formatted_print.c
  */
 
-error_reporting(E_ALL & ~E_NOTICE);
-
 echo "*** Testing printf() : with different types of values passed for arg1 argument ***\n";
 
 // initialing required variables
@@ -24,7 +22,7 @@ class sample
 {
   public function __toString() {
     return "Object";
-  } 
+  }
 }
 
 // creating a file resource
@@ -38,48 +36,48 @@ $values = array(
 	      1,
 	      12345,
 	      -2345,
-	
+
 	      // float data
 /*5*/     10.5,
 	      -10.5,
 	      10.1234567e10,
 	      10.7654321E-10,
 	      .5,
-	
+
 	      // array data
 /*10*/    array(),
 	      array(0),
 	      array(1),
 	      array(1, 2),
 	      array('color' => 'red', 'item' => 'pen'),
-	
+
 	      // null data
 /*15*/    NULL,
 	      null,
-	
+
 	      // boolean data
 /*17*/    true,
 	      false,
 	      TRUE,
 	      FALSE,
-	
+
 	      // empty data
 /*21*/    "",
 	      '',
-	
+
 	      // string data
 /*23*/    "string",
 	      'string',
-	
+
 	      // object data
 /*25*/    new sample(),
-	
+
 	      // undefined data
 /*26*/    @$undefined_var,
-	
+
 	      // unset data
 /*27*/    @$unset_var,
-	
+
 	      // resource data
 /*28*/    $file_handle
 );
@@ -89,7 +87,7 @@ $values = array(
 $count = 1;
 foreach($values as $value) {
   echo "\n-- Iteration $count --\n";
-  
+
   // with two arguments
   $result = printf($format, $value);
   echo "\n";
@@ -99,15 +97,14 @@ foreach($values as $value) {
   $result = printf($format, $value, $arg2);
   echo "\n";
   var_dump($result);
- 
-  $count++;   
+
+  $count++;
 };
 
 // closing the resource
 fclose($file_handle);
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing printf() : with different types of values passed for arg1 argument ***
 
@@ -166,32 +163,52 @@ int(3)
 int(3)
 
 -- Iteration 10 --
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
 
 -- Iteration 11 --
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
 
 -- Iteration 12 --
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
 
 -- Iteration 13 --
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
 
 -- Iteration 14 --
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
+
+Warning: Array to string conversion in %s on line %d
 Array
 int(5)
 
@@ -278,4 +295,3 @@ Resource id #%d
 int(%d)
 Resource id #%d
 int(%d)
-===DONE===

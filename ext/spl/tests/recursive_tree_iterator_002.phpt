@@ -10,7 +10,5 @@ try {
 	echo "InvalidArgumentException thrown\n";
 }
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 InvalidArgumentException thrown
-===DONE===

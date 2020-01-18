@@ -26,8 +26,7 @@ var_dump($percent);
 similar_text("abcdefghabcdef", "zzzzabcdefggg", $percent);
 var_dump($percent);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 int(3)
 int(0)
 int(1)
@@ -36,4 +35,3 @@ float(54.545454545455)
 float(0)
 float(18.181818181818)
 float(51.851851851852)
-===DONE===

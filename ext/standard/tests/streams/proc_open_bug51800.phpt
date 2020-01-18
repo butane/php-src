@@ -18,7 +18,7 @@ so then the pipe buffer is emptied more often and the child has chance to contin
 write. The behaviour might look some better if write/read in a separate thread, however
 this is much more resource greedy and complexer to integrate into the user script. */
 
-$callee = dirname(__FILE__) . "/process_proc_open_bug51800.php";
+$callee = __DIR__ . "/process_proc_open_bug51800.php";
 $php = PHP_BINARY;
 $cmd = "$php $callee";
 
@@ -74,10 +74,9 @@ var_dump(array(
 ), strlen($stdout), strlen($stderr));
 
 ?>
-===DONE===
 --CLEAN--
 <?php
-$callee = dirname(__FILE__) . "/process_proc_open_bug51800.php";
+$callee = __DIR__ . "/process_proc_open_bug51800.php";
 unlink($callee);
 ?>
 --EXPECTF--
@@ -91,5 +90,3 @@ array(3) {
 }
 int(10000)
 int(10000)
-===DONE===
-

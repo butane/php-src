@@ -44,9 +44,7 @@ foreach($ar as $k => $v)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 ArrayIteratorEx::rewind
 ArrayIteratorEx::valid
 ArrayIteratorEx::current
@@ -61,4 +59,3 @@ int(1)
 int(2)
 ArrayIteratorEx::next
 ArrayIteratorEx::valid
-===DONE===

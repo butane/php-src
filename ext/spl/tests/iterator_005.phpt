@@ -36,9 +36,7 @@ foreach(new IteratorIterator($it) as $v)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 ArrayIteratorEx::rewind
 int(0)
 int(1)
@@ -49,4 +47,3 @@ int(0)
 int(1)
 int(2)
 int(3)
-===DONE===

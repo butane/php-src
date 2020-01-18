@@ -9,7 +9,7 @@ class MyRecursiveArrayIterator extends ArrayIterator implements RecursiveIterato
 	{
 		return is_array($this->current());
 	}
-	
+
 	function getChildren()
 	{
 		return new MyRecursiveArrayIterator($this->current());
@@ -25,8 +25,6 @@ foreach ($dir as $file) {
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECT--
 1
 21
@@ -34,4 +32,3 @@ foreach ($dir as $file) {
 222
 231
 3
-===DONE===

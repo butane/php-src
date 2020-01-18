@@ -3,9 +3,9 @@ Test gmdate() function : usage variation - Passing numeric representation of day
 --FILE--
 <?php
 /* Prototype  : string gmdate(string format [, long timestamp])
- * Description: Format a GMT date/time 
+ * Description: Format a GMT date/time
  * Source code: ext/date/php_date.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing gmdate() : usage variation ***\n";
@@ -33,7 +33,6 @@ foreach($inputs as $key =>$value) {
 };
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing gmdate() : usage variation ***
 
@@ -56,4 +55,3 @@ string(1) "5"
 --Day of the year--
 string(%d) "%d"
 string(3) "220"
-===DONE===

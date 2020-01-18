@@ -37,7 +37,7 @@ $inputs =  array (
 	123.456,
 	1.23E3,
 	-1.23E3,
-  
+
 	// boolean
 	TRUE,
 	true,
@@ -47,7 +47,7 @@ $inputs =  array (
 	// NULL
 	NULL,
 	null,
-  
+
 	// strings
 	"abc",
 	'abc',
@@ -74,8 +74,8 @@ $inputs =  array (
 
 	// object variable
 	$obj
-  
-);  
+
+);
 
 // loop through with each element of the $inputs array to test json_encode() function
 $count = 1;
@@ -86,8 +86,7 @@ foreach($inputs as $input) {
 }
 
 ?>
-===Done===
---EXPECTF-- 
+--EXPECT--
 *** Testing json_encode() : basic functionality ***
 -- Iteration 1 --
 string(1) "0"
@@ -143,4 +142,3 @@ string(4) "null"
 bool(false)
 -- Iteration 27 --
 string(82) "{"MyInt":99,"MyFloat":123.45,"MyBool":true,"MyNull":null,"MyString":"Hello World"}"
-===Done===

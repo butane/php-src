@@ -1,13 +1,8 @@
 --TEST--
 Test mail() function : array extra header basic functionality
 --INI--
-sendmail_path=tee mailBasic.out >/dev/null
+sendmail_path={MAIL:mailBasic7.out}
 mail.add_x_header = Off
---SKIPIF--
-<?php
-if(substr(PHP_OS, 0, 3) == "WIN")
-  die("skip Won't run on Windows");
-?>
 --FILE--
 <?php
 /* Prototype  : int mail(string to, string subject, string message [, mixed additional_headers [, string additional_parameters]])
@@ -35,7 +30,7 @@ $additional_headers = array(
 		"bar\r\n\t fuga",
 	),
 );
-$outFile = "mailBasic.out";
+$outFile = "mailBasic7.out";
 @unlink($outFile);
 
 echo "-- All Mail Content Parameters --\n";
@@ -62,7 +57,7 @@ $additional_headers = array(
 	'message-id' => array('foo7'),
 	'in-reply-to'=> array('foo8'),
 );
-$outFile = "mailBasic.out";
+$outFile = "mailBasic7.out";
 @unlink($outFile);
 
 echo "-- All Mail Content Parameters --\n";
@@ -87,7 +82,7 @@ $additional_headers = array(
 	'foo6' => array(NULL),
 	'foo7' => array(new StdClass),
 );
-$outFile = "mailBasic.out";
+$outFile = "mailBasic7.out";
 @unlink($outFile);
 
 echo "-- All Mail Content Parameters --\n";
@@ -115,7 +110,7 @@ $additional_headers = array(
 	"foo9" => '%&$#!',
 	"foo10" => "abc\0\tdef",
 );
-$outFile = "mailBasic.out";
+$outFile = "mailBasic7.out";
 @unlink($outFile);
 
 echo "-- All Mail Content Parameters --\n";
@@ -125,7 +120,6 @@ echo file_get_contents($outFile);
 unlink($outFile);
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing mail() : basic functionality ***
 
@@ -215,4 +209,3 @@ foo5|: bar1
 foo9: %&$#!
 
 A Message
-===DONE===

@@ -3,7 +3,7 @@ SimpleXML: foreach
 --SKIPIF--
 <?php if (!extension_loaded("simplexml")) print "skip"; ?>
 --FILE--
-<?php 
+<?php
 
 $sxe = simplexml_load_string(<<<EOF
 <?xml version='1.0'?>
@@ -60,7 +60,6 @@ foreach($sxe->elem1 as $name => $data) {
 }
 
 ?>
-===DONE===
 --EXPECT--
 string(5) "elem1"
 string(10) "Bla bla 1."
@@ -77,4 +76,3 @@ string(10) "Bla bla 2."
 ===COMMENT===
 string(5) "elem1"
 string(10) "Bla bla 1."
-===DONE===

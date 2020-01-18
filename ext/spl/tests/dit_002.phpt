@@ -1,7 +1,7 @@
 --TEST--
 SPL: DirectoryIterator defaults
 --SKIPIF--
-<?php if (!extension_loaded("spl") || !extension_loaded('reflection') || !defined('GLOB_ERR')) print "skip"; ?>
+<?php if (!defined('GLOB_ERR')) die('skip GLOB_ERR not defined'); ?>
 --FILE--
 <?php
 
@@ -43,7 +43,6 @@ foreach ($classes as $class => $flags) {
 	}
 }
 ?>
-===DONE===
 --EXPECTF--
 ===DirectoryIterator===
 DirectoryIterator
@@ -74,4 +73,3 @@ int(16)
 GlobIterator
 int(32)
 bool(true)
-===DONE===

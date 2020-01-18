@@ -5,6 +5,8 @@ Test tempnam() function: usage variations - obscure prefixes
 if(substr(PHP_OS, 0, 3) != "WIN")
 	die("skip run only on Windows");
 ?>
+--CONFLICTS--
+obscure_filename
 --FILE--
 <?php
 /* Prototype:  string tempnam ( string $dir, string $prefix );
@@ -14,7 +16,7 @@ if(substr(PHP_OS, 0, 3) != "WIN")
 /* Passing invalid/non-existing args for $prefix */
 
 echo "*** Testing tempnam() with obscure prefixes ***\n";
-$file_path = dirname(__FILE__)."/tempnamVar3";
+$file_path = __DIR__."/tempnamVar3";
 if (!mkdir($file_path)) {
 	echo "Failed, cannot create temp dir $filepath\n";
 	exit(1);
@@ -59,7 +61,12 @@ $res_arr = array(
 
 for( $i=0; $i<count($names_arr); $i++ ) {
 	echo "-- Iteration $i --\n";
-	$file_name = tempnam($file_path, $names_arr[$i]);
+	try {
+        $file_name = tempnam($file_path, $names_arr[$i]);
+    } catch (TypeError $e) {
+        echo $e->getMessage(), "\n";
+        continue;
+    }
 
 	/* creating the files in existing dir */
 	if (file_exists($file_name) && !$res_arr[$i]) {
@@ -84,7 +91,6 @@ for( $i=0; $i<count($names_arr); $i++ ) {
 }
 
 rmdir($file_path);
-echo "\n*** Done. ***\n";
 ?>
 --EXPECTF--
 *** Testing tempnam() with obscure prefixes ***
@@ -104,17 +110,10 @@ Notice: tempnam(): file created in the system's temporary directory in %stempnam
 Failed, not created in the correct directory %s vs %s
 0
 -- Iteration 6 --
-
-Warning: tempnam() expects parameter 2 to be a valid path, string given in %stempnam_variation3-win32.php on line 54
-Failed, not created in the correct directory %s vs %sext\standard\tests\file\tempnamVar3
-0
+tempnam() expects parameter 2 to be a valid path, string given
 -- Iteration 7 --
-
-Warning: tempnam() expects parameter 2 to be a valid path, array given in %s\ext\standard\tests\file\tempnam_variation3-win32.php on line %d
-OK
+tempnam() expects parameter 2 to be a valid path, array given
 -- Iteration 8 --
 OK
 -- Iteration 9 --
 OK
-
-*** Done. ***

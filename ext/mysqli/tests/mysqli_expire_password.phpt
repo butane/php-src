@@ -6,7 +6,7 @@ require_once('skipif.inc');
 require_once('skipifemb.inc');
 require_once('connect.inc');
 
-if (!$link = my_mysqli_connect($host, $user, $passwd, $db, $port, $socket)) {
+if (!$link = @my_mysqli_connect($host, $user, $passwd, $db, $port, $socket)) {
 	die(sprintf("SKIP Cannot connect to the server using host=%s, user=%s, passwd=***, dbname=%s, port=%s, socket=%s\n",
 		$host, $user, $db, $port, $socket));
 }
@@ -61,7 +61,6 @@ if (!mysqli_query($link, sprintf("GRANT SELECT ON TABLE %s.test TO expiretest@'%
 		$link->query("SELECT id FROM test WHERE id = 1");
 		printf("[002] Connect should fail, [%d] %s\n", $link->errno, $link->error);
 	}
-
 	/* explicitly requesting default */
 	$link = mysqli_init();
 	$link->options(MYSQLI_OPT_CAN_HANDLE_EXPIRED_PASSWORDS, 0);
@@ -92,7 +91,9 @@ if (!mysqli_query($link, sprintf("GRANT SELECT ON TABLE %s.test TO expiretest@'%
 		printf("[007] Cannot connect [%d] %s\n",
 			mysqli_connect_errno(), mysqli_connect_error());
 	} else {
-		$link->query("SET PASSWORD=PASSWORD('expiretest')");
+		if (!$link->query("SET PASSWORD='expiretest'")) {
+			$link->query("SET PASSWORD=PASSWORD('expiretest')");
+		}
 		printf("[008] Connect allowed, pw set, [%d] %s\n", $link->errno, $link->error);
 		if ($res = $link->query("SELECT id FROM test WHERE id = 1"))
 			var_dump($res->fetch_assoc());
@@ -122,7 +123,6 @@ if (!mysqli_query($link, sprintf("GRANT SELECT ON TABLE %s.test TO expiretest@'%
 	mysqli_query($link, 'DROP USER expiretest@localhost');
 ?>
 --EXPECTF--
-
 Warning: mysqli%sconnect(): (HY000/1862): %s in %s on line %d
 [001] Cannot connect [1862] %s
 

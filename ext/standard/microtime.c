@@ -1,8 +1,6 @@
 /*
    +----------------------------------------------------------------------+
-   | PHP Version 7                                                        |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 1997-2017 The PHP Group                                |
+   | Copyright (c) The PHP Group                                          |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -15,8 +13,6 @@
    | Author: Paul Panotzki - Bunyip Information Systems                   |
    +----------------------------------------------------------------------+
  */
-
-/* $Id$ */
 
 #include "php.h"
 
@@ -59,7 +55,7 @@ static void _php_gettimeofday(INTERNAL_FUNCTION_PARAMETERS, int mode)
 	ZEND_PARSE_PARAMETERS_END();
 
 	if (gettimeofday(&tp, NULL)) {
-		RETURN_FALSE;
+		ZEND_ASSERT(0 && "gettimeofday() can't fail");
 	}
 
 	if (get_as_float) {
@@ -80,10 +76,7 @@ static void _php_gettimeofday(INTERNAL_FUNCTION_PARAMETERS, int mode)
 
 		timelib_time_offset_dtor(offset);
 	} else {
-		char ret[100];
-
-		snprintf(ret, 100, "%.8F %ld", tp.tv_usec / MICRO_IN_SEC, tp.tv_sec);
-		RETURN_STRING(ret);
+		RETURN_NEW_STR(zend_strpprintf(0, "%.8F %ld", tp.tv_usec / MICRO_IN_SEC, (long)tp.tv_sec));
 	}
 }
 
@@ -105,7 +98,7 @@ PHP_FUNCTION(gettimeofday)
 /* }}} */
 
 #ifdef HAVE_GETRUSAGE
-/* {{{ proto array getrusage([int who])
+/* {{{ proto array|false getrusage([int who])
    Returns an array of usage statistics */
 PHP_FUNCTION(getrusage)
 {
@@ -136,7 +129,7 @@ PHP_FUNCTION(getrusage)
 #ifdef PHP_WIN32 /* Windows only implements a limited amount of fields from the rusage struct */
 	PHP_RUSAGE_PARA(ru_majflt);
 	PHP_RUSAGE_PARA(ru_maxrss);
-#elif !defined( _OSD_POSIX) && !defined(__BEOS__) /* BS2000 has only a few fields in the rusage struct*/
+#elif !defined(_OSD_POSIX)
 	PHP_RUSAGE_PARA(ru_oublock);
 	PHP_RUSAGE_PARA(ru_inblock);
 	PHP_RUSAGE_PARA(ru_msgsnd);
@@ -161,12 +154,3 @@ PHP_FUNCTION(getrusage)
 #endif /* HAVE_GETRUSAGE */
 
 /* }}} */
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: sw=4 ts=4 fdm=marker
- * vim<600: sw=4 ts=4
- */

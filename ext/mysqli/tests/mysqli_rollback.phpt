@@ -1,39 +1,25 @@
 --TEST--
 mysqli_rollback()
 --SKIPIF--
-<?php  ?>
-<?php  ?>
-<?PHP
+<?php
 	require_once('skipif.inc');
 	require_once('skipifemb.inc');
 	require_once('skipifconnectfailure.inc');
 
 	require_once('connect.inc');
 	if (!$link = my_mysqli_connect($host, $user, $passwd, $db, $port, $socket))
-		die(sprintf("Cannot connect, [%d] %s", mysqli_connect_errno(), mysqli_connect_error()));
+		die(sprintf("skip Cannot connect, [%d] %s", mysqli_connect_errno(), mysqli_connect_error()));
 
 	if (!have_innodb($link))
-		die(sprintf("Needs InnoDB support, [%d] %s", $link->errno, $link->error));
+		die(sprintf("skip Needs InnoDB support, [%d] %s", $link->errno, $link->error));
 ?>
 --FILE--
 <?php
 	require_once("connect.inc");
 
-	$tmp    = NULL;
-	$link   = NULL;
-
-	if (!is_null($tmp = @mysqli_rollback()))
-		printf("[001] Expecting NULL, got %s/%s\n", gettype($tmp), $tmp);
-
-	if (!is_null($tmp = @mysqli_rollback($link)))
-		printf("[002] Expecting NULL, got %s/%s\n", gettype($tmp), $tmp);
-
 	if (!$link = my_mysqli_connect($host, $user, $passwd, $db, $port, $socket))
 		printf("[003] Cannot connect to the server using host=%s, user=%s, passwd=***, dbname=%s, port=%s, socket=%s\n",
 			$host, $user, $db, $port, $socket);
-
-	if (!is_null($tmp = @mysqli_rollback($link, 'foo')))
-		printf("[004] Expecting NULL, got %s/%s\n", gettype($tmp), $tmp);
 
 	if (true !== ($tmp = mysqli_autocommit($link, false)))
 		printf("[005] Cannot turn off autocommit, expecting true, got %s/%s\n", gettype($tmp), $tmp);
@@ -63,8 +49,8 @@ mysqli_rollback()
 
 	mysqli_close($link);
 
-	if (!is_null($tmp = mysqli_rollback($link)))
-		printf("[014] Expecting NULL, got %s/%s\n", gettype($tmp), $tmp);
+	if (false !== ($tmp = mysqli_rollback($link)))
+		printf("[014] Expecting false, got %s/%s\n", gettype($tmp), $tmp);
 
 	print "done!\n";
 ?>

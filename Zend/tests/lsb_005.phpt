@@ -35,8 +35,7 @@ class TestBB extends TestB {
 TestA::test();
 
 ?>
-==DONE==
---EXPECTF--
+--EXPECT--
 TestA
 TestB
 TestC
@@ -48,4 +47,3 @@ TestBB
 TestC
 TestBB
 TestA
-==DONE==

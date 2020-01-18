@@ -5,10 +5,10 @@ Unsetting and recreating private properties.
 class C {
 	private $p = 'test';
 	function unsetPrivate() {
-		unset($this->p);		
+		unset($this->p);
 	}
 	function setPrivate() {
-		$this->p = 'changed';		
+		$this->p = 'changed';
 	}
 }
 
@@ -49,7 +49,7 @@ $c->unsetPrivate();
 $c->p = 'this will fail';
 var_dump($c);
 ?>
-==Done==
+===DONE===
 --EXPECTF--
 Unset and recreate a superclass's private property:
 object(D)#%d (1) {

@@ -5,20 +5,26 @@ Default values are "localhost", "cn=Manager,dc=my-domain,dc=com", and password "
 Change the LDAP_TEST_* environment values if you want to use another configuration.
 */
 
-$host			= getenv("LDAP_TEST_HOST")	? getenv("LDAP_TEST_HOST")	: "localhost";
-$port			= getenv("LDAP_TEST_PORT")	? getenv("LDAP_TEST_PORT")	: 389;
-$base			= getenv("LDAP_TEST_BASE")	? getenv("LDAP_TEST_BASE")	: "dc=my-domain,dc=com";
-$user			= getenv("LDAP_TEST_USER")	? getenv("LDAP_TEST_USER")	: "cn=Manager,$base";
-$sasl_user		= getenv("LDAP_TEST_SASL_USER")	? getenv("LDAP_TEST_SASL_USER")	: "Manager";
-$passwd			= getenv("LDAP_TEST_PASSWD")	? getenv("LDAP_TEST_PASSWD")	: "secret";
-$protocol_version	= getenv("LDAP_TEST_OPT_PROTOCOL_VERSION")	? getenv("LDAP_TEST_OPT_PROTOCOL_VERSION")	: 3;
-$skip_on_bind_failure	= getenv("LDAP_TEST_SKIP_BIND_FAILURE") ? getenv("LDAP_TEST_SKIP_BIND_FAILURE") : true;
+$host			= getenv("LDAP_TEST_HOST")	?: "localhost";
+$port			= getenv("LDAP_TEST_PORT")	?: 389;
+$base			= getenv("LDAP_TEST_BASE")	?: "dc=my-domain,dc=com";
+$user			= getenv("LDAP_TEST_USER")	?: "cn=Manager,$base";
+$sasl_user		= getenv("LDAP_TEST_SASL_USER")	?: "Manager";
+$passwd			= getenv("LDAP_TEST_PASSWD")	?: "secret";
+$protocol_version	= getenv("LDAP_TEST_OPT_PROTOCOL_VERSION")	?: 3;
+$skip_on_bind_failure	= getenv("LDAP_TEST_SKIP_BIND_FAILURE") ?: true;
 
 function ldap_connect_and_bind($host, $port, $user, $passwd, $protocol_version) {
 	$link = ldap_connect($host, $port);
 	ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, $protocol_version);
 	ldap_bind($link, $user, $passwd);
 	return $link;
+}
+
+function test_bind($host, $port, $user, $passwd, $protocol_version) {
+	$link = ldap_connect($host, $port);
+	ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, $protocol_version);
+	return ldap_bind($link, $user, $passwd);
 }
 
 function insert_dummy_data($link, $base) {
@@ -63,6 +69,13 @@ function insert_dummy_data($link, $base) {
 	        "sn" => "testSN3",
 	        "userPassword" => "0r1g1na1 passw0rd",
 	));
+	ldap_add($link, "o=test2,$base", array(
+	        "objectClass"   => array(
+            "top",
+            "organization"),
+	        "o"             => "test2",
+	        "l" => array("here", "there", "Antarctica"),
+	));
 }
 
 function remove_dummy_data($link, $base) {
@@ -70,5 +83,6 @@ function remove_dummy_data($link, $base) {
 	ldap_delete($link, "cn=userA,$base");
 	ldap_delete($link, "cn=userB,$base");
 	ldap_delete($link, "o=test,$base");
+	ldap_delete($link, "o=test2,$base");
 }
 ?>

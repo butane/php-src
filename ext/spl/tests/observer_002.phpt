@@ -49,7 +49,7 @@ class ObserverImpl implements SplObserver
 	{
 		echo $this->name . '->' . __METHOD__ . '(' . $subject->getName() . ");\n";
 	}
-	
+
 	function getName()
 	{
 		return $this->name;
@@ -72,18 +72,18 @@ class SubjectImpl implements SplSubject
 		echo $this->name . '->' . __METHOD__ . '(' . $observer->getName() . ");\n";
 		$this->observers->attach($observer);
 	}
-	
+
 	function detach(SplObserver $observer)
 	{
 		echo $this->name . '->' . __METHOD__ . '(' . $observer->getName() . ");\n";
 		$this->observers->detach($observer);
 	}
-	
+
 	function count()
 	{
 		return $this->observers->count();
 	}
-	
+
 	function notify()
 	{
 		echo $this->name . '->' . __METHOD__ . "();\n";
@@ -97,7 +97,7 @@ class SubjectImpl implements SplSubject
 	{
 		return $this->name;
 	}
-	
+
 	function contains($obj)
 	{
 		return $this->observers->contains($obj);
@@ -137,8 +137,6 @@ var_dump($sub->count());
 $sub->notify();
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECT--
 bool(false)
 $sub->SubjectImpl::attach($ob1);
@@ -196,4 +194,3 @@ MyObjectStorage::key(0)
 $ob3->ObserverImpl::update($sub);
 MyObjectStorage::next()
 MyObjectStorage::valid(0)
-===DONE===

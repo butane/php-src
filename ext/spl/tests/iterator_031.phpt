@@ -37,13 +37,13 @@ class MyAppendIterator extends AppendIterator
 		echo __METHOD__ . "\n";
 		return parent::valid();
 	}
-	
+
 	function append(Iterator $what)
 	{
 		echo __METHOD__ . "\n";
 		parent::append($what);
 	}
-	
+
 	function parent__construct()
 	{
 		parent::__construct();
@@ -82,8 +82,6 @@ foreach($ap as $k=>$v)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECT--
 MyArrayIterator::rewind
 0=>1
@@ -113,4 +111,3 @@ MyAppendIterator::valid
 MyAppendIterator::valid
 1=>2
 MyAppendIterator::valid
-===DONE===

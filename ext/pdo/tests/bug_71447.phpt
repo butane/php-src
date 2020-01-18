@@ -10,7 +10,7 @@ PDOTest::skip();
 ?>
 --FILE--
 <?php
-if (getenv('REDIR_TEST_DIR') === false) putenv('REDIR_TEST_DIR='.dirname(__FILE__) . '/../../pdo/tests/');
+if (getenv('REDIR_TEST_DIR') === false) putenv('REDIR_TEST_DIR='.__DIR__ . '/../../pdo/tests/');
 require_once getenv('REDIR_TEST_DIR') . 'pdo_test.inc';
 
 $db = PDOTest::factory();
@@ -22,7 +22,7 @@ $db->exec('INSERT INTO test VALUES(1)');
 
 // Comment without quotes or placeholders
 $stmt = $db->prepare("
-	SELECT -- Thats all folks!
+	SELECT -- That's all folks!
 		'\"abc\":8000'
 	FROM test
 ");

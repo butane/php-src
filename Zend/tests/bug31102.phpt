@@ -1,5 +1,5 @@
 --TEST--
-Bug #31102 (Exception not handled when thrown inside __autoload())
+Bug #31102 (Exception not handled when thrown inside autoloader)
 --FILE--
 <?php
 
@@ -36,7 +36,6 @@ while($test++ < 5)
 }
 ?>
 ===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 {closure}(Test1,1)
 Caught: Test1::__construct

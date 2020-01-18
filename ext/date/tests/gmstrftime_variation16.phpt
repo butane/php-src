@@ -1,5 +1,5 @@
 --TEST--
-Test gmstrftime() function : usage variation - Checking time related formats which are supported other than on Windows. 
+Test gmstrftime() function : usage variation - Checking time related formats which are supported other than on Windows.
 --SKIPIF--
 <?php
 if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
@@ -9,9 +9,9 @@ if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
 --FILE--
 <?php
 /* Prototype  : string gmstrftime(string format [, int timestamp])
- * Description: Format a GMT/UCT time/date according to locale settings 
+ * Description: Format a GMT/UCT time/date according to locale settings
  * Source code: ext/date/php_date.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing gmstrftime() : usage variation ***\n";
@@ -37,7 +37,6 @@ foreach($inputs as $key =>$value) {
 };
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing gmstrftime() : usage variation ***
 
@@ -52,4 +51,3 @@ string(5) "14:08"
 --Current time %H:%M:%S format--
 string(%d) "%d:%d:%d"
 string(8) "14:08:08"
-===DONE===

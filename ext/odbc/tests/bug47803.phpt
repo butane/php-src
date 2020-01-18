@@ -1,11 +1,11 @@
 --TEST--
-Bug #47803 Executing prepared statements is succesfull only for the first two statements
+Bug #47803 Executing prepared statements is successful only for the first two statements
 --SKIPIF--
 <?php include 'skipif.inc'; ?>
 --FILE--
 <?php
 
-include dirname(__FILE__) . "/config.inc";
+include __DIR__ . "/config.inc";
 
 $create_table = "CREATE TABLE FOO(
 		[PAR_ID] [int] NOT NULL,
@@ -73,7 +73,7 @@ if (!$result) {
 	print ('[sql] prep: '.$sql);
 	goto out;
 }
-foreach ($upd_params as $k) { 
+foreach ($upd_params as $k) {
 	if(!odbc_execute($result, array($k['id']))) {
 		print ('[sql] exec: '."array({$k['id']})");
 		goto out;
@@ -88,7 +88,6 @@ if ($result) odbc_free_result($result);
 odbc_close($link);
 
 ?>
-==DONE==
 --EXPECT--
 array(3) {
   ["PAR_ID"]=>
@@ -170,7 +169,6 @@ array(3) {
   ["PAR_CHR"]=>
   string(6) "test 7"
 }
-==DONE==
 --CLEAN--
 <?php
 include 'config.inc';

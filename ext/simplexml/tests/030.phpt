@@ -3,7 +3,7 @@ SimpleXML: isset and unset by offset
 --SKIPIF--
 <?php if (!extension_loaded("simplexml")) print "skip"; ?>
 --FILE--
-<?php 
+<?php
 $xml =<<<EOF
 <root s:att1="b" att1="a" 
       xmlns:s="urn::test" xmlns:t="urn::test-t">
@@ -30,7 +30,6 @@ var_dump(isset($atts[0]));
 var_dump(isset($atts[TRUE]));
 
 ?>
-===DONE===
 --EXPECT--
 test
 test 2
@@ -41,4 +40,3 @@ bool(false)
 bool(true)
 bool(false)
 bool(false)
-===DONE===

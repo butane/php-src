@@ -1,5 +1,5 @@
 --TEST--
-Bug #26697 (calling class_exists on a nonexistent class in __autoload results in segfault)
+Bug #26697 (calling class_exists on a nonexistent class in autoloader results in segfault)
 --FILE--
 <?php
 
@@ -12,10 +12,8 @@ spl_autoload_register(function ($name) {
 var_dump(class_exists('NotExistingClass'));
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 {closure}(NotExistingClass)
 bool(false)
 {closure}(NotExistingClass), done
 bool(false)
-===DONE===

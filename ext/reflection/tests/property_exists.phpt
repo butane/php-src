@@ -8,15 +8,15 @@ class A
 	public    $a = 1;
 	protected $b = 2;
 	private   $c = 3;
-	
+
 	public    $empty;
 	public    $init = 1;
-	
+
 	function __toString()
 	{
 		return 'obj(' . get_class($this) . ')';
 	}
-	
+
 	static function test($oc, $props)
 	{
 		echo '===' . __CLASS__ . "===\n";
@@ -30,7 +30,7 @@ class A
 class B extends A
 {
 	private   $c = 4;
-	
+
 	static function test($oc, $props)
 	{
 		echo '===' . __CLASS__ . "===\n";
@@ -44,7 +44,7 @@ class B extends A
 class C extends B
 {
 	private   $d = 5;
-	
+
 	static function test($oc, $props)
 	{
 		echo '===' . __CLASS__ . "===\n";
@@ -90,8 +90,6 @@ var_dump(property_exists(new A, '123'));
 var_dump(property_exists(new A, 'init'));
 var_dump(property_exists(new A, 'empty'));
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 ===A===
 obj(A)::$a
@@ -219,4 +217,3 @@ bool(false)
 bool(false)
 bool(true)
 bool(true)
-===DONE===

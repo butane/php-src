@@ -19,9 +19,9 @@ class C extends B {
 	public function __construct() {
 		var_dump(get_class_vars('A'));
 		var_dump(get_class_vars('B'));
-		
+
 		var_dump($this->a, $this->b, $this->c);
-	}	
+	}
 }
 
 new C;
@@ -41,9 +41,9 @@ array(3) {
   int(6)
 }
 
-Notice: Undefined property: C::$b in %s on line %d
+Warning: Undefined property: C::$b in %s on line %d
 
-Notice: Undefined property: C::$c in %s on line %d
+Warning: Undefined property: C::$c in %s on line %d
 int(1)
 NULL
 NULL

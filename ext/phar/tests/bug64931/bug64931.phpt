@@ -5,7 +5,7 @@ Bug #64931 (phar_add_file is too restrictive on filename)
 --INI--
 phar.readonly=0
 --FILE--
-<?php 
+<?php
 
 echo "Test\n";
 
@@ -38,12 +38,11 @@ try {
 
 try {
 	$phar->addFromString(".phar\0", "gotcha");
-} catch (Exception $e) {
+} catch (TypeError $e) {
 	echo "CAUGHT: ". $e->getMessage() ."\n";
 }
 
 ?>
-===DONE===
 --CLEAN--
 <?php
 @unlink(__DIR__."/bug64931.phar");
@@ -54,6 +53,4 @@ CAUGHT: Cannot create any files in magic ".phar" directory
 CAUGHT: Cannot create any files in magic ".phar" directory
 CAUGHT: Cannot create any files in magic ".phar" directory
 CAUGHT: Cannot create any files in magic ".phar" directory
-
-Warning: Phar::addFromString() expects parameter 1 to be a valid path, string given in %s%ebug64931.php on line %d
-===DONE===
+CAUGHT: Phar::addFromString() expects parameter 1 to be a valid path, string given

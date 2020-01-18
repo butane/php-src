@@ -10,7 +10,7 @@ class Test
 		echo __METHOD__ . "\n";
 		if (isset($this->x[$name])) {
 			return $this->x[$name];
-		} 
+		}
 		else
 		{
 			return NULL;
@@ -48,7 +48,6 @@ var_dump($foo->bar);
 var_dump($foo->bar->baz);
 
 ?>
-===DONE===
 --EXPECTF--
 AutoGen::__get
 Test::__set
@@ -63,4 +62,3 @@ object(Test)#%d (1) {
 AutoGen::__get
 Test::__get
 string(5) "Check"
-===DONE===

@@ -16,12 +16,12 @@ class ExceptionHandler {
 // this must be a class, closure does not trigger segfault
 set_exception_handler(new ExceptionHandler());
 
-// exception must be throwed from error handler.
+// exception must be thrown from error handler.
 set_error_handler(function()
 {
 	$e = new Exception;
 	$e->_trace = debug_backtrace();
-	
+
 	throw $e;
 });
 
@@ -29,11 +29,11 @@ set_error_handler(function()
 $a['waa'];
 ?>
 --EXPECTF--
-Notice: ob_end_flush(): failed to delete and flush buffer. No buffer to delete or flush in %sbug64960.php on line 3
+Notice: ob_end_flush(): Failed to delete and flush buffer. No buffer to delete or flush in %sbug64960.php on line 3
 
 Fatal error: Uncaught Exception in %sbug64960.php:19
 Stack trace:
-#0 [internal function]: {closure}(8, 'ob_end_clean():...', '%s', 9, Array)
+#0 [internal function]: {closure}(8, 'ob_end_clean():...', '%s', 9)
 #1 %sbug64960.php(9): ob_end_clean()
 #2 [internal function]: ExceptionHandler->__invoke(Object(Exception))
 #3 {main}

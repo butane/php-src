@@ -6,7 +6,7 @@ ZE2 An interface extends base interfaces
 interface if_a {
 	function f_a();
 }
-	
+
 interface if_b {
 	function f_b();
 }
@@ -152,8 +152,7 @@ echo $t->test('if_d');
 echo $t->test('if_e');
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 class_a
 is_a(class_a, if_a) yes
 is_a(class_a, if_b) no
@@ -196,4 +195,3 @@ is_a(class_g, if_b) yes
 is_a(class_g, if_c) yes
 is_a(class_g, if_d) yes
 is_a(class_g, if_e) no
-===DONE===

@@ -9,7 +9,7 @@ class RecursiceArrayIterator extends ArrayIterator implements RecursiveIterator
 	{
 		return is_array($this->current());
 	}
-	
+
 	function getChildren()
 	{
 		return new RecursiceArrayIterator($this->current());
@@ -22,12 +22,12 @@ class CrashIterator extends FilterIterator implements RecursiveIterator
 	{
 		return true;
 	}
-	
+
 	function hasChildren()
 	{
 		return $this->getInnerIterator()->hasChildren();
 	}
-	
+
 	function getChildren()
 	{
 		return new RecursiceArrayIterator($this->getInnerIterator()->current());
@@ -43,8 +43,6 @@ foreach ($dir as $file) {
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECT--
 1
 21
@@ -52,4 +50,3 @@ foreach ($dir as $file) {
 222
 231
 3
-===DONE===

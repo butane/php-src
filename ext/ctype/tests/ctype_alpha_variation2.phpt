@@ -5,7 +5,7 @@ Test ctype_alpha() function : usage variations - different integers
 --FILE--
 <?php
 /* Prototype  : bool ctype_alpha(mixed $c)
- * Description: Checks for alphabetic character(s) 
+ * Description: Checks for alphabetic character(s)
  * Source code: ext/ctype/ctype.c
  */
 
@@ -26,8 +26,7 @@ for ($i = 0; $i < 256; $i++) {
 
 setlocale(LC_CTYPE, $orig);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ctype_alpha() : usage variations ***
 character code 65 is alphabetic
 character code 66 is alphabetic
@@ -81,4 +80,3 @@ character code 119 is alphabetic
 character code 120 is alphabetic
 character code 121 is alphabetic
 character code 122 is alphabetic
-===DONE===

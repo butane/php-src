@@ -2,13 +2,12 @@
 Phar object: iterate test with sub-directories and RecursiveIteratorIterator
 --SKIPIF--
 <?php if (!extension_loaded('phar')) die('skip'); ?>
-<?php if (!extension_loaded("spl")) die("skip SPL not available"); ?>
 --INI--
 phar.readonly=0
 phar.require_hash=0
 --FILE--
 <?php
-$fname = dirname(__FILE__) . '/' . basename(__FILE__, '.php') . '.phar.php';
+$fname = __DIR__ . '/' . basename(__FILE__, '.php') . '.phar.php';
 
 $phar = new Phar($fname);
 $phar['top.txt'] = 'hi';
@@ -19,14 +18,12 @@ foreach (new RecursiveIteratorIterator($newphar) as $path => $obj) {
 	var_dump($obj->getPathName());
 }
 ?>
-===DONE===
 --CLEAN--
-<?php 
-unlink(dirname(__FILE__) . '/' . basename(__FILE__, '.clean.php') . '.phar.php');
+<?php
+unlink(__DIR__ . '/' . basename(__FILE__, '.clean.php') . '.phar.php');
 __halt_compiler();
 ?>
 --EXPECTF--
 string(%d) "phar://%sphar_dir_iterate.phar.php%canother.file.txt"
 string(%d) "phar://%sphar_dir_iterate.phar.php/sub%ctop.txt"
 string(%d) "phar://%sphar_dir_iterate.phar.php%ctop.txt"
-===DONE===

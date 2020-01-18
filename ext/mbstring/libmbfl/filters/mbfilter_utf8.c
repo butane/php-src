@@ -63,7 +63,9 @@ const mbfl_encoding mbfl_encoding_utf8 = {
 	"UTF-8",
 	(const char *(*)[])&mbfl_encoding_utf8_aliases,
 	mblen_table_utf8,
-	MBFL_ENCTYPE_MBCS
+	MBFL_ENCTYPE_MBCS,
+	&vtbl_utf8_wchar,
+	&vtbl_wchar_utf8
 };
 
 const struct mbfl_identify_vtbl vtbl_identify_utf8 = {
@@ -232,9 +234,7 @@ int mbfl_filt_conv_wchar_utf8(int c, mbfl_convert_filter *filter)
 			CK((*filter->output_function)((c & 0x3f) | 0x80, filter->data));
 		}
 	} else {
-		if (filter->illegal_mode != MBFL_OUTPUTFILTER_ILLEGAL_MODE_NONE) {
-			CK(mbfl_filt_conv_illegal_output(c, filter));
-		}
+		CK(mbfl_filt_conv_illegal_output(c, filter));
 	}
 
 	return c;

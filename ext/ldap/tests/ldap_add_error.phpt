@@ -12,14 +12,6 @@ require "connect.inc";
 
 $link = ldap_connect_and_bind($host, $port, $user, $passwd, $protocol_version);
 
-// Too few parameters
-var_dump(ldap_add());
-var_dump(ldap_add($link));
-var_dump(ldap_add($link, "$base"));
-
-// Too many parameters
-var_dump(ldap_add($link, "$base", array(), "Additional data"));
-
 var_dump(ldap_add($link, "$base", array()));
 
 // Invalid DN
@@ -87,7 +79,6 @@ var_dump(
 	*/
 );
 ?>
-===DONE===
 --CLEAN--
 <?php
 require "connect.inc";
@@ -97,18 +88,6 @@ $link = ldap_connect_and_bind($host, $port, $user, $passwd, $protocol_version);
 ldap_delete($link, "dc=my-domain,$base");
 ?>
 --EXPECTF--
-Warning: ldap_add() expects exactly 3 parameters, 0 given in %s on line %d
-NULL
-
-Warning: ldap_add() expects exactly 3 parameters, 1 given in %s on line %d
-NULL
-
-Warning: ldap_add() expects exactly 3 parameters, 2 given in %s on line %d
-NULL
-
-Warning: ldap_add() expects exactly 3 parameters, 4 given in %s on line %d
-NULL
-
 Warning: ldap_add(): Add: Protocol error in %s on line %d
 bool(false)
 
@@ -133,4 +112,3 @@ int(17)
 
 Warning: ldap_add(): Unknown attribute in the data in %s on line %d
 bool(false)
-===DONE===

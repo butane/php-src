@@ -6,7 +6,7 @@ Reflection properties are read only
 class ReflectionMethodEx extends ReflectionMethod
 {
 	public $foo = "xyz";
-	
+
 	function __construct($c,$m)
 	{
 		echo __METHOD__ . "\n";
@@ -47,8 +47,7 @@ var_dump($r->foo);
 var_dump($r->bar);
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 ReflectionMethodEx::__construct
 string(26) "ReflectionFunctionAbstract"
 string(7) "getName"
@@ -60,4 +59,3 @@ string(26) "ReflectionFunctionAbstract"
 string(7) "getName"
 string(3) "bar"
 string(3) "baz"
-===DONE===

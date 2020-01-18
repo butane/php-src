@@ -5,7 +5,7 @@ oci_field_*() family: basic column types
 --FILE--
 <?php
 
-require(dirname(__FILE__)."/connect.inc");
+require(__DIR__."/connect.inc");
 
 // Initialization
 $stmtarray = array(
@@ -55,8 +55,6 @@ $stmtarray = array(
 oci8_test_sql_execute($c, $stmtarray);
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 array(4) {
   [0]=>
@@ -96,4 +94,3 @@ int(12)
 int(0)
 int(0)
 int(7)
-===DONE===

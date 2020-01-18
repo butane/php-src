@@ -21,18 +21,15 @@ hhx4dbgYKAAA7',
 foreach($streams as $original => $stream)
 {
 	if (is_string($original)) {
-		var_dump(file_get_contents(dirname(__FILE__) . '/' . $original) == file_get_contents($stream));
+		var_dump(file_get_contents(__DIR__ . '/' . $original) == file_get_contents($stream));
 	} else {
 		var_dump(file_get_contents($stream));
 	}
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 string(12) "A brief note"
 string(40) "select_vcount,fcol_from_fieldtable/local"
 string(13) "foobar foobar"
 bool(true)
-===DONE===

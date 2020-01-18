@@ -3,9 +3,9 @@ Test strftime() function : usage variation - Passing time related format strings
 --FILE--
 <?php
 /* Prototype  : string strftime(string format [, int timestamp])
- * Description: Format a local time/date according to locale settings 
+ * Description: Format a local time/date according to locale settings
  * Source code: ext/date/php_date.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing strftime() : usage variation ***\n";
@@ -34,7 +34,6 @@ foreach($inputs as $key =>$value) {
 };
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing strftime() : usage variation ***
 
@@ -57,4 +56,3 @@ string(2) "PM"
 --Second as decimal number--
 string(%d) "%d"
 string(2) "08"
-===DONE===

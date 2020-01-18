@@ -33,13 +33,12 @@ foreach($f as $k => $v)
 }
 
 ?>
-===DONE===
 --CLEAN--
-<?php 
-unlink(dirname(__FILE__) . '/files/phar_oo_009.phar.php');
+<?php
+unlink(__DIR__ . '/files/phar_oo_009.phar.php');
 __halt_compiler();
 ?>
---EXPECTF--
+--EXPECT--
 0=>1,2,3
 1=>2,a,b
 2=>3,"c","'e'"
@@ -53,4 +52,3 @@ __halt_compiler();
 3=>4
 4=>5|5
 6=>7|777
-===DONE===

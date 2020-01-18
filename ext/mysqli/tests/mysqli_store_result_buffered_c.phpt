@@ -7,7 +7,7 @@ require_once('skipifemb.inc');
 require_once('skipifconnectfailure.inc');
 ?>
 --INI--
-mysqlnd.debug=d:t:O,/tmp/mysqlnd.trace
+mysqlnd.debug=d:t:O,{TMP}/mysqlnd.trace
 --FILE--
 <?php
 	require_once("connect.inc");
@@ -37,5 +37,5 @@ mysqlnd.debug=d:t:O,/tmp/mysqlnd.trace
 <?php
 	require_once("clean_table.inc");
 ?>
---EXPECTF--
+--EXPECT--
 done!

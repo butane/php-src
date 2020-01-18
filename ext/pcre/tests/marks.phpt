@@ -1,11 +1,5 @@
 --TEST--
 Test support for PCRE marks
---SKIPIF--
-<?php
-if (version_compare(PCRE_VERSION, '8.1', '<')) {
-    die('skip PCRE_VERSION >= 8.1 is required for MARK support');
-}
-?>
 --FILE--
 <?php
 
@@ -33,15 +27,15 @@ var_dump(preg_replace_callback($regex, function($matches) {
 }, '_a__b__c__d_'));
 
 ?>
---EXPECTF--
+--EXPECT--
 int(1)
 array(5) {
   [0]=>
   string(3) "_c_"
   [1]=>
-  NULL
+  string(0) ""
   [2]=>
-  NULL
+  string(0) ""
   [3]=>
   string(1) "c"
   ["MARK"]=>
@@ -65,42 +59,42 @@ array(6) {
     [0]=>
     string(1) "a"
     [1]=>
-    NULL
+    string(0) ""
     [2]=>
-    NULL
+    string(0) ""
     [3]=>
-    NULL
+    string(0) ""
   }
   [2]=>
   array(4) {
     [0]=>
-    NULL
+    string(0) ""
     [1]=>
     string(1) "b"
     [2]=>
-    NULL
+    string(0) ""
     [3]=>
-    NULL
+    string(0) ""
   }
   [3]=>
   array(4) {
     [0]=>
-    NULL
+    string(0) ""
     [1]=>
-    NULL
+    string(0) ""
     [2]=>
     string(1) "c"
     [3]=>
-    NULL
+    string(0) ""
   }
   [4]=>
   array(4) {
     [0]=>
-    NULL
+    string(0) ""
     [1]=>
-    NULL
+    string(0) ""
     [2]=>
-    NULL
+    string(0) ""
     [3]=>
     string(1) "d"
   }
@@ -128,7 +122,7 @@ array(4) {
     [0]=>
     string(3) "_b_"
     [1]=>
-    NULL
+    string(0) ""
     [2]=>
     string(1) "b"
   }
@@ -137,9 +131,9 @@ array(4) {
     [0]=>
     string(3) "_c_"
     [1]=>
-    NULL
+    string(0) ""
     [2]=>
-    NULL
+    string(0) ""
     [3]=>
     string(1) "c"
     ["MARK"]=>
@@ -150,11 +144,11 @@ array(4) {
     [0]=>
     string(3) "_d_"
     [1]=>
-    NULL
+    string(0) ""
     [2]=>
-    NULL
+    string(0) ""
     [3]=>
-    NULL
+    string(0) ""
     [4]=>
     string(1) "d"
   }

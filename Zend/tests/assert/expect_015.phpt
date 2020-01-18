@@ -20,7 +20,7 @@ assert(0 && ($a = function () {
 	yield from $x;
 }));
 
-assert(0 && ($a = function &(array &$a, X $b = null) use ($c,&$d) : X {
+assert(0 && ($a = function &(array &$a, ?X $b = null) use ($c,&$d) : ?X {
 	abstract class A extends B implements C, D {
 		const X = 12;
 		const Y = self::X, Z = "aaa";
@@ -62,7 +62,7 @@ assert(0 && ($a = function &(array &$a, X $b = null) use ($c,&$d) : X {
 	}
 }));
 
-assert(0 && ($a = function &(array &$a, X $b = null) use ($c,&$d) : X {
+assert(0 && ($a = function &(array &$a, X $b = null, int|float $c) use ($c,&$d) : X {
 	final class A {
 		final protected function f2() {
 			if (!$x) {
@@ -94,7 +94,7 @@ L0:
 	}
 }));
 
-assert(0 && ($a = function &(array &$a, X $b = null) use ($c,&$d) : X {
+assert(0 && ($a = function &(?array &$a, X $b = null) use ($c,&$d) : X {
 	class A {
 		use T1, T2 {
 			T1::foo insteadof foo;
@@ -140,6 +140,7 @@ assert(0 && ($a = function () {
     if ($a) {
     } elseif ($b) {
     }
+    if ($a); else;
 }));
 
 ?>
@@ -161,7 +162,7 @@ Warning: assert(): assert(0 && ($a = function () {
     yield from $x;
 })) failed in %sexpect_015.php on line %d
 
-Warning: assert(): assert(0 && ($a = function &(array &$a, X $b = null) use($c, &$d): X {
+Warning: assert(): assert(0 && ($a = function &(array &$a, ?X $b = null) use($c, &$d): ?X {
     abstract class A extends B implements C, D {
         const X = 12;
         const Y = self::X, Z = 'aaa';
@@ -203,7 +204,7 @@ Warning: assert(): assert(0 && ($a = function &(array &$a, X $b = null) use($c, 
 
 })) failed in %sexpect_015.php on line %d
 
-Warning: assert(): assert(0 && ($a = function &(array &$a, X $b = null) use($c, &$d): X {
+Warning: assert(): assert(0 && ($a = function &(array &$a, X $b = null, int|float $c) use($c, &$d): X {
     final class A {
         protected final function f2() {
             if (!$x) {
@@ -243,7 +244,7 @@ Warning: assert(): assert(0 && ($a = function &(array &$a, X $b = null) use($c, 
 
 })) failed in %sexpect_015.php on line %d
 
-Warning: assert(): assert(0 && ($a = function &(array &$a, X $b = null) use($c, &$d): X {
+Warning: assert(): assert(0 && ($a = function &(?array &$a, X $b = null) use($c, &$d): X {
     class A {
         use T1, T2 {
             T1::foo insteadof foo;
@@ -291,5 +292,8 @@ Warning: assert(): assert(0 && ($a = function () {
     $x = new namespace\foo();
     if ($a) {
     } elseif ($b) {
+    }
+    if ($a) {
+    } else {
     }
 })) failed in %sexpect_015.php on line %d

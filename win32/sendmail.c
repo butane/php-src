@@ -1,11 +1,11 @@
 /*
  *    PHP Sendmail for Windows.
  *
- *  This file is rewriten specificly for PHPFI.  Some functionality
+ *  This file is rewritten specifically for PHPFI.  Some functionality
  *  has been removed (MIME and file attachments).  This code was
  *  modified from code based on code written by Jarle Aase.
  *
- *  This class is based on the original code by Jarle Aase, see bellow:
+ *  This class is based on the original code by Jarle Aase, see below:
  *  wSendmail.cpp  It has been striped of some functionality to match
  *  the requirements of phpfi.
  *
@@ -17,8 +17,6 @@
  *
  */
 
-/* $Id$ */
-
 #include "php.h"				/*php specific */
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,7 +26,6 @@
 #include <string.h>
 #include <math.h>
 #include <malloc.h>
-#include <memory.h>
 #include <winbase.h>
 #include "sendmail.h"
 #include "php_ini.h"
@@ -36,10 +33,7 @@
 
 #include "php_win32_globals.h"
 
-#if HAVE_PCRE || HAVE_BUNDLED_PCRE
 #include "ext/pcre/php_pcre.h"
-#endif
-
 #include "ext/standard/php_string.h"
 #include "ext/date/php_date.h"
 
@@ -53,7 +47,7 @@
 
 /* '*error_message' has to be passed around from php_mail() */
 #define SMTP_ERROR_RESPONSE_SPEC	"SMTP server response: %s"
-/* Convinient way to handle error messages from the SMTP server.
+/* Convenient way to handle error messages from the SMTP server.
    response is ecalloc()d in Ack() itself and efree()d here
    because the content is in *error_message now */
 #define SMTP_ERROR_RESPONSE(response)	{ \
@@ -97,7 +91,7 @@ static char *ErrorMessages[] =
 };
 
 /* This pattern converts all single occurrences of \n (Unix)
- * withour a leading \r to \r\n and all occurrences of \r (Mac)
+ * without a leading \r to \r\n and all occurrences of \r (Mac)
  * without a trailing \n to \r\n
  * Thx to Nibbler from ircnet/#linuxger
  */
@@ -120,7 +114,7 @@ static char *ErrorMessages[] =
 
 /* This function is meant to unify the headers passed to to mail()
  * This means, use PCRE to transform single occurrences of \n or \r in \r\n
- * As a second step we also eleminate all \r\n occurrences which are:
+ * As a second step we also eliminate all \r\n occurrences which are:
  * 1) At the start of the header
  * 2) At the end of the header
  * 3) Two or more occurrences in the header are removed so only one is left
@@ -130,52 +124,43 @@ static char *ErrorMessages[] =
  */
 static zend_string *php_win32_mail_trim_header(char *header)
 {
-
-#if HAVE_PCRE || HAVE_BUNDLED_PCRE
-
 	zend_string *result, *result2;
-	zval replace;
+	zend_string *replace;
 	zend_string *regex;
 
 	if (!header) {
 		return NULL;
 	}
 
-	ZVAL_STRINGL(&replace, PHP_WIN32_MAIL_UNIFY_REPLACE, strlen(PHP_WIN32_MAIL_UNIFY_REPLACE));
+	replace = zend_string_init(PHP_WIN32_MAIL_UNIFY_REPLACE, strlen(PHP_WIN32_MAIL_UNIFY_REPLACE), 0);
 	regex = zend_string_init(PHP_WIN32_MAIL_UNIFY_PATTERN, sizeof(PHP_WIN32_MAIL_UNIFY_PATTERN)-1, 0);
 
 	result = php_pcre_replace(regex,
-				  NULL, header, (int)strlen(header),
-				  &replace,
-				  0,
+				  NULL, header, strlen(header),
+				  replace,
 				  -1,
 				  NULL);
 
-	zval_ptr_dtor(&replace);
-	zend_string_release(regex);
+	zend_string_release_ex(replace, 0);
+	zend_string_release_ex(regex, 0);
 
 	if (NULL == result) {
 		return NULL;
 	}
 
-	ZVAL_STRING(&replace, PHP_WIN32_MAIL_RMVDBL_PATTERN);
+	replace = zend_string_init(PHP_WIN32_MAIL_RMVDBL_PATTERN, strlen(PHP_WIN32_MAIL_RMVDBL_PATTERN), 0);
 	regex = zend_string_init(PHP_WIN32_MAIL_RMVDBL_PATTERN, sizeof(PHP_WIN32_MAIL_RMVDBL_PATTERN)-1, 0);
 
 	result2 = php_pcre_replace(regex,
-				   result, ZSTR_VAL(result), (int)ZSTR_LEN(result),
-				   &replace,
-				  0,
+				   result, ZSTR_VAL(result), ZSTR_LEN(result),
+				   replace,
 				  -1,
 				  NULL);
-	zval_ptr_dtor(&replace);
-	zend_string_release(regex);
-	zend_string_release(result);
+	zend_string_release_ex(replace, 0);
+	zend_string_release_ex(regex, 0);
+	zend_string_release_ex(result, 0);
 
 	return result2;
-#else
-	/* In case we don't have PCRE support (for whatever reason...) simply do nothing and return the unmodified header */
-	return estrdup(header);
-#endif
 }
 
 /*********************************************************************
@@ -263,8 +248,9 @@ PHPAPI int TSendMail(char *host, int *error, char **error_message,
 		}
 
 		if (!found) {
-			if (headers_lc) {
-				zend_string_free(headers_lc);
+			if (headers) {
+				zend_string_release(headers_trim);
+				zend_string_release(headers_lc);
 			}
 			*error = W32_SM_SENDMAIL_FROM_NOT_SET;
 			return FAILURE;
@@ -278,13 +264,13 @@ PHPAPI int TSendMail(char *host, int *error, char **error_message,
 			efree(RPath);
 		}
 		if (headers) {
-			zend_string_free(headers_trim);
-			zend_string_free(headers_lc);
+			zend_string_release(headers_trim);
+			zend_string_release(headers_lc);
 		}
 		/* 128 is safe here, the specifier in snprintf isn't longer than that */
 		*error_message = ecalloc(1, HOST_NAME_LEN + 128);
 		snprintf(*error_message, HOST_NAME_LEN + 128,
-			"Failed to connect to mailserver at \"%s\" port %d, verify your \"SMTP\" "
+			"Failed to connect to mailserver at \"%s\" port " ZEND_ULONG_FMT ", verify your \"SMTP\" "
 			"and \"smtp_port\" setting in php.ini or use ini_set()",
 			PW32G(mail_host), !INI_INT("smtp_port") ? 25 : INI_INT("smtp_port"));
 		return FAILURE;
@@ -295,8 +281,8 @@ PHPAPI int TSendMail(char *host, int *error, char **error_message,
 			efree(RPath);
 		}
 		if (headers) {
-			zend_string_free(headers_trim);
-			zend_string_free(headers_lc);
+			zend_string_release(headers_trim);
+			zend_string_release(headers_lc);
 		}
 		if (ret != SUCCESS) {
 			*error = ret;
@@ -346,9 +332,6 @@ PHPAPI char *GetSMErrorText(int index)
 
 	}
 }
-
-PHPAPI zend_string *php_str_to_str(char *haystack, size_t length, char *needle,
-		size_t needle_len, char *str, size_t str_len);
 
 
 /*********************************************************************
@@ -522,7 +505,7 @@ static int SendText(char *RPath, char *Subject, char *mailTo, char *mailCc, char
 		efree(tempMailTo);
 	}
 	else if (headers) {
-		if (pos1 = strstr(headers_lc, "bcc:")) {
+		if ((pos1 = strstr(headers_lc, "bcc:")) && (pos1 == headers_lc || *(pos1-1) == '\n')) {
 			/* Real offset is memaddress from the original headers + difference of
 			 * string found in the lowercase headrs + 4 characters to jump over
 			 * the bcc: */
@@ -679,8 +662,12 @@ static int PostHeader(char *RPath, char *Subject, char *mailTo, char *xheaders)
 	size_t i;
 
 	if (xheaders) {
+		size_t headers_lc_len;
+
 		headers_lc = estrdup(xheaders);
-		for (i = 0; i < strlen(headers_lc); i++) {
+		headers_lc_len = strlen(headers_lc);
+
+		for (i = 0; i < headers_lc_len; i++) {
 			headers_lc[i] = tolower(headers_lc[i]);
 		}
 	}
@@ -900,7 +887,7 @@ again:
 	/* Check for newline */
 	Index += rlen;
 
-	/* SMPT RFC says \r\n is the only valid line ending, who are we to argue ;)
+	/* SMTP RFC says \r\n is the only valid line ending, who are we to argue ;)
 	 * The response code must contain at least 5 characters ex. 220\r\n */
 	if (Received < 5 || buf[Received - 1] != '\n' || buf[Received - 2] != '\r') {
 		goto again;
@@ -971,7 +958,7 @@ static unsigned long GetAddr(LPSTR szHost)
 // Name:  int FormatEmailAddress
 // Input:
 // Output:
-// Description: Formats the email address to remove any content ouside
+// Description: Formats the email address to remove any content outside
 //   of the angle brackets < > as per RFC 2821.
 //
 //   Returns the invalidly formatted mail address if the < > are
@@ -992,12 +979,3 @@ static int FormatEmailAddress(char* Buf, char* EmailAddress, char* FormatString)
 	}
 	return snprintf(Buf, MAIL_BUFFER_SIZE , FormatString , EmailAddress );
 } /* end FormatEmailAddress() */
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: sw=4 ts=4 fdm=marker
- * vim<600: sw=4 ts=4
- */

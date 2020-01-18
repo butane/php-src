@@ -5,8 +5,8 @@ Test ctype_graph() function : usage variations - different integers
 --FILE--
 <?php
 /* Prototype  : bool ctype_graph(mixed $c)
- * Description: Checks for any printable character(s) except space 
- * Source code: ext/ctype/ctype.c 
+ * Description: Checks for any printable character(s) except space
+ * Source code: ext/ctype/ctype.c
  */
 
 /*
@@ -26,8 +26,7 @@ for ($i = 0; $i < 256; $i++) {
 
 setlocale(LC_CTYPE, $orig);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ctype_graph() : usage variations ***
 character code 33 is a printable character
 character code 34 is a printable character
@@ -123,4 +122,3 @@ character code 123 is a printable character
 character code 124 is a printable character
 character code 125 is a printable character
 character code 126 is a printable character
-===DONE===

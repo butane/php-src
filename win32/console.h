@@ -1,8 +1,6 @@
 /*
   +----------------------------------------------------------------------+
-  | PHP Version 7                                                        |
-  +----------------------------------------------------------------------+
-  | Copyright (c) 1997-2017 The PHP Group                                |
+  | Copyright (c) The PHP Group                                          |
   +----------------------------------------------------------------------+
   | This source file is subject to version 3.01 of the PHP license,      |
   | that is bundled with this package in the file LICENSE, and is        |
@@ -15,8 +13,6 @@
   | Author: Michele Locati <mlocati@gmail.com>                           |
   +----------------------------------------------------------------------+
 */
-
-/* $Id$ */
 
 #ifndef PHP_WIN32_CONSOLE_H
 #define PHP_WIN32_CONSOLE_H
@@ -55,5 +51,13 @@ Set/unset the ENABLE_VIRTUAL_TERMINAL_PROCESSING flag for the screen buffer (STD
 associated to a file descriptor
 */
 PHP_WINUTIL_API BOOL php_win32_console_fileno_set_vt100(zend_long fileno, BOOL enable);
+
+/* Check, whether the program has its own console. If a process was launched
+	through a GUI, it will have it's own console. For more info see
+	http://support.microsoft.com/kb/99115 */
+PHP_WINUTIL_API BOOL php_win32_console_is_own(void);
+
+/* Check whether the current SAPI is run on console. */
+PHP_WINUTIL_API BOOL php_win32_console_is_cli_sapi(void);
 
 #endif

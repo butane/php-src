@@ -5,7 +5,7 @@ Bind miscellaneous column types and generating errors
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -45,7 +45,7 @@ function check_col($c, $colname, $id)
 
 // Tests
 
-echo "\nTest 1 insert numbers \n";
+echo "\nTest 1 insert numbers\n";
 
 $n1 = -23253245.3432467;
 
@@ -55,7 +55,7 @@ oci_execute($s);
 
 check_col($c, 'number_t6', 57);
 
-echo "\nTest 2 insert numbers \n";
+echo "\nTest 2 insert numbers\n";
 
 $n1 = "Hello";
 
@@ -116,10 +116,8 @@ oci8_test_sql_execute($c, $stmtarray);
 oci_close($c);
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
-Test 1 insert numbers 
+Test 1 insert numbers
 
 Warning: oci_execute(): ORA-01438: %s in %sbind_misccoltypes_errs.php on line %d
 array(1) {
@@ -128,7 +126,7 @@ array(1) {
   }
 }
 
-Test 2 insert numbers 
+Test 2 insert numbers
 
 Warning: oci_execute(): ORA-01722: %s in %sbind_misccoltypes_errs.php on line %d
 array(1) {
@@ -166,4 +164,3 @@ array(1) {
   array(0) {
   }
 }
-===DONE===

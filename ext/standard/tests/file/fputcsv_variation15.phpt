@@ -28,7 +28,7 @@ $list = array (
   19 => '"/""",aaa',
 );
 
-$file = dirname(__FILE__) . 'fgetcsv.csv';
+$file = __DIR__ . '/fputcsv_variation15.csv';
 @unlink($file);
 
 $fp = fopen($file, "w");
@@ -57,8 +57,6 @@ echo '$list = ';var_export($res);echo ";\n";
 @unlink($file);
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECT--
 $list = array (
   0 => 'aaa,bbb',
@@ -104,4 +102,3 @@ $list = array (
   18 => '"/"","aaa"',
   19 => '"/""",aaa',
 );
-===DONE===

@@ -2,12 +2,12 @@
 Bug #36403 (oci_execute no longer supports OCI_DESCRIBE_ONLY)
 --SKIPIF--
 <?php
-if (!extension_loaded('oci8')) die ("skip no oci8 extension"); 
+if (!extension_loaded('oci8')) die ("skip no oci8 extension");
 ?>
 --FILE--
 <?php
 
-require(dirname(__FILE__).'/connect.inc');
+require(__DIR__.'/connect.inc');
 
 // Initialization
 
@@ -43,8 +43,6 @@ $stmtarray = array(
 oci8_test_sql_execute($c, $stmtarray);
 
 ?>
-===DONE===
-<?php exit(0); ?>
 --EXPECTF--
 Test 1
 COL4
@@ -54,4 +52,3 @@ C1
 Test 2
 
 Warning: oci_fetch_array(): ORA-%r(24338|01002)%r: %sbug36403.php on line %d
-===DONE===

@@ -5,7 +5,7 @@ Test ctype_alpha() function : usage variations - Octal and hexadecimal values
 --FILE--
 <?php
 /* Prototype  : bool ctype_alpha(mixed $c)
- * Description: Checks for alphabetic character(s) 
+ * Description: Checks for alphabetic character(s)
  * Source code: ext/ctype/ctype.c
  */
 
@@ -38,8 +38,7 @@ foreach($hex_values as $c) {
 
 setlocale(LC_CTYPE, $orig);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ctype_alpha() : usage variations ***
 
 -- Octal Values --
@@ -61,4 +60,3 @@ bool(true)
 bool(true)
 -- Iteration 4 --
 bool(true)
-===DONE===

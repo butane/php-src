@@ -39,7 +39,5 @@ catch (Exception $e)
 }
 
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 Catchable
-===DONE===

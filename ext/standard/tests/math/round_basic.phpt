@@ -19,9 +19,9 @@ $values = array(123456789,
 				-4.567E3,
 				0x234567,
 				067777777,
-				"1.234567", 
+				"1.234567",
 				"2.3456789e8");
-					
+
 $precision = array(2,
 				8,
 				0x3,
@@ -30,10 +30,10 @@ $precision = array(2,
 				"2",
 				"04",
 				"3.6",
-				"2.1e1",				
+				"2.1e1",
 				null,
 				true,
-				false);					
+				false);
 
 for ($i = 0; $i < count($values); $i++) {
 	echo "round: $values[$i]\n";
@@ -41,11 +41,10 @@ for ($i = 0; $i < count($values); $i++) {
 		$res = round($values[$i], $precision[$j]);
 		echo "...with precision $precision[$j]-> ";
 		var_dump($res);
-	}	
+	}
 }
 ?>
-===Done===
---EXPECTF--
+--EXPECT--
 *** Testing round() : basic functionality ***
 round: 123456789
 ...with precision 2-> float(123456789)
@@ -164,4 +163,3 @@ round: 2.3456789e8
 ...with precision -> float(234567890)
 ...with precision 1-> float(234567890)
 ...with precision -> float(234567890)
-===Done===

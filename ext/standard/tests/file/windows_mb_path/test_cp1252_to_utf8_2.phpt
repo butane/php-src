@@ -1,8 +1,8 @@
 --TEST--
-Test fopen() for write cp1252 to UTF-8 path 
+Test fopen() for write cp1252 to UTF-8 path
 --SKIPIF--
 <?php
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 skip_if_not_win();
 if (getenv("SKIP_SLOW_TESTS")) die("skip slow test");
@@ -16,7 +16,7 @@ skip_if_no_required_exts();
 #vim: set encoding=cp1252
 */
 
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 $item = iconv('cp1252', 'utf-8', "tsch¸ﬂ"); // cp1252 string
 $prefix = create_data("dir_cp1252", "${item}3");
@@ -38,8 +38,7 @@ var_dump(unlink($fn));
 remove_data("dir_cp1252");
 
 ?>
-===DONE===
---EXPECTF--	
+--EXPECTF--
 resource(%d) of type (stream)
 int(25)
 bool(true)
@@ -51,4 +50,3 @@ bool(true)
 string(%d) "%s\tsch√º√ü7"
 Active code page: %d
 bool(true)
-===DONE===

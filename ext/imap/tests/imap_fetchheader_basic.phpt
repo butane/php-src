@@ -2,22 +2,22 @@
 Test imap_fetchheader() function : basic function
 --SKIPIF--
 <?php
-require_once(dirname(__FILE__).'/skipif.inc');
+require_once(__DIR__.'/skipif.inc');
 ?>
 --FILE--
 <?php
 /* Prototype  : string imap_fetchheader(resource $stream_id, int $msg_no [, int $options])
- * Description: Get the full unfiltered header for a message 
+ * Description: Get the full unfiltered header for a message
  * Source code: ext/imap/php_imap.c
  */
 
 echo "*** Testing imap_fetchheader() : basic functionality ***\n";
-require_once(dirname(__FILE__).'/imap_include.inc');
+require_once(__DIR__.'/imap_include.inc');
 
 // Initialise all required variables
 $stream_id = setup_test_mailbox('', 1, $mailbox, 'multiPart'); // setup temp mailbox with 1 msg
 $msg_no = 1;
-$options = array('FT_UID' => FT_UID, 'FT_INTERNAL' => FT_INTERNAL, 
+$options = array('FT_UID' => FT_UID, 'FT_INTERNAL' => FT_INTERNAL,
                  'FT_PREFETCHTEXT' => FT_PREFETCHTEXT);
 
 // Calling imap_fetchheader() with all possible arguments
@@ -36,10 +36,9 @@ foreach ($options as $key => $option) {
 echo "\n-- Mandatory arguments --\n";
 var_dump( imap_fetchheader($stream_id, $msg_no) );
 ?>
-===DONE===
 --CLEAN--
 <?php
-require_once(dirname(__FILE__).'/clean.inc');
+require_once(__DIR__.'/clean.inc');
 ?>
 --EXPECTF--
 *** Testing imap_fetchheader() : basic functionality ***
@@ -80,4 +79,3 @@ MIME-Version: 1.0
 Content-Type: %s; %s
 
 "
-===DONE===

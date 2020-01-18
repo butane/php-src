@@ -1,5 +1,5 @@
 --TEST--
-SPL: FixedArray: Trying to instantiate passing string to construtor parameter
+SPL: FixedArray: Trying to instantiate passing string to constructor parameter
 --FILE--
 <?php
 
@@ -9,5 +9,5 @@ try {
 	echo "Ok - ".$iae->getMessage().PHP_EOL;
 }
 ?>
---EXPECTF--
-Ok - SplFixedArray::__construct() expects parameter 1 to be integer, string given
+--EXPECT--
+Ok - SplFixedArray::__construct() expects parameter 1 to be int, string given

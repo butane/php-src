@@ -8,7 +8,7 @@ class C {
 
 class MyArrayObject extends ArrayObject {
 	public $prop = 'MyArrayObject::prop.orig';
-}	
+}
 
 echo "--> Access prop on instance of ArrayObject:\n";
 $c = new C;
@@ -28,20 +28,20 @@ function testAccess($c, $ao) {
 
 	echo "  - Read:\n";
 	@var_dump($ao->prop, $ao['prop']);
-	
+
 	echo "  - Write:\n";
 	$ao->prop = 'changed1';
 	$ao['prop'] = 'changed2';
 	var_dump($ao->prop, $ao['prop']);
-	
+
 	echo "  - Isset:\n";
 	var_dump(isset($ao->prop), isset($ao['prop']));
-	
+
 	echo "  - Unset:\n";
 	unset($ao->prop);
 	unset($ao['prop']);
 	var_dump($ao->prop, $ao['prop']);
-	
+
 	echo "  - After:\n";
 	var_dump($ao, $c);
 }
@@ -61,7 +61,7 @@ bool(true)
 bool(true)
   - Unset:
 
-Notice: Undefined property: ArrayObject::$prop in %s on line 40
+Warning: Undefined property: ArrayObject::$prop in %s on line %d
 
 Notice: Undefined index: prop in %s on line 40
 NULL
@@ -89,7 +89,7 @@ bool(true)
 bool(true)
   - Unset:
 
-Notice: Undefined property: MyArrayObject::$prop in %s on line 40
+Warning: Undefined property: MyArrayObject::$prop in %s on line %d
 
 Notice: Undefined index: prop in %s on line 40
 NULL

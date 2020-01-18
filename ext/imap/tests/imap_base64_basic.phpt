@@ -1,5 +1,5 @@
 --TEST--
-Test imap_base64() function : basic functionality 
+Test imap_base64() function : basic functionality
 --SKIPIF--
 <?php
 extension_loaded('imap') or die('skip imap extension not available in this build');
@@ -35,13 +35,11 @@ if (imap_base64($base64) == $hex) {
 	echo "TEST PASSED\n";
 } else {
 	echo "TEST FAILED";
-}		
+}
 
 ?>
-===Done===
 --EXPECT--
 *** Testing imap_base64() : basic functionality ***
 TEST PASSED
 TEST PASSED
 TEST PASSED
-===Done===

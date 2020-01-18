@@ -3,6 +3,7 @@ Test session_module_name() function : variation
 --INI--
 session.save_path=
 session.name=PHPSESSID
+session.save_handler=files
 --SKIPIF--
 <?php include('skipif.inc'); ?>
 --FILE--
@@ -10,14 +11,14 @@ session.name=PHPSESSID
 
 ob_start();
 
-/* 
+/*
  * Prototype : string session_module_name([string $module])
  * Description : Get and/or set the current session module
- * Source code : ext/session/session.c 
+ * Source code : ext/session/session.c
  */
 
 echo "*** Testing session_module_name() : variation ***\n";
-function open($save_path, $session_name) { 
+function open($save_path, $session_name) {
     throw new Exception("Stop...!");
 }
 

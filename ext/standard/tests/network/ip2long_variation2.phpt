@@ -6,9 +6,9 @@ Test ip2long() function : usage variation 2, 32 bit
 --FILE--
 <?php
 /* Prototype  : int ip2long(string ip_address)
- * Description: Converts a string containing an (IPv4) Internet Protocol dotted address into a proper address 
+ * Description: Converts a string containing an (IPv4) Internet Protocol dotted address into a proper address
  * Source code: ext/standard/basic_functions.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 $ips = array(
@@ -27,7 +27,6 @@ foreach($ips as $ip) {
 }
 
 ?>
-===DONE===
 --EXPECT--
 bool(false)
 int(2130706433)
@@ -37,4 +36,3 @@ bool(false)
 int(-1062731776)
 bool(false)
 bool(false)
-===DONE===

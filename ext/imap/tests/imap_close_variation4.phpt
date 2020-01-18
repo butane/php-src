@@ -2,12 +2,12 @@
 Test imap_close() function : usage variations - different ints as $options arg
 --SKIPIF--
 <?php
-require_once(dirname(__FILE__).'/skipif.inc');
+require_once(__DIR__.'/skipif.inc');
 ?>
 --FILE--
 <?php
 /* Prototype  : bool imap_close(resource $stream_id [, int $options])
- * Description: Close an IMAP stream 
+ * Description: Close an IMAP stream
  * Source code: ext/imap/php_imap.c
  */
 
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__).'/skipif.inc');
 
 echo "*** Testing imap_close() : usage variations ***\n";
 
-require_once(dirname(__FILE__).'/imap_include.inc');
+require_once(__DIR__.'/imap_include.inc');
 
 $inputs = array (0, 3.2768e4, -32768, PHP_INT_MAX, -PHP_INT_MAX);
 
@@ -58,10 +58,9 @@ foreach($inputs as $input) {
 
 };
 ?>
-===DONE===
 --CLEAN--
 <?php
-require_once(dirname(__FILE__).'/clean.inc');
+require_once(__DIR__.'/clean.inc');
 ?>
 --EXPECTF--
 *** Testing imap_close() : usage variations ***
@@ -78,16 +77,15 @@ CL_EXPUNGE was set
 
 -- Iteration 3 --
 
-Warning: imap_close(): invalid value for the flags parameter in %s on line %d
+Warning: imap_close(): Invalid value for the flags parameter in %s on line %d
 bool(false)
 
 -- Iteration 4 --
 
-Warning: imap_close(): invalid value for the flags parameter in %s on line %d
+Warning: imap_close(): Invalid value for the flags parameter in %s on line %d
 bool(false)
 
 -- Iteration 5 --
 
-Warning: imap_close(): invalid value for the flags parameter in %s on line %d
+Warning: imap_close(): Invalid value for the flags parameter in %s on line %d
 bool(false)
-===DONE===

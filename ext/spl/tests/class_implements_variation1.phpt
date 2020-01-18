@@ -1,19 +1,19 @@
 --TEST--
-SPL: Test class_implements() function : variation 
+SPL: Test class_implements() function : variation
 --FILE--
 <?php
 /* Prototype  : array class_implements(mixed what [, bool autoload ])
- * Description: Return all classes and interfaces implemented by SPL 
+ * Description: Return all classes and interfaces implemented by SPL
  * Source code: ext/spl/php_spl.c
- * Alias to functions: 
+ * Alias to functions:
  */
 
 echo "*** Testing class_implements() : variation ***\n";
 
 
 // Define error handler
-function test_error_handler($err_no, $err_msg, $filename, $linenum, $vars) {
-	if (error_reporting() != 0) {
+function test_error_handler($err_no, $err_msg, $filename, $linenum) {
+	if (error_reporting() & $err_no) {
 		// report non-silenced errors
 		echo "Error: $err_no - $err_msg, $filename($linenum)\n";
 	}
@@ -96,7 +96,7 @@ $inputs = array(
 
       // unset data
       'unset var' => @$unset_var,
-      
+
       //resource
       'resource' => $res,
 );
@@ -105,91 +105,75 @@ $inputs = array(
 
 foreach($inputs as $key =>$value) {
       echo "\n--$key--\n";
-      var_dump( class_implements($value, $autoload) );
+      try {
+        var_dump( class_implements($value, $autoload) );
+      } catch (\TypeError $e) {
+          echo $e->getMessage() . \PHP_EOL;
+      }
 };
 
 fclose($res);
 
 ?>
-===DONE===
 --EXPECTF--
 *** Testing class_implements() : variation ***
 
 --int 0--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --int 1--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --int 12345--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --int -12345--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --float 10.5--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --float -10.5--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --float 12.3456789000e10--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --float -12.3456789000e10--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --float .5--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --empty array--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --int indexed array--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --associative array--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --nested arrays--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --uppercase NULL--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --lowercase null--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --lowercase true--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --lowercase false--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --uppercase TRUE--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --uppercase FALSE--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --empty string DQ--
 Error: 2 - class_implements(): Class  does not exist and could not be loaded, %s(%d)
@@ -208,14 +192,10 @@ array(0) {
 }
 
 --undefined var--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --unset var--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
+Object or string expected
 
 --resource--
-Error: 2 - class_implements(): object or string expected, %s(%d)
-bool(false)
-===DONE===
+Object or string expected

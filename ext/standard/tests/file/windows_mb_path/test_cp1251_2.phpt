@@ -1,8 +1,8 @@
 --TEST--
-Test fopen() for write CP1251 path 
+Test fopen() for write CP1251 path
 --SKIPIF--
 <?php
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 skip_if_not_win();
 if (getenv("SKIP_SLOW_TESTS")) die("skip slow test");
@@ -19,7 +19,7 @@ internal_encoding=cp1251
 #vim: set encoding=cp1251
 */
 
-include dirname(__FILE__) . DIRECTORY_SEPARATOR . "util.inc";
+include __DIR__ . DIRECTORY_SEPARATOR . "util.inc";
 
 $item = "привет"; // cp1251 string
 $prefix = create_data("file_cp1251", $item . "7", 1251);
@@ -41,8 +41,7 @@ var_dump(unlink($fn));
 remove_data("file_cp1251");
 
 ?>
-===DONE===
---EXPECTF--	
+--EXPECTF--
 resource(%d) of type (stream)
 int(25)
 bool(true)
@@ -54,4 +53,3 @@ bool(true)
 string(%d) "%s\привет7"
 Active code page: %d
 bool(true)
-===DONE===

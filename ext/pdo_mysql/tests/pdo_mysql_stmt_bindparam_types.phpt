@@ -2,14 +2,14 @@
 MySQL PDOStatement->bindParam() - SQL column types
 --SKIPIF--
 <?php
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'skipif.inc');
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'skipif.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 MySQLPDOTest::skip();
 $db = MySQLPDOTest::factory();
 ?>
 --FILE--
 <?php
-	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 	$db = MySQLPDOTest::factory();
 	MySQLPDOTest::createTestTable($db);
 
@@ -59,7 +59,7 @@ $db = MySQLPDOTest::factory();
 			$stmt->closeCursor();
 
 			if ($label != $value) {
-				printf("[%03d/%s + 6] Got %s expecting %s - plase check manually\n",
+				printf("[%03d/%s + 6] Got %s expecting %s - please check manually\n",
 					$offset, ($native) ? 'native' : 'emulated',
 					var_export($label, true), var_export($value, true));
 				// fall through
@@ -74,14 +74,14 @@ $db = MySQLPDOTest::factory();
 			}
 
 			if ($row['label'] != $value) {
-				printf("[%03d/%s + 8] Got %s expecting %s - plase check manually\n",
+				printf("[%03d/%s + 8] Got %s expecting %s - please check manually\n",
 					$offset, ($native) ? 'native' : 'emulated',
 					var_export($row['label'], true), var_export($value, true));
 				return false;
 			}
 
 			if ($row['label'] != $label) {
-				printf("[%03d/%s + 9] Got %s from FETCH_ASSOC and %s from FETCH_BOUND- plase check manually\n",
+				printf("[%03d/%s + 9] Got %s from FETCH_ASSOC and %s from FETCH_BOUND- please check manually\n",
 					$offset, ($native) ? 'native' : 'emulated',
 					var_export($row['label'], true), var_export($value, true));
 				return false;
@@ -166,8 +166,8 @@ $db = MySQLPDOTest::factory();
 ?>
 --CLEAN--
 <?php
-require dirname(__FILE__) . '/mysql_pdo_test.inc';
+require __DIR__ . '/mysql_pdo_test.inc';
 MySQLPDOTest::dropTestTable();
 ?>
---EXPECTF--
+--EXPECT--
 done!

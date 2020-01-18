@@ -2,7 +2,7 @@
    +----------------------------------------------------------------------+
    | Zend Engine, DFG - Data Flow Graph                                   |
    +----------------------------------------------------------------------+
-   | Copyright (c) 1998-2017 The PHP Group                                |
+   | Copyright (c) The PHP Group                                          |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -12,7 +12,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Dmitry Stogov <dmitry@zend.com>                             |
+   | Authors: Dmitry Stogov <dmitry@php.net>                              |
    +----------------------------------------------------------------------+
 */
 
@@ -52,8 +52,14 @@ int zend_build_dfg(const zend_op_array *op_array, const zend_cfg *cfg, zend_dfg 
 				if (next < end && next->opcode == ZEND_OP_DATA) {
 					if (next->op1_type & (IS_CV|IS_VAR|IS_TMP_VAR)) {
 						var_num = EX_VAR_TO_NUM(next->op1.var);
-						if (!DFG_ISSET(def, set_size, j, var_num)) {
+						if (next->op1_type == IS_CV && (opline->opcode == ZEND_ASSIGN_OBJ_REF
+								|| opline->opcode == ZEND_ASSIGN_STATIC_PROP_REF)) {
 							DFG_SET(use, set_size, j, var_num);
+							DFG_SET(def, set_size, j, var_num);
+						} else {
+							if (!DFG_ISSET(def, set_size, j, var_num)) {
+								DFG_SET(use, set_size, j, var_num);
+							}
 						}
 					}
 					if (next->op2_type & (IS_CV|IS_VAR|IS_TMP_VAR)) {
@@ -89,30 +95,22 @@ int zend_build_dfg(const zend_op_array *op_array, const zend_cfg *cfg, zend_dfg 
 							goto op1_def;
 						}
 						goto op1_use;
-					case ZEND_UNSET_VAR:
-						ZEND_ASSERT(opline->extended_value & ZEND_QUICK_SET);
-						/* break missing intentionally */
+					case ZEND_UNSET_CV:
 					case ZEND_ASSIGN:
 					case ZEND_ASSIGN_REF:
+					case ZEND_ASSIGN_OBJ_REF:
 					case ZEND_BIND_GLOBAL:
 					case ZEND_BIND_STATIC:
 					case ZEND_SEND_VAR_EX:
+					case ZEND_SEND_FUNC_ARG:
 					case ZEND_SEND_REF:
 					case ZEND_SEND_VAR_NO_REF:
 					case ZEND_SEND_VAR_NO_REF_EX:
 					case ZEND_FE_RESET_RW:
-					case ZEND_ASSIGN_ADD:
-					case ZEND_ASSIGN_SUB:
-					case ZEND_ASSIGN_MUL:
-					case ZEND_ASSIGN_DIV:
-					case ZEND_ASSIGN_MOD:
-					case ZEND_ASSIGN_SL:
-					case ZEND_ASSIGN_SR:
-					case ZEND_ASSIGN_CONCAT:
-					case ZEND_ASSIGN_BW_OR:
-					case ZEND_ASSIGN_BW_AND:
-					case ZEND_ASSIGN_BW_XOR:
-					case ZEND_ASSIGN_POW:
+					case ZEND_ASSIGN_OP:
+					case ZEND_ASSIGN_DIM_OP:
+					case ZEND_ASSIGN_OBJ_OP:
+					case ZEND_ASSIGN_STATIC_PROP_OP:
 					case ZEND_PRE_INC:
 					case ZEND_PRE_DEC:
 					case ZEND_POST_INC:
@@ -125,11 +123,12 @@ int zend_build_dfg(const zend_op_array *op_array, const zend_cfg *cfg, zend_dfg 
 					case ZEND_FETCH_DIM_RW:
 					case ZEND_FETCH_DIM_FUNC_ARG:
 					case ZEND_FETCH_DIM_UNSET:
-					case ZEND_FETCH_OBJ_W:
-					case ZEND_FETCH_OBJ_RW:
-					case ZEND_FETCH_OBJ_FUNC_ARG:
-					case ZEND_FETCH_OBJ_UNSET:
+					case ZEND_FETCH_LIST_W:
 					case ZEND_VERIFY_RETURN_TYPE:
+					case ZEND_PRE_INC_OBJ:
+					case ZEND_PRE_DEC_OBJ:
+					case ZEND_POST_INC_OBJ:
+					case ZEND_POST_DEC_OBJ:
 op1_def:
 						/* `def` always come along with dtor or separation,
 						 * thus the origin var info might be also `use`d in the feature(CG) */
@@ -144,11 +143,11 @@ op1_use:
 					}
 				} else if (opline->op1_type & (IS_VAR|IS_TMP_VAR)) {
 					var_num = EX_VAR_TO_NUM(opline->op1.var);
+					if (!DFG_ISSET(def, set_size, j, var_num)) {
+						DFG_SET(use, set_size, j, var_num);
+					}
 					if (opline->opcode == ZEND_VERIFY_RETURN_TYPE) {
-						DFG_SET(use, set_size, j, var_num);
 						DFG_SET(def, set_size, j, var_num);
-					} else if (!DFG_ISSET(def, set_size, j, var_num)) {
-						DFG_SET(use, set_size, j, var_num);
 					}
 				}
 				if (opline->op2_type == IS_CV) {
@@ -160,7 +159,7 @@ op1_use:
 							}
 							goto op2_use;
 						case ZEND_BIND_LEXICAL:
-							if ((build_flags & ZEND_SSA_RC_INFERENCE) || opline->extended_value) {
+							if ((build_flags & ZEND_SSA_RC_INFERENCE) || (opline->extended_value & ZEND_BIND_REF)) {
 								goto op2_def;
 							}
 							goto op2_use;
@@ -220,10 +219,10 @@ op2_use:
 			if ((blocks[j].flags & ZEND_BB_REACHABLE) == 0) {
 				continue;
 			}
-			if (blocks[j].successors[0] >= 0) {
+			if (blocks[j].successors_count != 0) {
 				zend_bitset_copy(DFG_BITSET(out, set_size, j), DFG_BITSET(in, set_size, blocks[j].successors[0]), set_size);
-				if (blocks[j].successors[1] >= 0) {
-					zend_bitset_union(DFG_BITSET(out, set_size, j), DFG_BITSET(in, set_size, blocks[j].successors[1]), set_size);
+				for (k = 1; k < blocks[j].successors_count; k++) {
+					zend_bitset_union(DFG_BITSET(out, set_size, j), DFG_BITSET(in, set_size, blocks[j].successors[k]), set_size);
 				}
 			} else {
 				zend_bitset_clear(DFG_BITSET(out, set_size, j), set_size);
@@ -248,11 +247,3 @@ op2_use:
 	return SUCCESS;
 }
 /* }}} */
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * indent-tabs-mode: t
- * End:
- */

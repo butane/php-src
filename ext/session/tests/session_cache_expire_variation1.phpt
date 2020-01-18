@@ -9,10 +9,10 @@ session.cache_expire=360
 
 ob_start();
 
-/* 
+/*
  * Prototype : int session_cache_expire([int $new_cache_expire])
  * Description : Return current cache expire
- * Source code : ext/session/session.c 
+ * Source code : ext/session/session.c
  */
 
 echo "*** Testing session_cache_expire() : variation ***\n";
@@ -28,16 +28,13 @@ var_dump(session_cache_expire());
 echo "Done";
 ob_end_flush();
 ?>
---EXPECTF--
+--EXPECT--
 *** Testing session_cache_expire() : variation ***
 int(360)
 int(360)
 int(1234567890)
 bool(true)
-
-Warning: session_cache_expire(): Cannot change cache expire when session is active in %s on line 17
 int(180)
 bool(true)
 int(180)
 Done
-

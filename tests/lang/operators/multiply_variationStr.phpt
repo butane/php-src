@@ -12,14 +12,13 @@ error_reporting(E_ERROR);
 
 foreach ($strVals as $strVal) {
    foreach($strVals as $otherVal) {
-	   echo "--- testing: '$strVal' * '$otherVal' ---\n";   
+	   echo "--- testing: '$strVal' * '$otherVal' ---\n";
       var_dump($strVal*$otherVal);
    }
 }
 
-   
+
 ?>
-===DONE===
 --EXPECT--
 --- testing: '0' * '0' ---
 int(0)
@@ -413,4 +412,3 @@ int(0)
 float(0)
 --- testing: 'a5.9' * 'a5.9' ---
 int(0)
-===DONE===

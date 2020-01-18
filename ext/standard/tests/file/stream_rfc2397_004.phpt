@@ -20,13 +20,10 @@ foreach($streams as $stream)
 }
 
 ?>
-===DONE===
-<?php exit(0); ?>
---EXPECTF--
+--EXPECT--
 string(5) ";test"
 string(4) "test"
 string(4) "test"
 bool(false)
 string(5) "Hello"
 string(3) "a,b"
-===DONE===

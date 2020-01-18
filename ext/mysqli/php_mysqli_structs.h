@@ -1,8 +1,6 @@
 /*
   +----------------------------------------------------------------------+
-  | PHP Version 7                                                        |
-  +----------------------------------------------------------------------+
-  | Copyright (c) 1997-2017 The PHP Group                                |
+  | Copyright (c) The PHP Group                                          |
   +----------------------------------------------------------------------+
   | This source file is subject to version 3.01 of the PHP license,      |
   | that is bundled with this package in the file LICENSE, and is        |
@@ -16,8 +14,6 @@
   |          Andrey Hristov <andrey@php.net>                             |
   |          Ulf Wendel <uw@php.net>                                     |
   +----------------------------------------------------------------------+
-
-  $Id$
 */
 
 #ifndef PHP_MYSQLI_STRUCTS_H
@@ -56,10 +52,6 @@
 #define WE_HAD_MBSTATE_T
 #endif
 
-#if defined(ulong) && !defined(HAVE_ULONG)
-#define HAVE_ULONG
-#endif
-
 #include <my_global.h>
 
 #if !defined(HAVE_MBRLEN) && defined(WE_HAD_MBRLEN)
@@ -92,7 +84,6 @@
 
 enum mysqli_status {
 	MYSQLI_STATUS_UNKNOWN=0,
-	MYSQLI_STATUS_CLEARED,
 	MYSQLI_STATUS_INITIALIZED,
 	MYSQLI_STATUS_VALID
 };
@@ -211,7 +202,7 @@ extern void php_mysqli_dtor_p_elements(void *data);
 
 extern void php_mysqli_close(MY_MYSQL * mysql, int close_type, int resource_status);
 
-extern zend_object_iterator_funcs php_mysqli_result_iterator_funcs;
+extern const zend_object_iterator_funcs php_mysqli_result_iterator_funcs;
 extern zend_object_iterator *php_mysqli_result_get_iterator(zend_class_entry *ce, zval *object, int by_ref);
 
 extern void php_mysqli_fetch_into_hash_aux(zval *return_value, MYSQL_RES * result, zend_long fetchtype);
@@ -256,12 +247,12 @@ extern void php_mysqli_fetch_into_hash_aux(zval *return_value, MYSQL_RES * resul
 	mysqli_object *intern = Z_MYSQLI_P(__id); \
 	if (!(my_res = (MYSQLI_RESOURCE *)intern->ptr)) {\
   		php_error_docref(NULL, E_WARNING, "Couldn't fetch %s", ZSTR_VAL(intern->zo.ce->name));\
-  		RETURN_NULL();\
+		RETURN_FALSE;\
   	}\
 	__ptr = (__type)my_res->ptr; \
 	if (__check && my_res->status < __check) { \
 		php_error_docref(NULL, E_WARNING, "invalid object or resource %s\n", ZSTR_VAL(intern->zo.ce->name)); \
-		RETURN_NULL();\
+		RETURN_FALSE;\
 	}\
 }
 
@@ -282,21 +273,13 @@ extern void php_mysqli_fetch_into_hash_aux(zval *return_value, MYSQL_RES * resul
 #define MYSQLI_FETCH_RESOURCE_CONN(__ptr, __id, __check) \
 { \
 	MYSQLI_FETCH_RESOURCE((__ptr), MY_MYSQL *, (__id), "mysqli_link", (__check)); \
-	if (!(__ptr)->mysql) { \
-		mysqli_object *intern = Z_MYSQLI_P(__id); \
-		php_error_docref(NULL, E_WARNING, "invalid object or resource %s\n", ZSTR_VAL(intern->zo.ce->name)); \
-		RETURN_NULL(); \
-	} \
+	ZEND_ASSERT((__ptr)->mysql && "Missing connection?"); \
 }
 
 #define MYSQLI_FETCH_RESOURCE_STMT(__ptr, __id, __check) \
 { \
 	MYSQLI_FETCH_RESOURCE((__ptr), MY_STMT *, (__id), "mysqli_stmt", (__check)); \
-	if (!(__ptr)->stmt) { \
-		mysqli_object *intern = Z_MYSQLI_P(__id); \
-		php_error_docref(NULL, E_WARNING, "invalid object or resource %s\n", ZSTR_VAL(intern->zo.ce->name)); \
-		RETURN_NULL();\
-	} \
+	ZEND_ASSERT((__ptr)->stmt && "Missing statement?"); \
 }
 
 #define MYSQLI_SET_STATUS(__id, __value) \
@@ -344,20 +327,6 @@ ZEND_END_MODULE_GLOBALS(mysqli)
 ZEND_TSRMLS_CACHE_EXTERN()
 #endif
 
-#define my_estrdup(x) (x) ? estrdup(x) : NULL
-#define my_efree(x) if (x) efree(x)
-
 ZEND_EXTERN_MODULE_GLOBALS(mysqli)
 
 #endif	/* PHP_MYSQLI_STRUCTS.H */
-
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * indent-tabs-mode: t
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */

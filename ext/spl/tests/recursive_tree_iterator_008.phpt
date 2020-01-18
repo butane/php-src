@@ -30,12 +30,10 @@ try {
 	echo "OutOfRangeException thrown\n";
 }
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 [a] => 035Array
 [0] => 0145b
 [c] => 045Array
 [0] => 0245d
 OutOfRangeException thrown
 OutOfRangeException thrown
-===DONE===

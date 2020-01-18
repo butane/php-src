@@ -2,13 +2,13 @@
 MySQL PDOStatement->fetch(), PDO::FETCH_SERIALIZE
 --SKIPIF--
 <?php
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'skipif.inc');
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'skipif.inc');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 MySQLPDOTest::skip();
 ?>
 --FILE--
 <?php
-	require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
+	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 	$db = MySQLPDOTest::factory();
 
 	try {
@@ -16,7 +16,7 @@ MySQLPDOTest::skip();
 		class myclass implements Serializable {
 
 			private static $instance = null;
-			protected $myprotected = 'a protected propery';
+			protected $myprotected = 'a protected property';
 
 			// Good old magic stuff
 			private function __construct($caller = NULL) {
@@ -115,7 +115,7 @@ MySQLPDOTest::skip();
 ?>
 --CLEAN--
 <?php
-require dirname(__FILE__) . '/mysql_pdo_test.inc';
+require __DIR__ . '/mysql_pdo_test.inc';
 $db = MySQLPDOTest::factory();
 $db->exec('DROP TABLE IF EXISTS test');
 ?>
@@ -129,14 +129,14 @@ Unserializing the previously serialized object...
 myclass::unserialize('Data from serialize')
 object(myclass)#4 (1) {
   ["myprotected":protected]=>
-  string(19) "a protected propery"
+  string(20) "a protected property"
 }
 
 Using PDO::FETCH_CLASS|PDO::FETCH_SERIALIZE to fetch the object from DB and unserialize it...
 myclass::unserialize('C:7:"myclass":19:{Data from serialize}')
 object(myclass)#%d (1) {
   ["myprotected":protected]=>
-  string(19) "a protected propery"
+  string(20) "a protected property"
 }
 
 Using PDO::FETCH_CLASS to fetch the object from DB and unserialize it...
@@ -144,7 +144,7 @@ myclass::__set(myobj, 'C:7:"myclass":19:{Data from serialize}')
 myclass::__construct(PDO shall call __construct())
 object(myclass)#%d (2) {
   ["myprotected":protected]=>
-  string(19) "a protected propery"
+  string(20) "a protected property"
   ["myobj"]=>
   string(38) "C:7:"myclass":19:{Data from serialize}"
 }

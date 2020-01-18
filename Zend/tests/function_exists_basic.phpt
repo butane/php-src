@@ -1,11 +1,11 @@
 --TEST--
-function_exists function : basic functionality 
+function_exists function : basic functionality
 --FILE--
 <?php
-/* 
+/*
  * proto bool function_exists(string function_name)
  * Function is implemented in Zend/zend_builtin_functions.c
-*/ 
+*/
 
 echo "*** Testing function_exists() : basic functionality ***\n";
 
@@ -28,7 +28,6 @@ Class C {
 }
 var_dump(function_exists('C::f'));
 ?>
-===Done===
 --EXPECT--
 *** Testing function_exists() : basic functionality ***
 Internal function: bool(true)
@@ -36,4 +35,3 @@ User defined function: bool(true)
 Case sensitivity: bool(true)
 Non existent function: bool(false)
 Method: bool(false)
-===Done===

@@ -5,7 +5,7 @@ Test ctype_cntrl() function : usage variations - Octal and hexadecimal values
 --FILE--
 <?php
 /* Prototype  : bool ctype_cntrl(mixed $c)
- * Description: Checks for control character(s) 
+ * Description: Checks for control character(s)
  * Source code: ext/ctype/ctype.c
  */
 
@@ -37,8 +37,7 @@ foreach($hex_values as $c) {
 }
 setlocale(LC_CTYPE, $orig);
 ?>
-===DONE===
---EXPECTF--
+--EXPECT--
 *** Testing ctype_cntrl() : usage variations ***
 
 -- Octal Values --
@@ -60,4 +59,3 @@ bool(true)
 bool(true)
 -- Iteration 4 --
 bool(true)
-===DONE===

@@ -4,7 +4,6 @@ Bug #69337 (Stream context leaks when http request fails)
 <?php require 'server.inc'; http_server_skipif('tcp://127.0.0.1:22345'); ?>
 --INI--
 allow_url_fopen=1
-allow_url_include=1
 --FILE--
 <?php
 require 'server.inc';
@@ -33,8 +32,6 @@ $f = file_get_contents('http://127.0.0.1:22345/', 0, $ctx);
 http_server_kill($pid);
 var_dump($f);
 ?>
-==DONE==
 --EXPECTF--
-Warning: file_get_contents(http://127.0.0.1:22345/): failed to open stream: HTTP request failed! HTTP/1.0 404 Not Found%ain %s on line %d
+Warning: file_get_contents(http://127.0.0.1:22345/): Failed to open stream: HTTP request failed! HTTP/1.0 404 Not Found%ain %s on line %d
 bool(false)
-==DONE==

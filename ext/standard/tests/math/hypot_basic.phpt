@@ -20,12 +20,12 @@ $valuesy = array(23,
 				027,
 				"23",
 				"23.45",
-				"2.345e1",	
-				"23abc",			
+				"2.345e1",
+				"23abc",
 				null,
 				true,
 				false);
-					
+
 $valuesx = array(33,
 				-33,
 				3.345e1,
@@ -35,20 +35,19 @@ $valuesx = array(33,
 				"33",
 				"43.45",
 				"1.345e1",
-				"33abc",				
+				"33abc",
 				null,
 				true,
-				false);					
+				false);
 
 for ($i = 0; $i < count($valuesy); $i++) {
-	for ($j = 0; $j < count($valuesx); $j++) {	
+	for ($j = 0; $j < count($valuesx); $j++) {
 		echo "\nY:$valuesy[$i] X:$valuesx[$j] ";
 		$res = hypot($valuesy[$i], $valuesx[$j]);
 		var_dump($res);
-	}	
+	}
 }
 ?>
-===Done===
 --EXPECTF--
 *** Testing hypot() : basic functionality ***
 
@@ -441,4 +440,3 @@ Y: X: float(0)
 Y: X:1 float(1)
 
 Y: X: float(0)
-===Done===
