@@ -81,7 +81,7 @@ AC_DEFUN([PHP_DEFINE],[
 dnl
 dnl PHP_SUBST(varname)
 dnl
-dnl Adds variable with it's value into Makefile, e.g.:
+dnl Adds variable with its value into Makefile, e.g.:
 dnl CC = gcc
 dnl
 AC_DEFUN([PHP_SUBST],[
@@ -89,14 +89,14 @@ AC_DEFUN([PHP_SUBST],[
 ])
 
 dnl
-dnl PHP_SUBST_OLD(varname)
+dnl PHP_SUBST_OLD(varname, [VALUE])
 dnl
 dnl Same as PHP_SUBST() but also substitutes all @VARNAME@ instances in every
 dnl file passed to AC_OUTPUT.
 dnl
 AC_DEFUN([PHP_SUBST_OLD],[
-  PHP_SUBST($1)
-  AC_SUBST($1)
+  AC_SUBST($@)
+  PHP_SUBST([$1])
 ])
 
 dnl
@@ -1815,6 +1815,7 @@ AC_DEFUN([PHP_PROG_BISON], [
     done
 
     if test "$php_bison_check" != "invalid"; then
+      PHP_SUBST_OLD([YFLAGS], [-Wall])
       AC_MSG_RESULT([$php_bison_version (ok)])
     else
       AC_MSG_RESULT([$php_bison_version])
@@ -1920,13 +1921,7 @@ dnl
 AC_DEFUN([PHP_SETUP_OPENSSL],[
   found_openssl=no
 
-  dnl Empty variable means 'no'.
-  test -z "$PHP_OPENSSL" && PHP_OPENSSL=no
-  test -z "$PHP_IMAP_SSL" && PHP_IMAP_SSL=no
-
-  if test "$PHP_OPENSSL" != "no"; then
-    PKG_CHECK_MODULES([OPENSSL], [openssl >= 1.0.1], [found_openssl=yes])
-  fi
+  PKG_CHECK_MODULES([OPENSSL], [openssl >= 1.0.1], [found_openssl=yes])
 
   if test "$found_openssl" = "yes"; then
     PHP_EVAL_LIBLINE($OPENSSL_LIBS, $1)

@@ -3,7 +3,7 @@ Bug #72598 (Reference is lost after array_slice())
 --FILE--
 <?php
 function ref(&$ref) {
-	var_dump($ref);
+    var_dump($ref);
 }
 
 new class {
@@ -17,10 +17,10 @@ new class {
 };
 ?>
 --EXPECTF--
-Warning: Parameter 1 to ref() expected to be a reference, value given in %sbug72598.php on line 11
+Warning: ref() expects argument #1 ($ref) to be passed by reference, value given in %s on line %d
 object(class@anonymous)#1 (0) {
 }
 
-Warning: Parameter 1 to ref() expected to be a reference, value given in %sbug72598.php on line 11
+Warning: ref() expects argument #1 ($ref) to be passed by reference, value given in %s on line %d
 object(class@anonymous)#1 (0) {
 }

@@ -189,8 +189,8 @@ static const zend_function_entry sockets_functions[] = {
 	PHP_FE(socket_addrinfo_explain,	arginfo_socket_addrinfo_explain)
 
 	/* for downwards compatibility */
-	PHP_FALIAS(socket_getopt, socket_get_option, arginfo_socket_get_option)
-	PHP_FALIAS(socket_setopt, socket_set_option, arginfo_socket_set_option)
+	PHP_FALIAS(socket_getopt, socket_get_option, arginfo_socket_getopt)
+	PHP_FALIAS(socket_setopt, socket_set_option, arginfo_socket_setopt)
 
 #ifdef PHP_WIN32
 	PHP_FE(socket_wsaprotocol_info_export, arginfo_socket_wsaprotocol_info_export)
@@ -1719,7 +1719,7 @@ PHP_FUNCTION(socket_sendto)
 		case AF_UNIX:
 			memset(&s_un, 0, sizeof(s_un));
 			s_un.sun_family = AF_UNIX;
-			snprintf(s_un.sun_path, 108, "%s", addr);
+			snprintf(s_un.sun_path, sizeof(s_un.sun_path), "%s", addr);
 
 			retval = sendto(php_sock->bsd_socket, buf, ((size_t)len > buf_len) ? buf_len : (size_t)len,	flags, (struct sockaddr *) &s_un, SUN_LEN(&s_un));
 			break;
@@ -2278,7 +2278,7 @@ PHP_FUNCTION(socket_export_stream)
 	/* Either we already exported a stream or the socket came from an import,
 	 * just return the existing stream */
 	if (!Z_ISUNDEF(socket->zstream)) {
-		RETURN_ZVAL(&socket->zstream, 1, 0);
+		RETURN_COPY(&socket->zstream);
 	}
 
 	/* Determine if socket is using a protocol with one of the default registered
@@ -2350,7 +2350,7 @@ PHP_FUNCTION(socket_export_stream)
 
 	php_stream_to_zval(stream, &socket->zstream);
 
-	RETURN_ZVAL(&socket->zstream, 1, 0);
+	RETURN_COPY(&socket->zstream);
 }
 /* }}} */
 

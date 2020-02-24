@@ -73,7 +73,7 @@ static const zend_function_entry pcntl_functions[] = {
 	PHP_FE(pcntl_exec,			arginfo_pcntl_exec)
 	PHP_FE(pcntl_alarm,			arginfo_pcntl_alarm)
 	PHP_FE(pcntl_get_last_error,	arginfo_pcntl_get_last_error)
-	PHP_FALIAS(pcntl_errno, pcntl_get_last_error,	arginfo_pcntl_get_last_error)
+	PHP_FALIAS(pcntl_errno, pcntl_get_last_error,	arginfo_pcntl_errno)
 	PHP_FE(pcntl_strerror,		arginfo_pcntl_strerror)
 #ifdef HAVE_GETPRIORITY
 	PHP_FE(pcntl_getpriority,	arginfo_pcntl_getpriority)
@@ -1028,7 +1028,7 @@ PHP_FUNCTION(pcntl_signal_get_handler)
 	}
 
 	if ((prev_handle = zend_hash_index_find(&PCNTL_G(php_signal_table), signo)) != NULL) {
-		RETURN_ZVAL(prev_handle, 1, 0);
+		RETURN_COPY(prev_handle);
 	} else {
 		RETURN_LONG((zend_long)SIG_DFL);
 	}

@@ -223,7 +223,7 @@ static int find_adjusted_tmp_var(const zend_op_array *op_array, uint32_t build_f
 
 /* e-SSA construction: Pi placement (Pi is actually a Phi with single
  * source and constraint).
- * Order of Phis is importent, Pis must be placed before Phis
+ * Order of Phis is important, Pis must be placed before Phis
  */
 static void place_essa_pis(
 		zend_arena **arena, const zend_script *script, const zend_op_array *op_array,
@@ -427,7 +427,7 @@ static void place_essa_pis(
 					pi_range_not_equals(pi, -1, 1);
 				}
 			}
-		} else if (opline->op1_type == IS_VAR &&
+		} else if (opline->op1_type == IS_TMP_VAR &&
 		           ((opline-1)->opcode == ZEND_PRE_INC ||
 		            (opline-1)->opcode == ZEND_PRE_DEC) &&
 		           opline->op1.var == (opline-1)->result.var &&

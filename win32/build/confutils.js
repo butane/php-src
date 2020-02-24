@@ -319,7 +319,7 @@ function conf_process_args()
 	var i, j;
 	var configure_help_mode = false;
 	var analyzed = false;
-	var nice = "cscript /nologo configure.js ";
+	var nice = "cscript /nologo /e:jscript configure.js ";
 	var disable_all = false;
 
 	args = WScript.Arguments;
@@ -3692,7 +3692,7 @@ function add_asan_opts(cflags_name, libs_name, ldflags_name)
 	}
 
 	if (!!cflags_name) {
-		ADD_FLAG(cflags_name, "-fsanitize=address");
+		ADD_FLAG(cflags_name, "-fsanitize=address,undefined");
 	}
 	if (!!libs_name) {
 		if (X64) {

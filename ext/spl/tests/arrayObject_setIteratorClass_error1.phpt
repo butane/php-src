@@ -9,7 +9,7 @@ try {
     echo "  $key=>$value\n";
   }
 } catch (TypeError $e) {
-	var_dump($e->getMessage());
+    var_dump($e->getMessage());
 }
 
 try {
@@ -19,7 +19,7 @@ try {
     echo "  $key=>$value\n";
   }
 } catch (TypeError $e) {
-	var_dump($e->getMessage());
+    var_dump($e->getMessage());
 }
 
 
@@ -29,7 +29,7 @@ try {
     echo "  $key=>$value\n";
   }
 } catch (TypeError $e) {
-	var_dump($e->getMessage());
+    var_dump($e->getMessage());
 }
 
 try {
@@ -38,12 +38,12 @@ try {
     echo "  $key=>$value\n";
   }
 } catch (TypeError $e) {
-	var_dump($e->getMessage());
+    var_dump($e->getMessage());
 }
 
 ?>
---EXPECTF--
-string(118) "ArrayObject::setIteratorClass() expects parameter 1 to be a class name derived from Iterator, 'nonExistentClass' given"
-string(110) "ArrayObject::setIteratorClass() expects parameter 1 to be a class name derived from Iterator, 'stdClass' given"
-string(113) "ArrayObject::__construct() expects parameter 3 to be a class name derived from Iterator, 'nonExistentClass' given"
-string(105) "ArrayObject::__construct() expects parameter 3 to be a class name derived from Iterator, 'stdClass' given"
+--EXPECT--
+string(135) "ArrayObject::setIteratorClass() expects argument #1 ($iteratorClass) to be a class name derived from Iterator, 'nonExistentClass' given"
+string(127) "ArrayObject::setIteratorClass() expects argument #1 ($iteratorClass) to be a class name derived from Iterator, 'stdClass' given"
+string(131) "ArrayObject::__construct() expects argument #3 ($iterator_class) to be a class name derived from Iterator, 'nonExistentClass' given"
+string(123) "ArrayObject::__construct() expects argument #3 ($iterator_class) to be a class name derived from Iterator, 'stdClass' given"

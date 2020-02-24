@@ -218,7 +218,7 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(similar_text,													arginfo_similar_text)
 	PHP_FE(explode,															arginfo_explode)
 	PHP_FE(implode,															arginfo_implode)
-	PHP_FALIAS(join,				implode,								arginfo_implode)
+	PHP_FALIAS(join,				implode,								arginfo_join)
 	PHP_FE(setlocale,														arginfo_setlocale)
 	PHP_FE(localeconv,														arginfo_localeconv)
 
@@ -233,8 +233,8 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(parse_str,														arginfo_parse_str)
 	PHP_FE(str_getcsv,														arginfo_str_getcsv)
 	PHP_FE(str_pad,															arginfo_str_pad)
-	PHP_FALIAS(chop,				rtrim,									arginfo_rtrim)
-	PHP_FALIAS(strchr,				strstr,									arginfo_strstr)
+	PHP_FALIAS(chop,				rtrim,									arginfo_chop)
+	PHP_FALIAS(strchr,				strstr,									arginfo_strchr)
 	PHP_NAMED_FE(sprintf,			PHP_FN(user_sprintf),					arginfo_sprintf)
 	PHP_NAMED_FE(printf,			PHP_FN(user_printf),					arginfo_printf)
 	PHP_FE(vprintf,															arginfo_vprintf)
@@ -275,9 +275,9 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(proc_nice,														arginfo_proc_nice)
 #endif
 
-	PHP_FE(rand,															arginfo_mt_rand)
-	PHP_FALIAS(srand, mt_srand,												arginfo_mt_srand)
-	PHP_FALIAS(getrandmax, mt_getrandmax,									arginfo_mt_getrandmax)
+	PHP_FE(rand,															arginfo_rand)
+	PHP_FALIAS(srand, mt_srand,												arginfo_srand)
+	PHP_FALIAS(getrandmax, mt_getrandmax,									arginfo_getrandmax)
 	PHP_FE(mt_rand,															arginfo_mt_rand)
 	PHP_FE(mt_srand,														arginfo_mt_srand)
 	PHP_FE(mt_getrandmax,													arginfo_mt_getrandmax)
@@ -423,18 +423,17 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(unregister_tick_function,										arginfo_unregister_tick_function)
 
 	PHP_FE(highlight_file,													arginfo_highlight_file)
-	PHP_FALIAS(show_source,			highlight_file,							arginfo_highlight_file)
+	PHP_FALIAS(show_source,			highlight_file,							arginfo_show_source)
 	PHP_FE(highlight_string,												arginfo_highlight_string)
 	PHP_FE(php_strip_whitespace,											arginfo_php_strip_whitespace)
 
 	PHP_FE(ini_get,															arginfo_ini_get)
 	PHP_FE(ini_get_all,														arginfo_ini_get_all)
 	PHP_FE(ini_set,															arginfo_ini_set)
-	PHP_FALIAS(ini_alter,			ini_set,								arginfo_ini_set)
+	PHP_FALIAS(ini_alter,			ini_set,								arginfo_ini_alter)
 	PHP_FE(ini_restore,														arginfo_ini_restore)
 	PHP_FE(get_include_path,												arginfo_get_include_path)
 	PHP_FE(set_include_path,												arginfo_set_include_path)
-	PHP_DEP_FE(restore_include_path,											arginfo_restore_include_path)
 
 	PHP_FE(setcookie,														arginfo_setcookie)
 	PHP_FE(setrawcookie,													arginfo_setrawcookie)
@@ -471,11 +470,11 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 #if defined(PHP_WIN32) || HAVE_DNS_SEARCH_FUNC
 
 	PHP_FE(dns_check_record,												arginfo_dns_check_record)
-	PHP_FALIAS(checkdnsrr,			dns_check_record,						arginfo_dns_check_record)
+	PHP_FALIAS(checkdnsrr,			dns_check_record,						arginfo_checkdnsrr)
 
 # if defined(PHP_WIN32) || HAVE_FULL_DNS_FUNCS
 	PHP_FE(dns_get_mx,														arginfo_dns_get_mx)
-	PHP_FALIAS(getmxrr,				dns_get_mx,					arginfo_dns_get_mx)
+	PHP_FALIAS(getmxrr,				dns_get_mx,					arginfo_getmxrr)
 	PHP_FE(dns_get_record,													arginfo_dns_get_record)
 # endif
 #endif
@@ -483,7 +482,7 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	/* functions from type.c */
 	PHP_FE(intval,															arginfo_intval)
 	PHP_FE(floatval,														arginfo_floatval)
-	PHP_FALIAS(doubleval,			floatval,								arginfo_floatval)
+	PHP_FALIAS(doubleval,			floatval,								arginfo_doubleval)
 	PHP_FE(strval,															arginfo_strval)
 	PHP_FE(boolval,															arginfo_boolval)
 	PHP_FE(gettype,															arginfo_gettype)
@@ -493,10 +492,10 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(is_bool,															arginfo_is_bool)
 	PHP_FE(is_int,															arginfo_is_int)
 	PHP_FE(is_float,														arginfo_is_float)
-	PHP_FALIAS(is_integer,			is_int,									arginfo_is_int)
-	PHP_FALIAS(is_long,				is_int,									arginfo_is_int)
-	PHP_FALIAS(is_double,			is_float,								arginfo_is_float)
-	PHP_DEP_FALIAS(is_real,			is_float,								arginfo_is_float)
+	PHP_FALIAS(is_integer,			is_int,									arginfo_is_integer)
+	PHP_FALIAS(is_long,				is_int,									arginfo_is_long)
+	PHP_FALIAS(is_double,			is_float,								arginfo_is_double)
+	PHP_DEP_FALIAS(is_real,			is_float,								arginfo_is_real)
 	PHP_FE(is_numeric,														arginfo_is_numeric)
 	PHP_FE(is_string,														arginfo_is_string)
 	PHP_FE(is_array,														arginfo_is_array)
@@ -526,7 +525,7 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(ftell,															arginfo_ftell)
 	PHP_FE(fflush,															arginfo_fflush)
 	PHP_FE(fwrite,															arginfo_fwrite)
-	PHP_FALIAS(fputs,				fwrite,									arginfo_fwrite)
+	PHP_FALIAS(fputs,				fwrite,									arginfo_fputs)
 	PHP_FE(mkdir,															arginfo_mkdir)
 	PHP_FE(rename,															arginfo_rename)
 	PHP_FE(copy,															arginfo_copy)
@@ -572,16 +571,16 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(get_meta_tags,													arginfo_get_meta_tags)
 	PHP_FE(stream_set_read_buffer,											arginfo_stream_set_read_buffer)
 	PHP_FE(stream_set_write_buffer,											arginfo_stream_set_write_buffer)
-	PHP_FALIAS(set_file_buffer, stream_set_write_buffer,					arginfo_stream_set_write_buffer)
+	PHP_FALIAS(set_file_buffer, stream_set_write_buffer,					arginfo_set_file_buffer)
 	PHP_FE(stream_set_chunk_size,											arginfo_stream_set_chunk_size)
 
 	PHP_FE(stream_set_blocking,												arginfo_stream_set_blocking)
-	PHP_FALIAS(socket_set_blocking, stream_set_blocking,					arginfo_stream_set_blocking)
+	PHP_FALIAS(socket_set_blocking, stream_set_blocking,					arginfo_socket_set_blocking)
 
 	PHP_FE(stream_get_meta_data,											arginfo_stream_get_meta_data)
 	PHP_FE(stream_get_line,													arginfo_stream_get_line)
 	PHP_FE(stream_wrapper_register,											arginfo_stream_wrapper_register)
-	PHP_FALIAS(stream_register_wrapper, stream_wrapper_register,			arginfo_stream_wrapper_register)
+	PHP_FALIAS(stream_register_wrapper, stream_wrapper_register,			arginfo_stream_register_wrapper)
 	PHP_FE(stream_wrapper_unregister,										arginfo_stream_wrapper_unregister)
 	PHP_FE(stream_wrapper_restore,											arginfo_stream_wrapper_restore)
 	PHP_FE(stream_get_wrappers,												arginfo_stream_get_wrappers)
@@ -592,10 +591,10 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 
 #if HAVE_SYS_TIME_H || defined(PHP_WIN32)
 	PHP_FE(stream_set_timeout,												arginfo_stream_set_timeout)
-	PHP_FALIAS(socket_set_timeout, stream_set_timeout,						arginfo_stream_set_timeout)
+	PHP_FALIAS(socket_set_timeout, stream_set_timeout,						arginfo_socket_set_timeout)
 #endif
 
-	PHP_FALIAS(socket_get_status, stream_get_meta_data,						arginfo_stream_get_meta_data)
+	PHP_FALIAS(socket_get_status, stream_get_meta_data,						arginfo_socket_get_status)
 
 #if HAVE_REALPATH || defined(ZTS)
 	PHP_FE(realpath,														arginfo_realpath)
@@ -648,7 +647,7 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(filetype,														arginfo_filetype)
 	PHP_FE(file_exists,														arginfo_file_exists)
 	PHP_FE(is_writable,														arginfo_is_writable)
-	PHP_FALIAS(is_writeable,		is_writable,							arginfo_is_writable)
+	PHP_FALIAS(is_writeable,		is_writable,							arginfo_is_writeable)
 	PHP_FE(is_readable,														arginfo_is_readable)
 	PHP_FE(is_executable,													arginfo_is_executable)
 	PHP_FE(is_file,															arginfo_is_file)
@@ -671,7 +670,7 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(clearstatcache,													arginfo_clearstatcache)
 	PHP_FE(disk_total_space,												arginfo_disk_total_space)
 	PHP_FE(disk_free_space,													arginfo_disk_free_space)
-	PHP_FALIAS(diskfreespace,		disk_free_space,						arginfo_disk_free_space)
+	PHP_FALIAS(diskfreespace,		disk_free_space,						arginfo_diskfreespace)
 	PHP_FE(realpath_cache_size,												arginfo_realpath_cache_size)
 	PHP_FE(realpath_cache_get,												arginfo_realpath_cache_get)
 
@@ -786,9 +785,9 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(array_key_exists,												arginfo_array_key_exists)
 
 	/* aliases from array.c */
-	PHP_FALIAS(pos,					current,								arginfo_current)
-	PHP_FALIAS(sizeof,				count,									arginfo_count)
-	PHP_FALIAS(key_exists,			array_key_exists,						arginfo_array_key_exists)
+	PHP_FALIAS(pos,					current,								arginfo_pos)
+	PHP_FALIAS(sizeof,				count,									arginfo_sizeof)
+	PHP_FALIAS(key_exists,			array_key_exists,						arginfo_key_exists)
 
 	/* functions from assert.c */
 	PHP_FE(assert,															arginfo_assert)
@@ -1856,7 +1855,7 @@ PHP_FUNCTION(getopt)
 
 	while ((o = php_getopt(argc, argv, opts, &php_optarg, &php_optind, 0, 1)) != -1) {
 		/* Skip unknown arguments. */
-		if (o == '?') {
+		if (o == PHP_GETOPT_INVALID_ARG) {
 			continue;
 		}
 
@@ -2975,20 +2974,6 @@ PHP_FUNCTION(get_include_path)
 	}
 
 	RETURN_STRING(str);
-}
-/* }}} */
-
-/* {{{ proto void restore_include_path()
-   Restore the value of the include_path configuration option */
-PHP_FUNCTION(restore_include_path)
-{
-	zend_string *key;
-
-	ZEND_PARSE_PARAMETERS_NONE();
-
-	key = zend_string_init("include_path", sizeof("include_path")-1, 0);
-	zend_restore_ini_entry(key, PHP_INI_STAGE_RUNTIME);
-	zend_string_efree(key);
 }
 /* }}} */
 
