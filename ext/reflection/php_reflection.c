@@ -1245,7 +1245,7 @@ static void reflection_property_factory_str(zend_class_entry *ce, const char *na
 }
 
 /* {{{ reflection_class_constant_factory */
-static void reflection_class_constant_factory(zend_class_entry *ce, zend_string *name_str, zend_class_constant *constant, zval *object)
+static void reflection_class_constant_factory(zend_string *name_str, zend_class_constant *constant, zval *object)
 {
 	reflection_object *intern;
 
@@ -1257,7 +1257,7 @@ static void reflection_class_constant_factory(zend_class_entry *ce, zend_string 
 	intern->ignore_visibility = 0;
 
 	ZVAL_STR_COPY(reflection_prop_name(object), name_str);
-	ZVAL_STR_COPY(reflection_prop_class(object), ce->name);
+	ZVAL_STR_COPY(reflection_prop_class(object), constant->ce->name);
 }
 /* }}} */
 
@@ -3473,7 +3473,7 @@ ZEND_METHOD(reflection_class_constant, __construct)
 	intern->ce = constant->ce;
 	intern->ignore_visibility = 0;
 	ZVAL_STR_COPY(reflection_prop_name(object), constname);
-	ZVAL_STR_COPY(reflection_prop_class(object), ce->name);
+	ZVAL_STR_COPY(reflection_prop_class(object), constant->ce->name);
 }
 /* }}} */
 
@@ -4056,6 +4056,10 @@ ZEND_METHOD(reflection_class, getMethod)
 /* {{{ _addmethod */
 static void _addmethod(zend_function *mptr, zend_class_entry *ce, zval *retval, zend_long filter)
 {
+	if ((mptr->common.fn_flags & ZEND_ACC_PRIVATE) && mptr->common.scope != ce) {
+		return;
+	}
+
 	if (mptr->common.fn_flags & filter) {
 		zval method;
 		reflection_method_factory(ce, mptr, NULL, &method);
@@ -4342,7 +4346,7 @@ ZEND_METHOD(reflection_class, getReflectionConstants)
 	array_init(return_value);
 	ZEND_HASH_FOREACH_STR_KEY_PTR(&ce->constants_table, name, constant) {
 		zval class_const;
-		reflection_class_constant_factory(ce, name, constant, &class_const);
+		reflection_class_constant_factory(name, constant, &class_const);
 		zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &class_const);
 	} ZEND_HASH_FOREACH_END();
 }
@@ -4391,7 +4395,7 @@ ZEND_METHOD(reflection_class, getReflectionConstant)
 	if ((constant = zend_hash_find_ptr(&ce->constants_table, name)) == NULL) {
 		RETURN_FALSE;
 	}
-	reflection_class_constant_factory(ce, name, constant, return_value);
+	reflection_class_constant_factory(name, constant, return_value);
 }
 /* }}} */
 

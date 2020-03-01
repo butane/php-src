@@ -342,6 +342,10 @@ PHP 8.0 UPGRADE NOTES
         http://example.com/foo?# => query = "",   fragment = ""
 
     Previously all cases resulted in query and fragment being null.
+  . var_dump() and debug_zval_dump() will now print floating-point numbers
+    using serialize_precision rather than precision. In a default configuration,
+    this means that floating-point numbers are now printed with full accuracy
+    by these debugging functions.
 
 - tidy:
   . The $use_include_path parameter, which was not used internally, has been
@@ -411,6 +415,10 @@ PHP 8.0 UPGRADE NOTES
   . Added DateTime::createFromInterface() and
     DateTimeImmutable::createFromInterface().
 
+- dom:
+  . Introduce DOMParentNode and DOMChildNode with new traversal and manipulation APIs
+    RFC: https://wiki.php.net/rfc/dom_living_standard_api
+
 ========================================
 3. Changes in SAPI modules
 ========================================
@@ -430,6 +438,11 @@ PHP 8.0 UPGRADE NOTES
 ========================================
 6. New Functions
 ========================================
+
+- PCRE:
+  . Added preg_last_error_msg(), which returns a human-readable message for
+    the last PCRE error. It complements preg_last_error(), which returns an
+    integer enum instead.
 
 - SQLite3:
   . Add SQLite3::setAuthorizer() and respective class constants to set a

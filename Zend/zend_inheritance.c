@@ -530,14 +530,6 @@ static inheritance_status zend_do_perform_implementation_check(
 	inheritance_status status, local_status;
 	zend_bool proto_is_variadic, fe_is_variadic;
 
-	/* If it's a user function then arg_info == NULL means we don't have any parameters but
-	 * we still need to do the arg number checks.  We are only willing to ignore this for internal
-	 * functions because extensions don't always define arg_info.
-	 */
-	if (!proto->common.arg_info && proto->common.type != ZEND_USER_FUNCTION) {
-		return INHERITANCE_SUCCESS;
-	}
-
 	/* Checks for constructors only if they are declared in an interface,
 	 * or explicitly marked as abstract
 	 */
@@ -1539,7 +1531,9 @@ static void zend_do_implement_interfaces(zend_class_entry *ce, zend_class_entry 
 	ce->ce_flags |= ZEND_ACC_RESOLVED_INTERFACES;
 
 	i = num_parent_interfaces;
-	for (; i < ce->num_interfaces; i++) {
+	/* Note that new interfaces can be added during this loop due to interface inheritance.
+	 * Use num_interfaces rather than ce->num_interfaces to not re-process the new ones. */
+	for (; i < num_interfaces; i++) {
 		do_interface_implementation(ce, ce->interfaces[i]);
 	}
 }

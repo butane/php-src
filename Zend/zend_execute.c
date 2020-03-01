@@ -692,16 +692,21 @@ ZEND_API ZEND_COLD void zend_verify_arg_error(
 
 		if (zf->common.type == ZEND_USER_FUNCTION) {
 			if (ptr && ptr->func && ZEND_USER_CODE(ptr->func->common.type)) {
-				zend_type_error("%s%s%s() expects argument #%d ($%s) to be of type %s, %s given, called in %s on line %d",
-						fclass, fsep, fname, arg_num, ZSTR_VAL(arg_info->name), ZSTR_VAL(need_msg), given_msg,
-						ZSTR_VAL(ptr->func->op_array.filename), ptr->opline->lineno);
+				zend_type_error("%s%s%s(): Argument #%d ($%s) must be of type %s, %s given, called in %s on line %d",
+					fclass, fsep, fname,
+					arg_num, ZSTR_VAL(arg_info->name),
+					ZSTR_VAL(need_msg), given_msg,
+					ZSTR_VAL(ptr->func->op_array.filename), ptr->opline->lineno
+				);
 			} else {
-				zend_type_error("%s%s%s() expects argument #%d ($%s) to be of type %s, %s given",
-					fclass, fsep, fname, arg_num, ZSTR_VAL(arg_info->name), ZSTR_VAL(need_msg), given_msg);
+				zend_type_error("%s%s%s(): Argument #%d ($%s) must be of type %s, %s given",
+					fclass, fsep, fname, arg_num, ZSTR_VAL(arg_info->name), ZSTR_VAL(need_msg), given_msg
+				);
 			}
 		} else {
-			zend_type_error("%s%s%s() expects argument #%d ($%s) to be of type %s, %s given",
-				fclass, fsep, fname, arg_num, ((zend_internal_arg_info*) arg_info)->name, ZSTR_VAL(need_msg), given_msg);
+			zend_type_error("%s%s%s(): Argument #%d ($%s) must be of type %s, %s given",
+				fclass, fsep, fname, arg_num, ((zend_internal_arg_info*) arg_info)->name, ZSTR_VAL(need_msg), given_msg
+			);
 		}
 
 		zend_string_release(need_msg);
@@ -1925,7 +1930,7 @@ static zend_never_inline ZEND_COLD void ZEND_FASTCALL zend_param_must_be_ref(con
 {
 	const char *arg_name = get_function_arg_name(func, arg_num);
 
-	zend_error(E_WARNING, "%s%s%s() expects argument #%d%s%s%s to be passed by reference, value given",
+	zend_error(E_WARNING, "%s%s%s(): Argument #%d%s%s%s must be passed by reference, value given",
 		func->common.scope ? ZSTR_VAL(func->common.scope->name) : "",
 		func->common.scope ? "::" : "",
 		ZSTR_VAL(func->common.function_name),
@@ -2550,8 +2555,9 @@ static ZEND_COLD void ZEND_FASTCALL zend_array_key_exists_error(
 		ZVAL_UNDEFINED_OP2();
 	}
 	if (!EG(exception)) {
-		zend_type_error("array_key_exists() expects argument #2 ($array) to be of type array, %s given",
-			zend_get_type_by_const(Z_TYPE_P(subject)));
+		zend_type_error("array_key_exists(): Argument #2 ($array) must be of type array, %s given",
+			zend_get_type_by_const(Z_TYPE_P(subject))
+		);
 	}
 }
 
@@ -2758,39 +2764,38 @@ static zend_always_inline void zend_assign_to_property_reference(zval *container
 	zend_fetch_property_address(variable_ptr, container, container_op_type, prop_ptr, prop_op_type,
 		cache_addr, BP_VAR_W, 0, 0 OPLINE_CC EXECUTE_DATA_CC);
 
-	if (Z_TYPE_P(variable_ptr) == IS_INDIRECT) {
+	if (EXPECTED(Z_TYPE_P(variable_ptr) == IS_INDIRECT)) {
 		variable_ptr = Z_INDIRECT_P(variable_ptr);
-	}
+		if (/*OP_DATA_TYPE == IS_VAR &&*/
+				   (opline->extended_value & ZEND_RETURNS_FUNCTION) &&
+				   UNEXPECTED(!Z_ISREF_P(value_ptr))) {
 
-	if (UNEXPECTED(Z_ISERROR_P(variable_ptr))) {
+			if (UNEXPECTED(!zend_wrong_assign_to_variable_reference(
+					variable_ptr, value_ptr OPLINE_CC EXECUTE_DATA_CC))) {
+				variable_ptr = &EG(uninitialized_zval);
+			}
+		} else {
+			zend_property_info *prop_info = NULL;
+
+			if (prop_op_type == IS_CONST) {
+				prop_info = (zend_property_info *) CACHED_PTR_EX(cache_addr + 2);
+			} else {
+				ZVAL_DEREF(container);
+				prop_info = zend_object_fetch_property_type_info(Z_OBJ_P(container), variable_ptr);
+			}
+
+			if (UNEXPECTED(prop_info)) {
+				variable_ptr = zend_assign_to_typed_property_reference(prop_info, variable_ptr, value_ptr EXECUTE_DATA_CC);
+			} else {
+				zend_assign_to_variable_reference(variable_ptr, value_ptr);
+			}
+		}
+	} else if (Z_ISERROR_P(variable_ptr)) {
 		variable_ptr = &EG(uninitialized_zval);
-	} else if (UNEXPECTED(Z_TYPE(variable) != IS_INDIRECT)) {
+	} else {
 		zend_throw_error(NULL, "Cannot assign by reference to overloaded object");
 		zval_ptr_dtor(&variable);
 		variable_ptr = &EG(uninitialized_zval);
-	} else if (/*OP_DATA_TYPE == IS_VAR &&*/
-	           (opline->extended_value & ZEND_RETURNS_FUNCTION) &&
-			   UNEXPECTED(!Z_ISREF_P(value_ptr))) {
-
-		if (UNEXPECTED(!zend_wrong_assign_to_variable_reference(
-				variable_ptr, value_ptr OPLINE_CC EXECUTE_DATA_CC))) {
-			variable_ptr = &EG(uninitialized_zval);
-		}
-	} else {
-		zend_property_info *prop_info = NULL;
-
-		if (prop_op_type == IS_CONST) {
-			prop_info = (zend_property_info *) CACHED_PTR_EX(cache_addr + 2);
-		} else {
-			ZVAL_DEREF(container);
-			prop_info = zend_object_fetch_property_type_info(Z_OBJ_P(container), variable_ptr);
-		}
-
-		if (UNEXPECTED(prop_info)) {
-			variable_ptr = zend_assign_to_typed_property_reference(prop_info, variable_ptr, value_ptr EXECUTE_DATA_CC);
-		} else {
-			zend_assign_to_variable_reference(variable_ptr, value_ptr);
-		}
 	}
 
 	if (UNEXPECTED(RETURN_VALUE_USED(opline))) {
