@@ -27,7 +27,6 @@ $excludes = [
     'ext/opcache/jit/vtune',
     'ext/pcre/pcre2lib/',
     'ext/standard/html_tables/html_table_gen.php',
-    'ext/xmlrpc/libxmlrpc/',
     'sapi/cli/php_http_parser.c',
     'sapi/cli/php_http_parser.h',
     'sapi/litespeed/',
@@ -118,7 +117,7 @@ function transformTestCode(string $code, callable $transformer): string {
     }
 
     return preg_replace_callback(
-        '/(--FILE--)(.+?)(--[A-Z_]+--)/s',
+        '/(--(?:FILE|SKIPIF|CLEAN)--)(.+?)(--[A-Z_]+--)/s',
         function(array $matches) use($transformer) {
             return $matches[1] . $transformer($matches[2]) . $matches[3];
         },

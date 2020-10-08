@@ -2,17 +2,12 @@
 Test getimagesize() function : variation - For shockwave-flash format
 --SKIPIF--
 <?php
-	if (!defined("IMAGETYPE_SWC") || !extension_loaded('zlib')) {
-		die("skip zlib extension is not available");
-	}
+    if (!defined("IMAGETYPE_SWC") || !extension_loaded('zlib')) {
+        die("skip zlib extension is not available");
+    }
 ?>
 --FILE--
 <?php
-/* Prototype  : array getimagesize(string imagefile [, array info])
- * Description: Get the size of an image as 4-element array
- * Source code: ext/standard/image.c
- */
-
 echo "*** Testing getimagesize() : variation ***\n";
 
 var_dump( getimagesize(__DIR__."/test13pix.swf", $info) );

@@ -11,5 +11,5 @@ try {
 }
 ?>
 --EXPECTF--
-Warning: Undefined variable: nonesuchvar in %s on line %d
-array_walk(): Argument #2 ($funcname) must be a valid callback, first array member is not a valid class name or object
+Warning: Undefined variable $nonesuchvar in %s on line %d
+array_walk(): Argument #2 ($callback) must be a valid callback, first array member is not a valid class name or object

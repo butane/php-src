@@ -5,7 +5,7 @@ memory_limit=256M
 --FILE--
 <?php
 
-$operands = [
+$binaryOperators = [
     "==",
     "!=",
     "===",
@@ -30,6 +30,12 @@ $operands = [
     "xor",
     "||",
     "&&",
+];
+$unaryOperators = [
+    "~",
+    "-",
+    "+",
+    "!",
 ];
 
 $input = [
@@ -100,8 +106,7 @@ function makeParam($param) {
 $c = 0;
 $f = 0;
 
-function prepareLine($op1, $op2, $cmp, $operator) {
-
+function prepareBinaryLine($op1, $op2, $cmp, $operator) {
     $op1_p = makeParam($op1);
     $op2_p = makeParam($op2);
 
@@ -113,9 +118,22 @@ function prepareLine($op1, $op2, $cmp, $operator) {
         $result = makeParam($cmp());
         $line .= "if (" . ($result === "(NAN)" ? "!is_nan($compare)" : "$compare !== $result") . ") { $error }";
     } catch (Error $e) {
-        if (get_class($e) == "Error") {
-            return "// exempt $op1_p $operator $op2_p from checking, it generates a compile time error";
-        }
+        $msg = makeParam($e->getMessage());
+        $line .= "try { $compare; $error } catch (Error \$e) { if (\$e->getMessage() !== $msg) { $error } }";
+    }
+    return $line;
+}
+function prepareUnaryLine($op, $cmp, $operator) {
+    $op_p = makeParam($op);
+
+    $error = "echo '" . addcslashes("$operator $op_p", "\\'") . '\', "\n"; $f++;';
+
+    $compare = "@($operator $op_p)";
+    $line = "\$c++; ";
+    try {
+        $result = makeParam($cmp());
+        $line .= "if (" . ($result === "(NAN)" ? "!is_nan($compare)" : "$compare !== $result") . ") { $error }";
+    } catch (Error $e) {
         $msg = makeParam($e->getMessage());
         $line .= "try { $compare; $error } catch (Error \$e) { if (\$e->getMessage() !== $msg) { $error } }";
     }
@@ -129,12 +147,20 @@ fwrite($file, "<?php\n");
 
 foreach ($input as $left) {
     foreach ($input as $right) {
-        foreach ($operands as $operand) {
-            $line = prepareLine($left, $right, function() use ($left, $right, $operand) {
-                return eval("return @(\$left $operand \$right);");
-            }, $operand);
+        foreach ($binaryOperators as $operator) {
+            $line = prepareBinaryLine($left, $right, function() use ($left, $right, $operator) {
+                return eval("return @(\$left $operator \$right);");
+            }, $operator);
             fwrite($file, $line . "\n");
         }
+    }
+}
+foreach ($input as $right) {
+    foreach ($unaryOperators as $operator) {
+        $line = prepareUnaryLine($right, function() use ($right, $operator) {
+            return eval("return @($operator \$right);");
+        }, $operator);
+        fwrite($file, $line . "\n");
     }
 }
 

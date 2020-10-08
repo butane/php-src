@@ -51,18 +51,16 @@ if test "$ac_cv_flush_io" = "yes"; then
   AC_DEFINE(HAVE_FLUSHIO, 1, [Define if flush should be called explicitly after a buffered io.])
 fi
 
-dnl
-dnl Check for crypt() capabilities
-dnl
-if test "$ac_cv_func_crypt" = "no"; then
-  AC_CHECK_LIB(crypt, crypt, [
-    LIBS="-lcrypt $LIBS -lcrypt"
-    AC_DEFINE(HAVE_CRYPT, 1, [ ])
-  ])
+PHP_CHECK_FUNC(crypt, crypt)
+PHP_CHECK_FUNC(crypt_r, crypt)
+if test "$ac_cv_func_crypt_r" = "yes"; then
+  PHP_CRYPT_R_STYLE
 fi
 
 AC_CACHE_CHECK(for standard DES crypt, ac_cv_crypt_des,[
   AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <string.h>
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -77,9 +75,9 @@ AC_CACHE_CHECK(for standard DES crypt, ac_cv_crypt_des,[
 int main() {
 #if HAVE_CRYPT
 	char *encrypted = crypt("rasmuslerdorf","rl");
-	exit(!encrypted || strcmp(encrypted,"rl.3StKT.4T8M"));
+	return !encrypted || strcmp(encrypted,"rl.3StKT.4T8M");
 #else
-	exit(1);
+	return 1;
 #endif
 }]])],[
   ac_cv_crypt_des=yes
@@ -91,6 +89,8 @@ int main() {
 
 AC_CACHE_CHECK(for extended DES crypt, ac_cv_crypt_ext_des,[
   AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <string.h>
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -105,9 +105,9 @@ AC_CACHE_CHECK(for extended DES crypt, ac_cv_crypt_ext_des,[
 int main() {
 #if HAVE_CRYPT
 	char *encrypted = crypt("rasmuslerdorf","_J9..rasm");
-	exit(!encrypted || strcmp(encrypted,"_J9..rasmBYk8r9AiWNc"));
+	return !encrypted || strcmp(encrypted,"_J9..rasmBYk8r9AiWNc");
 #else
-	exit(1);
+	return 1;
 #endif
 }]])],[
   ac_cv_crypt_ext_des=yes
@@ -119,6 +119,8 @@ int main() {
 
 AC_CACHE_CHECK(for MD5 crypt, ac_cv_crypt_md5,[
 AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <string.h>
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -143,9 +145,9 @@ int main() {
 	strcpy(answer,salt);
 	strcat(answer,"rISCgZzpwk3UhDidwXvin0");
 	encrypted = crypt("rasmuslerdorf",salt);
-	exit(!encrypted || strcmp(encrypted,answer));
+	return !encrypted || strcmp(encrypted,answer);
 #else
-	exit(1);
+	return 1;
 #endif
 }]])],[
   ac_cv_crypt_md5=yes
@@ -157,6 +159,8 @@ int main() {
 
 AC_CACHE_CHECK(for Blowfish crypt, ac_cv_crypt_blowfish,[
 AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <string.h>
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -178,9 +182,9 @@ int main() {
 	strcpy(answer,salt);
 	strcpy(&answer[29],"nIdrcHdxcUxWomQX9j6kvERCFjTg7Ra");
 	encrypted = crypt("rasmuslerdorf",salt);
-	exit(!encrypted || strcmp(encrypted,answer));
+	return !encrypted || strcmp(encrypted,answer);
 #else
-	exit(1);
+	return 1;
 #endif
 }]])],[
   ac_cv_crypt_blowfish=yes
@@ -192,6 +196,8 @@ int main() {
 
 AC_CACHE_CHECK(for SHA512 crypt, ac_cv_crypt_sha512,[
 AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <string.h>
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -212,9 +218,9 @@ int main() {
 	strcpy(answer, salt);
 	strcat(answer, "EeHCRjm0bljalWuALHSTs1NB9ipEiLEXLhYeXdOpx22gmlmVejnVXFhd84cEKbYxCo.XuUTrW.RLraeEnsvWs/");
 	encrypted = crypt("rasmuslerdorf",salt);
-	exit(!encrypted || strcmp(encrypted,answer));
+	return !encrypted || strcmp(encrypted,answer);
 #else
-	exit(1);
+	return 1;
 #endif
 }]])],[
   ac_cv_crypt_sha512=yes
@@ -226,6 +232,8 @@ int main() {
 
 AC_CACHE_CHECK(for SHA256 crypt, ac_cv_crypt_sha256,[
 AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <string.h>
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -246,9 +254,9 @@ int main() {
 	strcpy(answer, salt);
 	strcat(answer, "cFAm2puLCujQ9t.0CxiFIIvFi4JyQx5UncCt/xRIX23");
 	encrypted = crypt("rasmuslerdorf",salt);
-	exit(!encrypted || strcmp(encrypted,answer));
+	return !encrypted || strcmp(encrypted,answer);
 #else
-	exit(1);
+	return 1;
 #endif
 }]])],[
   ac_cv_crypt_sha256=yes
@@ -262,24 +270,8 @@ int main() {
 dnl
 dnl If one of them is missing, use our own implementation, portable code is then possible
 dnl
-if test "$ac_cv_crypt_blowfish" = "no" || test "$ac_cv_crypt_des" = "no" || test "$ac_cv_crypt_ext_des" = "no" || test "$ac_cv_crypt_md5" = "no" || test "$ac_cv_crypt_sha512" = "no" || test "$ac_cv_crypt_sha256" = "no" || test "x$php_crypt_r" = "x0"; then
-
-  dnl
-  dnl Check for __alignof__ support in the compiler
-  dnl
-  AC_CACHE_CHECK(whether the compiler supports __alignof__, ac_cv_alignof_exists,[
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-  ]],[[
-    int align = __alignof__(int);
-  ]])],[
-    ac_cv_alignof_exists=yes
-  ],[
-    ac_cv_alignof_exists=no
-  ])])
-  if test "$ac_cv_alignof_exists" = "yes"; then
-    AC_DEFINE([HAVE_ALIGNOF], 1, [whether the compiler supports __alignof__])
-  fi
-
+dnl TODO This is currently always enabled
+if test "$ac_cv_crypt_blowfish" = "no" || test "$ac_cv_crypt_des" = "no" || test "$ac_cv_crypt_ext_des" = "no" || test "$ac_cv_crypt_md5" = "no" || test "$ac_cv_crypt_sha512" = "no" || test "$ac_cv_crypt_sha256" = "no" || test "$ac_cv_func_crypt_r" != "yes" || true; then
   AC_DEFINE_UNQUOTED(PHP_USE_PHP_CRYPT_R, 1, [Whether PHP has to use its own crypt_r for blowfish, des, ext des and md5])
 
   PHP_ADD_SOURCES(PHP_EXT_DIR(standard), crypt_freesec.c crypt_blowfish.c crypt_sha512.c crypt_sha256.c php_crypt_r.c)
@@ -389,32 +381,6 @@ if test "$ac_cv_strptime_decl_fails" = "yes"; then
 fi
 
 dnl
-dnl Check for i18n capabilities
-dnl
-AC_CHECK_HEADERS([wchar.h])
-AC_CHECK_FUNCS([mblen])
-AC_CACHE_CHECK([for mbstate_t], [ac_cv_type_mbstate_t],[
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-#ifdef HAVE_WCHAR_H
-# include <wchar.h>
-#endif
-]],[[
-mbstate_t a;
-]])],[
-  ac_cv_type_mbstate_t=yes
-],[
-  ac_cv_type_mbstate_t=no
-])])
-if test "$ac_cv_type_mbstate_t" = "yes"; then
-  AC_DEFINE([HAVE_MBSTATE_T], 1, [Define if your system has mbstate_t in wchar.h])
-fi
-
-dnl
-dnl Check for atomic operation API availability in Solaris
-dnl
-AC_CHECK_HEADERS([atomic.h])
-
-dnl
 dnl Check for arc4random on BSD systems
 dnl
 AC_CHECK_DECLS([arc4random_buf])
@@ -495,7 +461,7 @@ PHP_NEW_EXTENSION(standard, array.c base64.c basic_functions.c browscap.c crc32.
                             http_fopen_wrapper.c php_fopen_wrapper.c credits.c css.c \
                             var_unserializer.c ftok.c sha1.c user_filters.c uuencode.c \
                             filters.c proc_open.c streamsfuncs.c http.c password.c \
-                            random.c net.c hrtime.c,,,
+                            random.c net.c hrtime.c crc32_x86.c,,,
 			    -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
 PHP_ADD_MAKEFILE_FRAGMENT

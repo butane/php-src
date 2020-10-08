@@ -245,7 +245,7 @@ PHPAPI void php_stream_wrapper_log_error(const php_stream_wrapper *wrapper, int 
 	vspprintf(&buffer, 0, fmt, args);
 	va_end(args);
 
-	if (options & REPORT_ERRORS || wrapper == NULL) {
+	if ((options & REPORT_ERRORS) || wrapper == NULL) {
 		php_error_docref(NULL, E_WARNING, "%s", buffer);
 		efree(buffer);
 	} else {
@@ -485,9 +485,15 @@ fprintf(stderr, "stream_free: %s:%p[%s] preserve_handle=%d release_cast=%d remov
 
 	if (close_options & PHP_STREAM_FREE_RELEASE_STREAM) {
 		while (stream->readfilters.head) {
+			if (stream->readfilters.head->res != NULL) {
+				zend_list_close(stream->readfilters.head->res);
+			}
 			php_stream_filter_remove(stream->readfilters.head, 1);
 		}
 		while (stream->writefilters.head) {
+			if (stream->writefilters.head->res != NULL) {
+				zend_list_close(stream->writefilters.head->res);
+			}
 			php_stream_filter_remove(stream->writefilters.head, 1);
 		}
 
@@ -697,7 +703,7 @@ PHPAPI ssize_t _php_stream_read(php_stream *stream, char *buf, size_t size)
 			break;
 		}
 
-		if (!stream->readfilters.head && (stream->flags & PHP_STREAM_FLAG_NO_BUFFER || stream->chunk_size == 1)) {
+		if (!stream->readfilters.head && ((stream->flags & PHP_STREAM_FLAG_NO_BUFFER) || stream->chunk_size == 1)) {
 			toread = stream->ops->read(stream, buf, size);
 			if (toread < 0) {
 				/* Report an error if the read failed and we did not read any data
@@ -1560,29 +1566,48 @@ PHPAPI int _php_stream_copy_to_stream_ex(php_stream *src, php_stream *dest, size
 
 	if (php_stream_mmap_possible(src)) {
 		char *p;
-		size_t mapped;
 
-		p = php_stream_mmap_range(src, php_stream_tell(src), maxlen, PHP_STREAM_MAP_MODE_SHARED_READONLY, &mapped);
+		do {
+			size_t chunk_size = (maxlen == 0 || maxlen > PHP_STREAM_MMAP_MAX) ? PHP_STREAM_MMAP_MAX : maxlen;
+			size_t mapped;
 
-		if (p) {
-			ssize_t didwrite = php_stream_write(dest, p, mapped);
-			if (didwrite < 0) {
-				*len = 0;
-				return FAILURE;
+			p = php_stream_mmap_range(src, php_stream_tell(src), chunk_size, PHP_STREAM_MAP_MODE_SHARED_READONLY, &mapped);
+
+			if (p) {
+				ssize_t didwrite;
+
+				if (php_stream_seek(src, mapped, SEEK_CUR) != 0) {
+					php_stream_mmap_unmap(src);
+					break;
+				}
+
+				didwrite = php_stream_write(dest, p, mapped);
+				if (didwrite < 0) {
+					*len = haveread;
+					return FAILURE;
+				}
+
+				php_stream_mmap_unmap(src);
+
+				*len = haveread += didwrite;
+
+				/* we've got at least 1 byte to read
+				 * less than 1 is an error
+				 * AND read bytes match written */
+				if (mapped == 0 || mapped != didwrite) {
+					return FAILURE;
+				}
+				if (mapped < chunk_size) {
+					return SUCCESS;
+				}
+				if (maxlen != 0) {
+					maxlen -= mapped;
+					if (maxlen == 0) {
+						return SUCCESS;
+					}
+				}
 			}
-
-			php_stream_mmap_unmap_ex(src, mapped);
-
-			*len = didwrite;
-
-			/* we've got at least 1 byte to read
-			 * less than 1 is an error
-			 * AND read bytes match written */
-			if (mapped > 0 && mapped == didwrite) {
-				return SUCCESS;
-			}
-			return FAILURE;
-		}
+		} while (p);
 	}
 
 	while(1) {
@@ -1916,8 +1941,7 @@ PHPAPI php_stream_wrapper *php_stream_locate_url_wrapper(const char *path, const
 }
 /* }}} */
 
-/* {{{ _php_stream_mkdir
- */
+/* {{{ _php_stream_mkdir */
 PHPAPI int _php_stream_mkdir(const char *path, int mode, int options, php_stream_context *context)
 {
 	php_stream_wrapper *wrapper = NULL;
@@ -1931,8 +1955,7 @@ PHPAPI int _php_stream_mkdir(const char *path, int mode, int options, php_stream
 }
 /* }}} */
 
-/* {{{ _php_stream_rmdir
- */
+/* {{{ _php_stream_rmdir */
 PHPAPI int _php_stream_rmdir(const char *path, int options, php_stream_context *context)
 {
 	php_stream_wrapper *wrapper = NULL;
@@ -2015,7 +2038,7 @@ PHPAPI php_stream *_php_stream_opendir(const char *path, int options,
 
 	if (wrapper && wrapper->wops->dir_opener) {
 		stream = wrapper->wops->dir_opener(wrapper,
-				path_to_open, "r", options ^ REPORT_ERRORS, NULL,
+				path_to_open, "r", options & ~REPORT_ERRORS, NULL,
 				context STREAMS_REL_CC);
 
 		if (stream) {
@@ -2023,7 +2046,7 @@ PHPAPI php_stream *_php_stream_opendir(const char *path, int options,
 			stream->flags |= PHP_STREAM_FLAG_NO_BUFFER | PHP_STREAM_FLAG_IS_DIR;
 		}
 	} else if (wrapper) {
-		php_stream_wrapper_log_error(wrapper, options ^ REPORT_ERRORS, "not implemented");
+		php_stream_wrapper_log_error(wrapper, options & ~REPORT_ERRORS, "not implemented");
 	}
 	if (stream == NULL && (options & REPORT_ERRORS)) {
 		php_stream_display_wrapper_errors(wrapper, path, "Failed to open directory");
@@ -2062,7 +2085,7 @@ PHPAPI php_stream *_php_stream_open_wrapper_ex(const char *path, const char *mod
 	}
 
 	if (!path || !*path) {
-		php_error_docref(NULL, E_WARNING, "Filename cannot be empty");
+		zend_value_error("Path cannot be empty");
 		return NULL;
 	}
 
@@ -2082,7 +2105,7 @@ PHPAPI php_stream *_php_stream_open_wrapper_ex(const char *path, const char *mod
 	path_to_open = path;
 
 	wrapper = php_stream_locate_url_wrapper(path, &path_to_open, options);
-	if (options & STREAM_USE_URL && (!wrapper || !wrapper->is_url)) {
+	if ((options & STREAM_USE_URL) && (!wrapper || !wrapper->is_url)) {
 		php_error_docref(NULL, E_WARNING, "This function may only be used against URLs");
 		if (resolved_path) {
 			zend_string_release_ex(resolved_path, 0);
@@ -2092,18 +2115,18 @@ PHPAPI php_stream *_php_stream_open_wrapper_ex(const char *path, const char *mod
 
 	if (wrapper) {
 		if (!wrapper->wops->stream_opener) {
-			php_stream_wrapper_log_error(wrapper, options ^ REPORT_ERRORS,
+			php_stream_wrapper_log_error(wrapper, options & ~REPORT_ERRORS,
 					"wrapper does not support stream open");
 		} else {
 			stream = wrapper->wops->stream_opener(wrapper,
-				path_to_open, mode, options ^ REPORT_ERRORS,
+				path_to_open, mode, options & ~REPORT_ERRORS,
 				opened_path, context STREAMS_REL_CC);
 		}
 
 		/* if the caller asked for a persistent stream but the wrapper did not
 		 * return one, force an error here */
 		if (stream && (options & STREAM_OPEN_PERSISTENT) && !stream->is_persistent) {
-			php_stream_wrapper_log_error(wrapper, options ^ REPORT_ERRORS,
+			php_stream_wrapper_log_error(wrapper, options & ~REPORT_ERRORS,
 					"wrapper does not support persistent streams");
 			php_stream_close(stream);
 			stream = NULL;
@@ -2160,7 +2183,7 @@ PHPAPI php_stream *_php_stream_open_wrapper_ex(const char *path, const char *mod
 							tmp);
 					efree(tmp);
 
-					options ^= REPORT_ERRORS;
+					options &= ~REPORT_ERRORS;
 				}
 		}
 	}
@@ -2288,24 +2311,21 @@ PHPAPI int php_stream_context_set_option(php_stream_context *context,
 }
 /* }}} */
 
-/* {{{ php_stream_dirent_alphasort
- */
+/* {{{ php_stream_dirent_alphasort */
 PHPAPI int php_stream_dirent_alphasort(const zend_string **a, const zend_string **b)
 {
 	return strcoll(ZSTR_VAL(*a), ZSTR_VAL(*b));
 }
 /* }}} */
 
-/* {{{ php_stream_dirent_alphasortr
- */
+/* {{{ php_stream_dirent_alphasortr */
 PHPAPI int php_stream_dirent_alphasortr(const zend_string **a, const zend_string **b)
 {
 	return strcoll(ZSTR_VAL(*b), ZSTR_VAL(*a));
 }
 /* }}} */
 
-/* {{{ php_stream_scandir
- */
+/* {{{ php_stream_scandir */
 PHPAPI int _php_stream_scandir(const char *dirname, zend_string **namelist[], int flags, php_stream_context *context,
 			  int (*compare) (const zend_string **a, const zend_string **b))
 {

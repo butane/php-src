@@ -8,7 +8,7 @@
 
     $driver    = new mysqli_driver;
 
-    $host      = getenv("MYSQL_TEST_HOST")     ?: "localhost";
+    $host      = getenv("MYSQL_TEST_HOST")     ?: "127.0.0.1";
     $port      = getenv("MYSQL_TEST_PORT")     ?: 3306;
     $user      = getenv("MYSQL_TEST_USER")     ?: "root";
     $passwd    = getenv("MYSQL_TEST_PASSWD")   ?: "";
@@ -21,7 +21,7 @@
         ini_set('mysqli.default_socket', $socket);
     }
 
-    /* Development setting: test experimal features and/or feature requests that never worked before? */
+    /* Development setting: test experimental features and/or feature requests that never worked before? */
     $TEST_EXPERIMENTAL = (in_array(getenv("MYSQL_TEST_EXPERIMENTAL"), array(0, 1))) ?
                 ((1 == getenv("MYSQL_TEST_EXPERIMENTAL")) ? true : false) :
                 false;

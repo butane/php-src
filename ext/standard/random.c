@@ -193,8 +193,7 @@ PHPAPI int php_random_bytes(void *bytes, size_t size, zend_bool should_throw)
 }
 /* }}} */
 
-/* {{{ proto string random_bytes(int length)
-Return an arbitrary length of pseudo-random bytes as binary string */
+/* {{{ Return an arbitrary length of pseudo-random bytes as binary string */
 PHP_FUNCTION(random_bytes)
 {
 	zend_long size;
@@ -205,7 +204,7 @@ PHP_FUNCTION(random_bytes)
 	ZEND_PARSE_PARAMETERS_END();
 
 	if (size < 1) {
-		zend_throw_exception(zend_ce_error, "Length must be greater than 0", 0);
+		zend_argument_value_error(1, "must be greater than 0");
 		RETURN_THROWS();
 	}
 
@@ -266,8 +265,7 @@ PHPAPI int php_random_int(zend_long min, zend_long max, zend_long *result, zend_
 }
 /* }}} */
 
-/* {{{ proto int random_int(int min, int max)
-Return an arbitrary pseudo-random integer */
+/* {{{ Return an arbitrary pseudo-random integer */
 PHP_FUNCTION(random_int)
 {
 	zend_long min;
@@ -280,7 +278,7 @@ PHP_FUNCTION(random_int)
 	ZEND_PARSE_PARAMETERS_END();
 
 	if (min > max) {
-		zend_throw_exception(zend_ce_error, "Minimum value must be less than or equal to the maximum value", 0);
+		zend_argument_value_error(1, "must be less than or equal to argument #2 ($max)");
 		RETURN_THROWS();
 	}
 

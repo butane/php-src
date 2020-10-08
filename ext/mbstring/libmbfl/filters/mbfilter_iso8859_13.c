@@ -27,15 +27,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "mbfilter.h"
 #include "mbfilter_iso8859_13.h"
 #include "unicode_table_iso8859_13.h"
 
-static const char *mbfl_encoding_8859_13_aliases[] = {"ISO_8859-13", NULL};
+static const char *mbfl_encoding_8859_13_aliases[] = {"ISO8859-13", NULL};
 
 const mbfl_encoding mbfl_encoding_8859_13 = {
 	mbfl_no_encoding_8859_13,
@@ -51,7 +47,6 @@ const mbfl_encoding mbfl_encoding_8859_13 = {
 const struct mbfl_identify_vtbl vtbl_identify_8859_13 = {
 	mbfl_no_encoding_8859_13,
 	mbfl_filt_ident_common_ctor,
-	mbfl_filt_ident_common_dtor,
 	mbfl_filt_ident_true
 };
 
@@ -59,7 +54,7 @@ const struct mbfl_convert_vtbl vtbl_8859_13_wchar = {
 	mbfl_no_encoding_8859_13,
 	mbfl_no_encoding_wchar,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_8859_13_wchar,
 	mbfl_filt_conv_common_flush,
 	NULL,
@@ -69,7 +64,7 @@ const struct mbfl_convert_vtbl vtbl_wchar_8859_13 = {
 	mbfl_no_encoding_wchar,
 	mbfl_no_encoding_8859_13,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_wchar_8859_13,
 	mbfl_filt_conv_common_flush,
 	NULL,

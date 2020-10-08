@@ -2,12 +2,6 @@
 Test array_multisort() function : usage variation
 --FILE--
 <?php
-/* Prototype  : bool array_multisort(array ar1 [, SORT_ASC|SORT_DESC [, SORT_REGULAR|SORT_NUMERIC|SORT_STRING|SORT_NATURAL|SORT_FLAG_CASE]] [, array ar2 [, SORT_ASC|SORT_DESC [, SORT_REGULAR|SORT_NUMERIC|SORT_STRING|SORT_NATURAL|SORT_FLAG_CASE]], ...])
- * Description: Sort multiple arrays at once similar to how ORDER BY clause works in SQL
- * Source code: ext/standard/array.c
- * Alias to functions:
- */
-
 echo "*** Testing array_multisort() : usage variation ***\n";
 
 // Define error handler
@@ -109,76 +103,76 @@ foreach($inputs as $key =>$value) {
 *** Testing array_multisort() : usage variation ***
 
 --int 0--
-Argument #1 is expected to be an array or sorting flag that has not already been specified
+array_multisort(): Argument #1 ($array) must be an array or a sort flag that has not already been specified
 
 --int 1--
-Argument #1 is expected to be an array or sorting flag that has not already been specified
+array_multisort(): Argument #1 ($array) must be an array or a sort flag that has not already been specified
 
 --int 12345--
-Argument #1 is an unknown sort flag
+array_multisort(): Argument #1 ($array) must be a valid sort flag
 
 --int -12345--
-Argument #1 is an unknown sort flag
+array_multisort(): Argument #1 ($array) must be a valid sort flag
 
 --float 10.5--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --float -10.5--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --float 12.3456789000e10--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --float -12.3456789000e10--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --float .5--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --uppercase NULL--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --lowercase null--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --lowercase true--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --lowercase false--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --uppercase TRUE--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --uppercase FALSE--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --empty string DQ--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --empty string SQ--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --string DQ--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --string SQ--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --mixed case string--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --heredoc--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --instance of classWithToString--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --instance of classWithoutToString--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --undefined var--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag
 
 --unset var--
-Argument #1 is expected to be an array or a sort flag
+array_multisort(): Argument #1 ($array) must be an array or a sort flag

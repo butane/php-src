@@ -1,68 +1,121 @@
 <?php
 
-interface Throwable
+/** @generate-function-entries */
+
+interface Throwable extends Stringable
 {
-    /** @return string */
-    function getMessage();
+    public function getMessage(): string;
 
     /** @return int */
-    function getCode();
+    public function getCode();
 
-    /** @return string */
-    function getFile();
+    public function getFile(): string;
 
-    /** @return int */
-    function getLine();
+    public function getLine(): int;
 
-    /** @return array */
-    function getTrace();
+    public function getTrace(): array;
 
-    /** @return ?Throwable */
-    function getPrevious();
+    public function getPrevious(): ?Throwable;
 
-    /** @return string */
-    function getTraceAsString();
-
-    /** @return string */
-    function __toString();
+    public function getTraceAsString(): string;
 }
 
 class Exception implements Throwable
 {
     final private function __clone() {}
 
-    function __construct(string $message = UNKNOWN, int $code = 0, ?Throwable $previous = null) {}
+    public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null) {}
 
-    function __wakeup() {}
+    public function __wakeup() {}
 
-    /** @return string */
-    final function getMessage() {}
-
-    /** @return int */
-    final function getCode() {}
-
-    /** @return string */
-    final function getFile() {}
+    final public function getMessage(): string {}
 
     /** @return int */
-    final function getLine() {}
+    final public function getCode() {}
 
-    /** @return array */
-    final function getTrace() {}
+    final public function getFile(): string {}
 
-    /** @return ?Throwable */
-    final function getPrevious() {}
+    final public function getLine(): int {}
 
-    /** @return string */
-    final function getTraceAsString() {}
+    final public function getTrace(): array {}
 
-    /** @return string */
-    function __toString() {}
+    final public function getPrevious(): ?Throwable {}
+
+    final public function getTraceAsString(): string {}
+
+    public function __toString(): string {}
 }
 
 class ErrorException extends Exception
 {
-    function __construct(string $message = UNKNOWN, int $code = 0, int $severity = E_ERROR, string $filename = UNKNOWN, int $lineno = 0, ?Throwable $previous = null) {}
+    public function __construct(string $message = "", int $code = 0, int $severity = E_ERROR, ?string $filename = null, ?int $line = null, ?Throwable $previous = null) {}
 
-    final function getSeverity() {}
+    final public function getSeverity(): int {}
+}
+
+class Error implements Throwable
+{
+    /** @implementation-alias Exception::__clone */
+    final private function __clone() {}
+
+    /** @implementation-alias Exception::__construct */
+    public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null) {}
+
+    /** @implementation-alias Exception::__wakeup */
+    public function __wakeup() {}
+
+    /** @implementation-alias Exception::getMessage */
+    final public function getMessage(): string {}
+
+    /**
+     * @return int
+     * @implementation-alias Exception::getCode
+     */
+    final public function getCode() {}
+
+    /** @implementation-alias Exception::getFile */
+    final public function getFile(): string {}
+
+    /** @implementation-alias Exception::getLine */
+    final public function getLine(): int {}
+
+    /** @implementation-alias Exception::getTrace */
+    final public function getTrace(): array {}
+
+    /** @implementation-alias Exception::getPrevious */
+    final public function getPrevious(): ?Throwable {}
+
+    /** @implementation-alias Exception::getTraceAsString */
+    final public function getTraceAsString(): string {}
+
+    /** @implementation-alias Exception::__toString */
+    public function __toString(): string {}
+}
+
+class CompileError extends Error
+{
+}
+
+class ParseError extends CompileError
+{
+}
+
+class TypeError extends Error
+{
+}
+
+class ArgumentCountError extends TypeError
+{
+}
+
+class ValueError extends Error
+{
+}
+
+class ArithmeticError extends Error
+{
+}
+
+class DivisionByZeroError extends ArithmeticError
+{
 }

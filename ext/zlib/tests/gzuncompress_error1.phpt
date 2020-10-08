@@ -3,17 +3,11 @@ Test gzuncompress() function : error conditions
 --SKIPIF--
 <?php
 if (!extension_loaded("zlib")) {
-	print "skip - ZLIB extension not loaded";
+    print "skip - ZLIB extension not loaded";
 }
 ?>
 --FILE--
 <?php
-/* Prototype  : string gzuncompress(string data [, int length])
- * Description: Unzip a gzip-compressed string
- * Source code: ext/zlib/zlib.c
- * Alias to functions:
- */
-
 echo "*** Testing gzuncompress() : error conditions ***\n";
 
 echo "\n-- Testing with a buffer that is too small --\n";

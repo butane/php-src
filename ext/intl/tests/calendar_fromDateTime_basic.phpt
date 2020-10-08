@@ -3,7 +3,7 @@ IntlCalendar::fromDateTime(): basic test
 --SKIPIF--
 <?php
 if (!extension_loaded('intl'))
-	die('skip intl extension not enabled');
+    die('skip intl extension not enabled');
 --FILE--
 <?php
 ini_set("intl.error_level", E_WARNING);
@@ -35,6 +35,7 @@ var_dump(
     strtotime('2012-01-01 00:00:00 +03:40') * 1000.,
     $cal->getTimeZone()->getID()
 );
+?>
 --EXPECTF--
 float(1325372400000)
 float(1325372400000)

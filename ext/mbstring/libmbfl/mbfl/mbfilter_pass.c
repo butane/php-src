@@ -27,10 +27,6 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <stddef.h>
 
 #include "mbfilter.h"
@@ -53,7 +49,7 @@ const struct mbfl_convert_vtbl vtbl_pass = {
 	mbfl_no_encoding_pass,
 	mbfl_no_encoding_pass,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_pass,
 	mbfl_filt_conv_common_flush,
 	NULL,

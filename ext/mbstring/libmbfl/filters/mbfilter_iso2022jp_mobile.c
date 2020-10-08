@@ -27,10 +27,6 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "mbfilter.h"
 #include "mbfilter_iso2022jp_mobile.h"
 #include "mbfilter_sjis_mobile.h"
@@ -50,7 +46,7 @@ const mbfl_encoding mbfl_encoding_2022jp_kddi = {
 	"ISO-2022-JP",
 	(const char *(*)[])&mbfl_encoding_2022jp_kddi_aliases,
 	NULL,
-	MBFL_ENCTYPE_MBCS | MBFL_ENCTYPE_SHFTCODE | MBFL_ENCTYPE_GL_UNSAFE,
+	MBFL_ENCTYPE_MBCS | MBFL_ENCTYPE_GL_UNSAFE,
 	&vtbl_2022jp_kddi_wchar,
 	&vtbl_wchar_2022jp_kddi
 };
@@ -58,7 +54,6 @@ const mbfl_encoding mbfl_encoding_2022jp_kddi = {
 const struct mbfl_identify_vtbl vtbl_identify_2022jp_kddi = {
 	mbfl_no_encoding_2022jp_kddi,
 	mbfl_filt_ident_common_ctor,
-	mbfl_filt_ident_common_dtor,
 	mbfl_filt_ident_2022jpms
 };
 
@@ -66,7 +61,7 @@ const struct mbfl_convert_vtbl vtbl_2022jp_kddi_wchar = {
 	mbfl_no_encoding_2022jp_kddi,
 	mbfl_no_encoding_wchar,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_2022jp_mobile_wchar,
 	mbfl_filt_conv_common_flush,
 	NULL,
@@ -76,7 +71,7 @@ const struct mbfl_convert_vtbl vtbl_wchar_2022jp_kddi = {
 	mbfl_no_encoding_wchar,
 	mbfl_no_encoding_2022jp_kddi,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_wchar_2022jp_mobile,
 	mbfl_filt_conv_any_jis_flush,
 	NULL,

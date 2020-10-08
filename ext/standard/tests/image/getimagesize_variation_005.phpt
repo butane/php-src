@@ -2,17 +2,12 @@
 Test getimagesize() function : basic functionality for shockwave-flash
 --SKIPIF--
 <?php
-	if (!defined("IMAGETYPE_SWC") || !extension_loaded('zlib')) {
-		die("skip zlib extension is not available or SWC not supported");
-	}
+    if (!defined("IMAGETYPE_SWC") || !extension_loaded('zlib')) {
+        die("skip zlib extension is not available or SWC not supported");
+    }
 ?>
 --FILE--
 <?php
-/* Prototype  : array getimagesize(string imagefile [, array info])
- * Description: Get the size of an image as 4-element array
- * Source code: ext/standard/image.c
- */
-
 echo "*** Testing getimagesize() : basic functionality ***\n";
 
 var_dump( getimagesize(__DIR__."/test13pix.swf", $info) );

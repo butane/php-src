@@ -3,7 +3,7 @@ PDO Common: Bug #47769 (Strange extends PDO)
 --SKIPIF--
 <?php
 if (!extension_loaded("pdo_sqlite"))
-	die("skip: PDO_SQLite not available");
+    die("skip: PDO_SQLite not available");
 ?>
 --FILE--
 <?php
@@ -34,7 +34,7 @@ this is a protected method.
 this is a private method.
 foo
 
-Fatal error: Uncaught Error: Call to protected method test::isProtected() from context '' in %s:%d
+Fatal error: Uncaught Error: Call to protected method test::isProtected() from global scope in %s:%d
 Stack trace:
 #0 {main}
   thrown in %s on line %d

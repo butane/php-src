@@ -3,7 +3,7 @@ IntlTimeZone::toDateTimeZone(): basic test
 --SKIPIF--
 <?php
 if (!extension_loaded('intl'))
-	die('skip intl extension not enabled');
+    die('skip intl extension not enabled');
 --FILE--
 <?php
 ini_set("intl.error_level", E_WARNING);
@@ -22,6 +22,7 @@ function do_test(IntlTimeZone $tz, $proc = false) {
 do_test(IntlTimeZone::createTimeZone('CET'));
 do_test(IntlTimeZone::createTimeZone('Europe/Amsterdam'));
 do_test(IntlTimeZone::createTimeZone('GMT+0405'), true);
+?>
 --EXPECTF--
 string(3) "CET"
 int(3600000)

@@ -2,11 +2,6 @@
 Test fputcsv() : usage variations - with delimiter as NULL
 --FILE--
 <?php
-/*
- Prototype: array fputcsv ( resource $handle , array $fields [, string $delimiter [, string $enclosure]]] );
- Description: Format line as CSV and write to the file pointer
-*/
-
 /* Testing fputcsv() to write to a file when delimiter is NULL */
 
 echo "*** Testing fputcsv() : with delimiter as NULL ***\n";
@@ -80,649 +75,649 @@ echo "Done\n";
 *** Testing fputcsv() : with delimiter as NULL ***
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in r+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in a+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in w+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+ --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+b --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""
 
 -- file opened in x+t --
-delimiter must be a character
+fputcsv(): Argument #3 ($separator) must be a single character
 int(0)
 bool(false)
 string(0) ""

@@ -1,101 +1,112 @@
 <?php
 
-function use_soap_error_handler(bool $handler = true): bool {}
+/** @generate-function-entries */
 
-function is_soap_fault($object): bool {}
+function use_soap_error_handler(bool $enable = true): bool {}
+
+function is_soap_fault(mixed $object): bool {}
 
 class SoapParam
 {
-    function __construct($data, string $name);
+    public function __construct(mixed $data, string $name) {}
 }
 
 class SoapHeader
 {
-    function __construct(string $namespace, string $name, $data = UNKNOWN, bool $mustunderstand = false, $actor = UNKNOWN);
+    public function __construct(string $namespace, string $name, mixed $data = UNKNOWN, bool $mustUnderstand = false, string|int|null $actor = null) {}
 }
 
 class SoapFault extends Exception
 {
-    function __construct($faultcode, string $faultstring, ?string $faultactor = null, $detail = null, ?string $faultname = null, $headerfault = null);
+    public function __construct(array|string|null $code, string $string, ?string $actor = null, mixed $details = null, ?string $name = null, mixed $headerFault = null) {}
 
-    /** @return string */
-    function __toString();
+    public function __toString(): string {}
 }
 
 class SoapVar
 {
-    function __construct($data, $encoding, string $type_name = "", string $type_namespace = "", string $node_name = "", string $node_namespace = "");
+    public function __construct(mixed $data, ?int $encoding, string $typeName = "", string $typeNamespace = "", string $nodeName = "", string $nodeNamespace = "") {}
 }
 
 class SoapServer
 {
-    function __construct($wsdl, array $options = []);
+    public function __construct(?string $wsdl, array $options = []) {}
 
     /** @return void */
-    function fault(string $code, string $string, string $actor = "", $details = null, string $name = "");
+    public function fault(string $code, string $string, string $actor = "", mixed $details = null, string $name = "") {}
 
     /** @return void */
-    function addSoapHeader(SoapHeader $object);
+    public function addSoapHeader(SoapHeader $header) {}
 
     /** @return void */
-    function setPersistence(int $mode);
+    public function setPersistence(int $mode) {}
 
     /** @return void */
-    function setClass(string $class_name, ...$argv);
+    public function setClass(string $class, mixed ...$args) {}
 
     /** @return void */
-    function setObject(object $object);
+    public function setObject(object $object) {}
 
     /** @return array */
-    function getFunctions();
+    public function getFunctions() {}
+
+    /**
+     * @param array|string|int $functions
+     * @return void
+     */
+    public function addFunction($functions) {}
 
     /** @return void */
-    function addFunction($functions);
-
-    /** @return void */
-    function handle(string $soap_request = UNKNOWN);
+    public function handle(?string $request = null) {}
 }
 
 class SoapClient
 {
-    function __construct($wsdl, array $options = []);
+    public function __construct(?string $wsdl, array $options = []) {}
 
     /** @return mixed */
-    function __call(string $function_name, array $arguments);
+    public function __call(string $name, array $args) {}
 
-    /** @return mixed */
-    function __soapCall(string $function_name, array $arguments, ?array $options = null, $input_headers = null, $output_headers = null);
+    /**
+     * @param SoapHeader|array|null $inputHeaders
+     * @param array $outputHeaders
+     * @return mixed
+     */
+    public function __soapCall(string $name, array $args, ?array $options = null, $inputHeaders = null, &$outputHeaders = null) {}
 
     /** @return array|null */
-    function __getFunctions();
+    public function __getFunctions() {}
 
     /** @return array|null */
-    function __getTypes();
+    public function __getTypes() {}
 
-    /** @return ?string */
-    function __getLastRequest();
+    /** @return string|null */
+    public function __getLastRequest() {}
 
-    /** @return ?string */
-    function __getLastResponse();
+    /** @return string|null */
+    public function __getLastResponse() {}
 
-    /** @return ?string */
-    function __getLastRequestHeaders();
+    /** @return string|null */
+    public function __getLastRequestHeaders() {}
 
-    /** @return ?string */
-    function __getLastResponseHeaders();
+    /** @return string|null */
+    public function __getLastResponseHeaders() {}
 
-    /** @return ?string */
-    function __doRequest(string $request, string $location, string $action, int $version, int $one_way = 0);
+    /** @return string|null */
+    public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false) {}
 
     /** @return void */
-    function __setCookie(string $name, ?string $value = null);
+    public function __setCookie(string $name, ?string $value = null) {}
 
     /** @return array */
-    function __getCookies();
+    public function __getCookies() {}
 
-    /** @return bool */
-    function __setSoapHeaders($soapheaders = null);
+    /**
+     * @param SoapHeader|array|null $headers
+     * @return bool
+     */
+    public function __setSoapHeaders($headers = null) {}
 
-    /** @return ?string */
-    function __setLocation(string $new_location = "");
+    /** @return string|null */
+    public function __setLocation(string $location = "") {}
 }

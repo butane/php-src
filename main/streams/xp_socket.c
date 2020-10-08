@@ -23,7 +23,7 @@
 # undef AF_UNIX
 #endif
 
-#if defined(AF_UNIX)
+#ifdef AF_UNIX
 #include <sys/un.h>
 #endif
 
@@ -237,7 +237,7 @@ static int php_sockop_flush(php_stream *stream)
 
 static int php_sockop_stat(php_stream *stream, php_stream_statbuf *ssb)
 {
-#if ZEND_WIN32
+#ifdef ZEND_WIN32
 	return 0;
 #else
 	php_netstream_data_t *sock = (php_netstream_data_t*)stream->abstract;
@@ -276,6 +276,12 @@ static inline int sock_recvfrom(php_netstream_data_t *sock, char *buf, size_t bu
 		socklen_t sl = sizeof(sa);
 		ret = recvfrom(sock->socket, buf, XP_SOCK_BUF_SIZE(buflen), flags, (struct sockaddr*)&sa, &sl);
 		ret = (ret == SOCK_CONN_ERR) ? -1 : ret;
+#ifdef PHP_WIN32
+		/* POSIX discards excess bytes without signalling failure; emulate this on Windows */
+		if (ret == -1 && WSAGetLastError() == WSAEMSGSIZE) {
+			ret = buflen;
+		}
+#endif
 		if (sl) {
 			php_network_populate_name_from_sockaddr((struct sockaddr*)&sa, sl,
 					textaddr, addr, addrlen);
@@ -443,12 +449,11 @@ static int php_sockop_set_option(php_stream *stream, int option, int value, void
 #endif
 
 				default:
-					return PHP_STREAM_OPTION_RETURN_NOTIMPL;
+					break;
 			}
-
-		default:
-			return PHP_STREAM_OPTION_RETURN_NOTIMPL;
 	}
+
+	return PHP_STREAM_OPTION_RETURN_NOTIMPL;
 }
 
 static int php_sockop_cast(php_stream *stream, int castas, void **ret)

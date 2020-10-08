@@ -56,11 +56,11 @@ try {
 ?>
 --EXPECT--
 Check invalid params:
-ReflectionClass::getMethod() expects exactly 1 parameter, 0 given
-ReflectionClass::getMethod() expects exactly 1 parameter, 2 given
-Method  does not exist
-Method 1 does not exist
-Method 1.5 does not exist
-Method 1 does not exist
+ReflectionClass::getMethod() expects exactly 1 argument, 0 given
+ReflectionClass::getMethod() expects exactly 1 argument, 2 given
+Method C::() does not exist
+Method C::1() does not exist
+Method C::1.5() does not exist
+Method C::1() does not exist
 ReflectionClass::getMethod(): Argument #1 ($name) must be of type string, array given
-ReflectionClass::getMethod(): Argument #1 ($name) must be of type string, object given
+ReflectionClass::getMethod(): Argument #1 ($name) must be of type string, C given

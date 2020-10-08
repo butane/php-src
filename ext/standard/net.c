@@ -128,8 +128,7 @@ static void iface_append_unicast(zval *unicast, zend_long flags,
 }
 #endif
 
-/* {{{ proto array|false net_get_interfaces()
-Returns an array in the form:
+/* {{{ Returns an array in the form:
 array(
   'ifacename' => array(
     'description' => 'Awesome interface', // Win32 only
@@ -302,8 +301,7 @@ PHP_FUNCTION(net_get_interfaces) {
 	freeifaddrs(addrs);
 #else
 	/* Should never happen as we never register the function */
-	php_error(E_WARNING, "No support for net_get_interfaces");
-	RETURN_FALSE;
+	ZEND_UNREACHABLE();
 #endif
 }
 /* }}} */

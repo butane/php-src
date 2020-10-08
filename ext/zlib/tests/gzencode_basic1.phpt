@@ -3,17 +3,11 @@ Test gzencode() function : basic functionality
 --SKIPIF--
 <?php
 if (!extension_loaded("zlib")) {
-	print "skip - ZLIB extension not loaded";
+    print "skip - ZLIB extension not loaded";
 }
 ?>
 --FILE--
 <?php
-/* Prototype  : string gzencode  ( string $data  [, int $level  [, int $encoding_mode  ]] )
- * Description: Gzip-compress a string
- * Source code: ext/zlib/zlib.c
- * Alias to functions:
- */
-
 /*
  * Test basic function of gzencode
  */

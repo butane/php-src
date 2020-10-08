@@ -260,8 +260,7 @@ ITypeLib *php_com_cache_typelib(ITypeLib* TL, char *cache_key, zend_long cache_k
 	return result;
 }
 
-PHP_COM_DOTNET_API ITypeLib *php_com_load_typelib_via_cache(char *search_string,
-	int codepage, int *cached)
+PHP_COM_DOTNET_API ITypeLib *php_com_load_typelib_via_cache(const char *search_string, int codepage)
 {
 	ITypeLib *TL;
 	char *name_dup;
@@ -272,14 +271,12 @@ PHP_COM_DOTNET_API ITypeLib *php_com_load_typelib_via_cache(char *search_string,
 #endif
 
 	if ((TL = zend_hash_find_ptr(&php_com_typelibraries, key)) != NULL) {
-		*cached = 1;
 		/* add a reference for the caller */
 		ITypeLib_AddRef(TL);
 
 		goto php_com_load_typelib_via_cache_return;
 	}
 
-	*cached = 0;
 	name_dup = estrndup(ZSTR_VAL(key), ZSTR_LEN(key));
 	TL = php_com_load_typelib(name_dup, codepage);
 	efree(name_dup);
@@ -624,8 +621,8 @@ int php_com_process_typeinfo(ITypeInfo *typeinfo, HashTable *id_to_name, int pri
 					ZVAL_STRINGL(&tmp, ansiname, ansinamelen);
 					zend_hash_index_update(id_to_name, func->memid, &tmp);
 					// TODO: avoid reallocation???
-					efree(ansiname);
 				}
+				efree(ansiname);
 			}
 			ITypeInfo_ReleaseFuncDesc(typeinfo, func);
 		}
@@ -636,7 +633,7 @@ int php_com_process_typeinfo(ITypeInfo *typeinfo, HashTable *id_to_name, int pri
 
 		ret = 1;
 	} else {
-		zend_error(E_WARNING, "That's not a dispatchable interface!! type kind = %08x", attr->typekind);
+		zend_throw_error(NULL, "Type kind must be dispatchable, %08x given", attr->typekind);
 	}
 
 	ITypeInfo_ReleaseTypeAttr(typeinfo, attr);

@@ -2,11 +2,6 @@
 Test fgets() function : error conditions
 --FILE--
 <?php
-/*
- Prototype: string fgets ( resource $handle [, int $length] );
- Description: Gets line from file pointer
-*/
-
 echo "*** Testing error conditions ***\n";
 
 $fp = fopen(__FILE__, "r");
@@ -33,6 +28,6 @@ var_dump( fgets($fp, $len) ); // return length - 1 always, expect false
 --EXPECT--
 *** Testing error conditions ***
 -- Testing fgets() with invalid length arguments --
-Length parameter must be greater than 0
-Length parameter must be greater than 0
+fgets(): Argument #2 ($length) must be greater than 0
+fgets(): Argument #2 ($length) must be greater than 0
 bool(false)

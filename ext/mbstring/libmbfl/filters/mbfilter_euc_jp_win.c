@@ -27,10 +27,6 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "mbfilter.h"
 #include "mbfilter_euc_jp_win.h"
 
@@ -66,7 +62,6 @@ static const char *mbfl_encoding_eucjp_win_aliases[] = {"eucJP-open",
 const struct mbfl_identify_vtbl vtbl_identify_eucjpwin = {
 	mbfl_no_encoding_eucjp_win,
 	mbfl_filt_ident_common_ctor,
-	mbfl_filt_ident_common_dtor,
 	mbfl_filt_ident_eucjp_win
 };
 
@@ -85,7 +80,7 @@ const struct mbfl_convert_vtbl vtbl_eucjpwin_wchar = {
 	mbfl_no_encoding_eucjp_win,
 	mbfl_no_encoding_wchar,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_eucjpwin_wchar,
 	mbfl_filt_conv_common_flush,
 	NULL,
@@ -95,7 +90,7 @@ const struct mbfl_convert_vtbl vtbl_wchar_eucjpwin = {
 	mbfl_no_encoding_wchar,
 	mbfl_no_encoding_eucjp_win,
 	mbfl_filt_conv_common_ctor,
-	mbfl_filt_conv_common_dtor,
+	NULL,
 	mbfl_filt_conv_wchar_eucjpwin,
 	mbfl_filt_conv_common_flush,
 	NULL,

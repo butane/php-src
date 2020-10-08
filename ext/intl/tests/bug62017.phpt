@@ -3,7 +3,7 @@ Bug #62017: datefmt_create with incorrectly encoded timezone leaks pattern
 --SKIPIF--
 <?php
 if (!extension_loaded('intl'))
-	die('skip intl extension not enabled');
+    die('skip intl extension not enabled');
 --FILE--
 <?php
 ini_set('intl.error_level', E_WARNING);
@@ -17,6 +17,7 @@ try {
 } catch (IntlException $e) {
     echo PHP_EOL."Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine() . PHP_EOL;
 }
+?>
 --EXPECTF--
 Warning: datefmt_create(): datefmt_create: Time zone identifier given is not a valid UTF-8 string in %s on line %d
 NULL

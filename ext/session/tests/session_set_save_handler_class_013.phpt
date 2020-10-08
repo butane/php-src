@@ -10,12 +10,6 @@ session.name=PHPSESSID
 
 ob_start();
 
-/*
- * Prototype : bool session_set_save_handler(SessionHandler $handler [, bool $register_shutdown_function = true])
- * Description : Sets user-level session storage functions
- * Source code : ext/session/session.c
- */
-
 echo "*** Testing session_set_save_handler() : incorrect arguments for existing handler close ***\n";
 
 class MySession extends SessionHandler {
@@ -53,7 +47,7 @@ int(2)
 array(0) {
 }
 
-Fatal error: Uncaught ArgumentCountError: SessionHandler::close() expects exactly 0 parameters, 1 given in %s:%d
+Fatal error: Uncaught ArgumentCountError: SessionHandler::close() expects exactly 0 arguments, 1 given in %s:%d
 Stack trace:
 #0 %s(%d): SessionHandler->close(false)
 #1 [internal function]: MySession->close()

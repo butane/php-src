@@ -2,11 +2,6 @@
 Test abs() function : usage variations - different data types as $number arg
 --FILE--
 <?php
-/* Prototype  : number abs  ( mixed $number  )
- * Description: Returns the absolute value of number.
- * Source code: ext/standard/math.c
- */
-
 /*
  * Pass different data types as $number argument to abs() to test behaviour
  */
@@ -105,25 +100,25 @@ int(1)
 int(0)
 
 -- Iteration 7 --
-abs(): Argument #1 ($number) must be of type int|float, string given
+abs(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 8 --
-abs(): Argument #1 ($number) must be of type int|float, string given
+abs(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 9 --
-abs(): Argument #1 ($number) must be of type int|float, array given
+abs(): Argument #1 ($num) must be of type int|float, array given
 
 -- Iteration 10 --
-abs(): Argument #1 ($number) must be of type int|float, string given
+abs(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 11 --
-abs(): Argument #1 ($number) must be of type int|float, string given
+abs(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 12 --
-abs(): Argument #1 ($number) must be of type int|float, string given
+abs(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 13 --
-abs(): Argument #1 ($number) must be of type int|float, object given
+abs(): Argument #1 ($num) must be of type int|float, classA given
 
 -- Iteration 14 --
 int(0)
@@ -132,4 +127,4 @@ int(0)
 int(0)
 
 -- Iteration 16 --
-abs(): Argument #1 ($number) must be of type int|float, resource given
+abs(): Argument #1 ($num) must be of type int|float, resource given

@@ -7,7 +7,7 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . 'mysql_pdo_test.inc');
 MySQLPDOTest::skip();
 $db = MySQLPDOTest::factory();
 if (false == MySQLPDOTest::detect_transactional_mysql_engine($db))
-	die("skip Transactional engine not found");
+    die("skip Transactional engine not found");
 ?>
 --FILE--
 <?php
@@ -54,5 +54,6 @@ if (false == MySQLPDOTest::detect_transactional_mysql_engine($db))
     }
 
     print "done!";
+?>
 --EXPECT--
 done!

@@ -21,6 +21,8 @@
 #include <sys/stat.h>
 #if defined(__FreeBSD__)
 #include <sys/sysctl.h>
+#elif defined(__HAIKU__)
+#include <FindDirectory.h>
 #endif
 #include <fcntl.h>
 #include <unistd.h>
@@ -58,8 +60,19 @@ void zend_elf_load_symbols(void)
 	size_t pathlen = sizeof(path);
 	int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
 	if (sysctl(mib, 4, path, &pathlen, NULL, 0) == -1) {
-             return;
+		return;
 	}
+	int fd = open(path, O_RDONLY);
+#elif defined(__sun)
+	const char *path = getexecname();
+	int fd = open(path, O_RDONLY);
+#elif defined(__HAIKU__)
+	char path[PATH_MAX];
+	if (find_path(B_APP_IMAGE_SYMBOL, B_FIND_PATH_IMAGE_PATH,
+		NULL, path, sizeof(path)) != B_OK) {
+		return;
+	}
+
 	int fd = open(path, O_RDONLY);
 #else
 	// To complete eventually for other ELF platforms.

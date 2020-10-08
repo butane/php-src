@@ -199,8 +199,7 @@ php_version_compare(const char *orig_ver1, const char *orig_ver2)
 }
 
 /* }}} */
-/* {{{ proto int|bool|null version_compare(string ver1, string ver2 [, string oper])
-  Compares two "PHP-standardized" version number strings */
+/* {{{ Compares two "PHP-standardized" version number strings */
 
 PHP_FUNCTION(version_compare)
 {
@@ -212,7 +211,7 @@ PHP_FUNCTION(version_compare)
 		Z_PARAM_STRING(v1, v1_len)
 		Z_PARAM_STRING(v2, v2_len)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_STRING(op, op_len)
+		Z_PARAM_STRING_OR_NULL(op, op_len)
 	ZEND_PARSE_PARAMETERS_END();
 
 	compare = php_version_compare(v1, v2);
@@ -238,7 +237,7 @@ PHP_FUNCTION(version_compare)
 		RETURN_BOOL(compare != 0);
 	}
 
-	zend_value_error("Invalid comparison operator");
+	zend_argument_value_error(3, "must be a valid comparison operator");
 }
 
 /* }}} */

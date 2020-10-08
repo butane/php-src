@@ -2,17 +2,10 @@
 imagepolygon()
 --SKIPIF--
 <?php
-	if (!function_exists('imagepolygon')) die('skip imagepolygon() not available');
+    if (!function_exists('imagepolygon')) die('skip imagepolygon() not available');
 ?>
 --FILE--
 <?php
-
-/* Prototype  : bool imagepolygon  ( resource $image  , array $points  , int $num_points  , int $color  )
- * Description: Draws a polygon.
- * Source code: ext/gd/gd.c
- * Alias to functions:
- */
-
 
 echo "Simple test of imagepolygon() function\n";
 
@@ -50,8 +43,8 @@ echo "Done\n";
 ?>
 --CLEAN--
 <?php
-	$dest = dirname(realpath(__FILE__)) . '/imagepolygon.png';
-	@unlink($dest);
+    $dest = dirname(realpath(__FILE__)) . '/imagepolygon.png';
+    @unlink($dest);
 ?>
 --EXPECT--
 Simple test of imagepolygon() function

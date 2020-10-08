@@ -2,12 +2,6 @@
 SPL: Test class_implements() function : variation
 --FILE--
 <?php
-/* Prototype  : array class_implements(mixed what [, bool autoload ])
- * Description: Return all classes and interfaces implemented by SPL
- * Source code: ext/spl/php_spl.c
- * Alias to functions:
- */
-
 echo "*** Testing class_implements() : variation ***\n";
 
 
@@ -119,61 +113,61 @@ fclose($res);
 *** Testing class_implements() : variation ***
 
 --int 0--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, int given
 
 --int 1--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, int given
 
 --int 12345--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, int given
 
 --int -12345--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, int given
 
 --float 10.5--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, float given
 
 --float -10.5--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, float given
 
 --float 12.3456789000e10--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, float given
 
 --float -12.3456789000e10--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, float given
 
 --float .5--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, float given
 
 --empty array--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, array given
 
 --int indexed array--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, array given
 
 --associative array--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, array given
 
 --nested arrays--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, array given
 
 --uppercase NULL--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, null given
 
 --lowercase null--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, null given
 
 --lowercase true--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, bool given
 
 --lowercase false--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, bool given
 
 --uppercase TRUE--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, bool given
 
 --uppercase FALSE--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, bool given
 
 --empty string DQ--
 Error: 2 - class_implements(): Class  does not exist and could not be loaded, %s(%d)
@@ -184,7 +178,9 @@ Error: 2 - class_implements(): Class  does not exist and could not be loaded, %s
 bool(false)
 
 --instance of classWithToString--
-array(0) {
+array(1) {
+  ["Stringable"]=>
+  string(10) "Stringable"
 }
 
 --instance of classWithoutToString--
@@ -192,10 +188,10 @@ array(0) {
 }
 
 --undefined var--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, null given
 
 --unset var--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, null given
 
 --resource--
-Object or string expected
+class_implements(): Argument #1 ($object_or_class) must be of type object|string, resource given

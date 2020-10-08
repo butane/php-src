@@ -20,9 +20,8 @@
 #endif
 
 #include "php.h"
-#if HAVE_LIBXML && HAVE_DOM
+#if defined(HAVE_LIBXML) && defined(HAVE_DOM)
 #include "php_dom.h"
-#include "dom_arginfo.h"
 
 /*
 * class DOMProcessingInstruction extends DOMNode
@@ -31,13 +30,8 @@
 * Since:
 */
 
-const zend_function_entry php_dom_processinginstruction_class_functions[] = {
-	PHP_ME(domprocessinginstruction, __construct, arginfo_class_DOMProcessingInstruction___construct, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
-/* {{{ proto DOMProcessingInstruction::__construct(string name, [string value]); */
-PHP_METHOD(domprocessinginstruction, __construct)
+/* {{{ */
+PHP_METHOD(DOMProcessingInstruction, __construct)
 {
 	xmlNodePtr nodep = NULL, oldnode = NULL;
 	dom_object *intern;
@@ -52,14 +46,14 @@ PHP_METHOD(domprocessinginstruction, __construct)
 	name_valid = xmlValidateName((xmlChar *) name, 0);
 	if (name_valid != 0) {
 		php_dom_throw_error(INVALID_CHARACTER_ERR, 1);
-		RETURN_FALSE;
+		RETURN_THROWS();
 	}
 
 	nodep = xmlNewPI((xmlChar *) name, (xmlChar *) value);
 
 	if (!nodep) {
 		php_dom_throw_error(INVALID_STATE_ERR, 1);
-		RETURN_FALSE;
+		RETURN_THROWS();
 	}
 
 	intern = Z_DOMOBJ_P(ZEND_THIS);

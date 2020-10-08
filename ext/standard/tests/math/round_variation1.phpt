@@ -4,12 +4,6 @@ Test round() function : usage variations - different data types as $val argument
 precision=14
 --FILE--
 <?php
-/* Prototype  : float round  ( float $val  [, int $precision  ] )
- * Description: Returns the rounded value of val  to specified precision (number of digits
- * after the decimal point)
- * Source code: ext/standard/math.c
- */
-
 echo "*** Testing round() : usage variations ***\n";
 
 //get an unset variable
@@ -143,25 +137,25 @@ float(1)
 float(0)
 
 -- Iteration 17 --
-round(): Argument #1 ($number) must be of type int|float, string given
+round(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 18 --
-round(): Argument #1 ($number) must be of type int|float, string given
+round(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 19 --
-round(): Argument #1 ($number) must be of type int|float, array given
+round(): Argument #1 ($num) must be of type int|float, array given
 
 -- Iteration 20 --
-round(): Argument #1 ($number) must be of type int|float, string given
+round(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 21 --
-round(): Argument #1 ($number) must be of type int|float, string given
+round(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 22 --
-round(): Argument #1 ($number) must be of type int|float, string given
+round(): Argument #1 ($num) must be of type int|float, string given
 
 -- Iteration 23 --
-round(): Argument #1 ($number) must be of type int|float, object given
+round(): Argument #1 ($num) must be of type int|float, classA given
 
 -- Iteration 24 --
 float(0)
@@ -170,4 +164,4 @@ float(0)
 float(0)
 
 -- Iteration 26 --
-round(): Argument #1 ($number) must be of type int|float, resource given
+round(): Argument #1 ($num) must be of type int|float, resource given

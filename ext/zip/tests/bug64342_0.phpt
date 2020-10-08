@@ -2,7 +2,7 @@
 Bug #64342 ZipArchive::addFile() has to check file existence (variation 1)
 --SKIPIF--
 <?php
-	if(!extension_loaded('zip')) die('skip');
+    if(!extension_loaded('zip')) die('skip');
 ?>
 --FILE--
 <?php
@@ -35,6 +35,7 @@ DONE
 <?php
 
 @unlink(__DIR__ . '/bug64342.zip');
+?>
 --EXPECTF--
 %s.txt
 add failed

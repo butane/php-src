@@ -3,7 +3,7 @@ IntlTimeZone::toDateTimeZone(): errors
 --SKIPIF--
 <?php
 if (!extension_loaded('intl'))
-	die('skip intl extension not enabled');
+    die('skip intl extension not enabled');
 --FILE--
 <?php
 ini_set("intl.error_level", E_WARNING);
@@ -17,6 +17,7 @@ try {
 }
 
 var_dump(intltz_to_date_time_zone(1));
+?>
 --EXPECTF--
 Warning: IntlTimeZone::toDateTimeZone(): intltz_to_date_time_zone: DateTimeZone constructor threw exception in %s on line %d
 string(66) "DateTimeZone::__construct(): Unknown or bad timezone (Etc/Unknown)"

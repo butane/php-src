@@ -2,9 +2,6 @@
 Test dirname() function : error conditions
 --FILE--
 <?php
-/* Prototype: string dirname ( string $path );
-   Description: Returns directory name component of path.
-*/
 echo "*** Testing error conditions ***\n";
 
 // Bad arg
@@ -17,4 +14,4 @@ try {
 ?>
 --EXPECT--
 *** Testing error conditions ***
-Invalid argument, levels must be >= 1
+dirname(): Argument #2 ($levels) must be greater than or equal to 1

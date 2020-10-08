@@ -6,17 +6,11 @@ if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
     die("skip Test is not valid for Windows");
 }
 if(!setlocale(LC_ALL, "POSIX")) {
-	die("skip Locale POSIX is  needed by test and is not available");
+    die("skip Locale POSIX is  needed by test and is not available");
 }
 ?>
 --FILE--
 <?php
-/* Prototype  : string strftime(string format [, int timestamp])
- * Description: Format a local time/date according to locale settings
- * Source code: ext/date/php_date.c
- * Alias to functions:
- */
-
 echo "*** Testing strftime() : usage variation ***\n";
 
 // Initialise function arguments not being substituted (if any)

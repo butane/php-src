@@ -3,7 +3,6 @@ Interface of the class mysqli_result
 --SKIPIF--
 <?php
 require_once('skipif.inc');
-require_once('skipifemb.inc');
 require_once('skipifconnectfailure.inc');
 ?>
 --FILE--
@@ -38,6 +37,7 @@ require_once('skipifconnectfailure.inc');
         'field_seek'            => true,
         'free'                  => true,
         'free_result'           => true,
+        'getIterator'           => true,
     );
     if ($IS_MYSQLND)
         $expected_methods['fetch_all'] = true;
@@ -148,7 +148,7 @@ require_once('skipifconnectfailure.inc');
 
     print "done!";
 ?>
---EXPECTF--
+--EXPECT--
 Parent class:
 bool(false)
 

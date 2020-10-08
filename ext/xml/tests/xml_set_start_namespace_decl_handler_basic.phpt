@@ -3,17 +3,11 @@ Test xml_set_start_namespace_decl_handler function: basic
 --SKIPIF--
 <?php
 if (!extension_loaded("xml")) {
-	print "skip - XML extension not loaded";
+    print "skip - XML extension not loaded";
 }
 ?>
 --FILE--
 <?php
-/* Prototype  : bool xml_set_start_namespace_decl_handler  ( resource $parser  , callback $handler  )
- * Description: Set up start namespace declaration handler.
- * Source code: ext/xml/xml.c
- * Alias to functions:
- */
-
 $xml = <<<HERE
 <aw1:book xmlns:aw1="http://www.somewhere.com/namespace1"
           xmlns:aw2="file:/DTD/somewhere.dtd">

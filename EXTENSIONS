@@ -37,7 +37,7 @@ STATUS:              Working
 -------------------------------------------------------------------------------
 EXTENSION:           cli
 PRIMARY MAINTAINER:  Marcus Börger <helly@php.net>, Edin Kadribasic <edink@php.net>
-MAINTENANCE:         Unknown
+MAINTENANCE:         Xinchen Hui <laruence@php.net> (2013 - 2020)
 STATUS:              Working
 SINCE:               4.3.0
 -------------------------------------------------------------------------------
@@ -214,11 +214,6 @@ PRIMARY MAINTAINER:  Rob Richards <rrichards@php.net> (2004 - 2010)
 MAINTENANCE:         Maintained
 STATUS:              Working
 -------------------------------------------------------------------------------
-EXTENSION:           xmlrpc
-PRIMARY MAINTAINER:  Unknown
-MAINTENANCE:         Orphaned
-STATUS:              Experimental
--------------------------------------------------------------------------------
 EXTENSION:           xmlwriter
 PRIMARY MAINTAINER:  Rob Richards <rrichards@php.net> (2004 - 2010)
                      Pierre-Alain Joye <pajoye@php.net> (2005-2009)
@@ -298,7 +293,7 @@ SINCE:               7.4.0
 -------------------------------------------------------------------------------
 EXTENSION:           fileinfo
 PRIMARY MAINTAINER:  Derick Rethans <derick@php.net> (2004 - 2008)
-                     Anatol Belski <ab@php.net> (2012 - 2019)
+                     Anatol Belski <ab@php.net> (2012 - 2020)
 MAINTENANCE:         Maintained
 STATUS:              Working
 SINCE:               5.3
@@ -385,7 +380,7 @@ STATUS:              Working
 -------------------------------------------------------------------------------
 EXTENSION:           opcache
 PRIMARY MAINTAINER:  Dmitry Stogov <dmitry@php.net> (2013 - 2018)
-                     Xinchen Hui <laruence@php.net> (2013 - 2018)
+                     Xinchen Hui <laruence@php.net> (2013 - 2020)
                      Nikita Popov <nikic@php.net> (2016 - 2020)
 MAINTENANCE:         Maintained
 STATUS:              Working
@@ -510,6 +505,7 @@ STATUS:              Working
 -------------------------------------------------------------------------------
 EXTENSION:           zip
 PRIMARY MAINTAINER:  Pierre-Alain Joye <pajoye@php.net> (2006 - 2011)
+                     Remi Collet <remi@php.net> (2013-2020)
 MAINTENANCE:         Maintained
 STATUS:              Working
 -------------------------------------------------------------------------------

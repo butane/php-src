@@ -3,16 +3,12 @@ Test tempnam() function: usage variations - obscure prefixes
 --SKIPIF--
 <?php
 if(substr(PHP_OS, 0, 3) != "WIN")
-	die("skip run only on Windows");
+    die("skip run only on Windows");
 ?>
 --CONFLICTS--
 obscure_filename
 --FILE--
 <?php
-/* Prototype:  string tempnam ( string $dir, string $prefix );
-   Description: Create file with unique file name.
-*/
-
 /* Passing invalid/non-existing args for $prefix */
 
 echo "*** Testing tempnam() with obscure prefixes ***\n";
@@ -63,7 +59,7 @@ for( $i=0; $i<count($names_arr); $i++ ) {
     echo "-- Iteration $i --\n";
     try {
         $file_name = tempnam($file_path, $names_arr[$i]);
-    } catch (TypeError $e) {
+    } catch (Error $e) {
         echo $e->getMessage(), "\n";
         continue;
     }
@@ -110,9 +106,9 @@ Notice: tempnam(): file created in the system's temporary directory in %stempnam
 Failed, not created in the correct directory %s vs %s
 0
 -- Iteration 6 --
-tempnam(): Argument #2 ($prefix) must be a valid path, string given
+tempnam(): Argument #2 ($prefix) must not contain any null bytes
 -- Iteration 7 --
-tempnam(): Argument #2 ($prefix) must be a valid path, array given
+tempnam(): Argument #2 ($prefix) must be of type string, array given
 -- Iteration 8 --
 OK
 -- Iteration 9 --

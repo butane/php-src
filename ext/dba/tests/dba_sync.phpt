@@ -2,8 +2,8 @@
 DBA Sync Test
 --SKIPIF--
 <?php
-	require_once __DIR__ .'/skipif.inc';
-	die("info $HND handler used");
+    require_once __DIR__ .'/skipif.inc';
+    die("info $HND handler used");
 ?>
 --FILE--
 <?php
@@ -32,9 +32,9 @@ if (($db_file=dba_open($db_filename, "n", $handler))!==FALSE) {
 ?>
 --CLEAN--
 <?php
-	require(__DIR__ .'/clean.inc');
+    require(__DIR__ .'/clean.inc');
 ?>
---EXPECTF--
+--EXPECT--
 database handler: flatfile
 2YY
 bool(true)

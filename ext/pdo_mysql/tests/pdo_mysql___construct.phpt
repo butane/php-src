@@ -150,7 +150,8 @@ MySQLPDOTest::skip();
             $dsn = MySQLPDOTest::getDSN(array('dbname' => $db), 'dbname=' . $invalid_db);
             try { $db = @new PDO($dsn, $user, $pass); assert(false); printf("%s\n", $dsn); } catch (PDOException $e) {
                 $tmp = $e->getMessage();
-                if (!stristr($tmp, '42000') && !stristr($tmp, '1049'))
+                // 1044 may occur here if running tests using a custom user that does not have access to all databases
+                if (!stristr($tmp, '42000') && !stristr($tmp, '1049') && !stristr($tmp, '1044'))
                     printf("[022] Cannot find proper error codes: %s\n", $tmp);
             }
 
@@ -293,11 +294,11 @@ MySQLPDOTest::skip();
     print "done!";
 ?>
 --EXPECTF--
-[002] invalid data source name, [n/a] n/a
-[003] invalid data source name, [n/a] n/a
-[004] invalid data source name, [n/a] n/a
-[005] invalid data source name, [n/a] n/a
-[006] invalid data source name, [n/a] n/a
+[002] PDO::__construct(): Argument #1 ($dsn) must be a valid data source name, [n/a] n/a
+[003] PDO::__construct(): Argument #1 ($dsn) must be a valid data source name, [n/a] n/a
+[004] PDO::__construct(): Argument #1 ($dsn) must be a valid data source name, [n/a] n/a
+[005] PDO::__construct(): Argument #1 ($dsn) must be a valid data source name, [n/a] n/a
+[006] PDO::__construct(): Argument #1 ($dsn) must be a valid data source name, [n/a] n/a
 [007] could not find driver, [n/a] n/a
 [009] SQLSTATE[%s] [1045] Access denied for user 'dont%s'@'%s' (using password: YES), [n/a] n/a
 [017] DSN=%s, SQLSTATE[%s] [%d] %s

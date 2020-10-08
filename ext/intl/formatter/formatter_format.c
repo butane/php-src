@@ -24,11 +24,7 @@
 #include "formatter_format.h"
 #include "intl_convert.h"
 
-/* {{{ proto mixed NumberFormatter::format( mixed $num[, int $type] )
- * Format a number. }}} */
-/* {{{ proto mixed numfmt_format( NumberFormatter $nf, mixed $num[, int type] )
- * Format a number.
- */
+/* {{{ Format a number. */
 PHP_FUNCTION( numfmt_format )
 {
 	zval *number;
@@ -109,20 +105,15 @@ PHP_FUNCTION( numfmt_format )
 			break;
 
 		default:
-			php_error_docref(NULL, E_WARNING, "Unsupported format type " ZEND_LONG_FMT, type);
-			RETURN_FALSE;
-			break;
+			zend_argument_value_error(3, "must be a NumberFormatter::TYPE_* constant");
+			RETURN_THROWS();
 	}
 
 	INTL_METHOD_RETVAL_UTF8( nfo, formatted, formatted_len, ( formatted != format_buf ) );
 }
 /* }}} */
 
-/* {{{ proto mixed NumberFormatter::formatCurrency( double $num, string $currency )
- * Format a number as currency. }}} */
-/* {{{ proto mixed numfmt_format_currency( NumberFormatter $nf, double $num, string $currency )
- * Format a number as currency.
- */
+/* {{{ Format a number as currency. */
 PHP_FUNCTION( numfmt_format_currency )
 {
 	double     number;
