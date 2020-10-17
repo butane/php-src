@@ -31,13 +31,15 @@
 #include "mbfilter_iso8859_3.h"
 #include "unicode_table_iso8859_3.h"
 
+static int mbfl_filt_ident_iso8859_3(int c, mbfl_identify_filter *filter);
+
 static const char *mbfl_encoding_8859_3_aliases[] = {"ISO8859-3", "latin3", NULL};
 
 const mbfl_encoding mbfl_encoding_8859_3 = {
 	mbfl_no_encoding_8859_3,
 	"ISO-8859-3",
 	"ISO-8859-3",
-	(const char *(*)[])&mbfl_encoding_8859_3_aliases,
+	mbfl_encoding_8859_3_aliases,
 	NULL,
 	MBFL_ENCTYPE_SBCS,
 	&vtbl_8859_3_wchar,
@@ -47,7 +49,7 @@ const mbfl_encoding mbfl_encoding_8859_3 = {
 const struct mbfl_identify_vtbl vtbl_identify_8859_3 = {
 	mbfl_no_encoding_8859_3,
 	mbfl_filt_ident_common_ctor,
-	mbfl_filt_ident_true
+	mbfl_filt_ident_iso8859_3
 };
 
 const struct mbfl_convert_vtbl vtbl_8859_3_wchar = {
@@ -119,9 +121,6 @@ int mbfl_filt_conv_wchar_8859_3(int c, mbfl_convert_filter *filter)
 			}
 			n--;
 		}
-		if (s <= 0 && (c & ~MBFL_WCSPLANE_MASK) == MBFL_WCSPLANE_8859_3) {
-			s = c & MBFL_WCSPLANE_MASK;
-		}
 	}
 
 	if (s >= 0) {
@@ -130,5 +129,13 @@ int mbfl_filt_conv_wchar_8859_3(int c, mbfl_convert_filter *filter)
 		CK(mbfl_filt_conv_illegal_output(c, filter));
 	}
 
+	return c;
+}
+
+static int mbfl_filt_ident_iso8859_3(int c, mbfl_identify_filter *filter)
+{
+	if (c >= 0xA0 && !iso8859_3_ucs_table[c - 0xA0]) {
+		filter->status = 1;
+	}
 	return c;
 }

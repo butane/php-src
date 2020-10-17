@@ -5907,7 +5907,7 @@ PHP_FUNCTION(openssl_cms_sign)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(flags)
 		Z_PARAM_LONG(encoding)
-		Z_PARAM_PATH(extracertsfilename, extracertsfilename_len)
+		Z_PARAM_PATH_OR_NULL(extracertsfilename, extracertsfilename_len)
 	ZEND_PARSE_PARAMETERS_END();
 
 	RETVAL_FALSE;
@@ -7156,8 +7156,6 @@ PHP_OPENSSL_API zend_string* php_openssl_encrypt(
 			}
 		} else if (tag) {
 			ZEND_TRY_ASSIGN_REF_NULL(tag);
-			php_error_docref(NULL, E_WARNING,
-					"The authenticated tag cannot be provided for cipher that doesn not support AEAD");
 		} else if (mode.is_aead) {
 			php_error_docref(NULL, E_WARNING, "A tag should be provided when using AEAD mode");
 			zend_string_release_ex(outbuf, 0);

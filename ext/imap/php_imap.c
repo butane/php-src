@@ -798,7 +798,9 @@ PHP_FUNCTION(imap_open)
 	}
 #endif
 
+	ZEND_IGNORE_LEAKS_BEGIN();
 	imap_stream = mail_open(NIL, ZSTR_VAL(mailbox), flags);
+	ZEND_IGNORE_LEAKS_END();
 
 	if (imap_stream == NIL) {
 		php_error_docref(NULL, E_WARNING, "Couldn't open stream %s", ZSTR_VAL(mailbox));
@@ -1757,7 +1759,9 @@ PHP_FUNCTION(imap_lsub)
 	IMAPG(folderlist_style) = FLIST_ARRAY;
 
 	IMAPG(imap_sfolders) = NIL;
+	ZEND_IGNORE_LEAKS_BEGIN();
 	mail_lsub(imap_le_struct->imap_stream, ZSTR_VAL(ref), ZSTR_VAL(pat));
+	ZEND_IGNORE_LEAKS_END();
 	if (IMAPG(imap_sfolders) == NIL) {
 		RETURN_FALSE;
 	}
@@ -1795,7 +1799,9 @@ PHP_FUNCTION(imap_getsubscribed)
 	IMAPG(folderlist_style) = FLIST_OBJECT;
 
 	IMAPG(imap_sfolder_objects) = IMAPG(imap_sfolder_objects_tail) = NIL;
+	ZEND_IGNORE_LEAKS_BEGIN();
 	mail_lsub(imap_le_struct->imap_stream, ZSTR_VAL(ref), ZSTR_VAL(pat));
+	ZEND_IGNORE_LEAKS_END();
 	if (IMAPG(imap_sfolder_objects) == NIL) {
 		RETURN_FALSE;
 	}
@@ -2244,8 +2250,9 @@ PHP_FUNCTION(imap_rfc822_write_address)
 	if (string) {
 		RETVAL_STR(string);
 	} else {
-		RETURN_FALSE;
+		RETVAL_FALSE;
 	}
+	mail_free_address(&addr);
 }
 /* }}} */
 
@@ -2700,14 +2707,15 @@ PHP_FUNCTION(imap_sort)
 {
 	zval *streamind;
 	zend_string *criteria = NULL, *charset = NULL;
-	zend_long sort, rev, flags = 0;
+	zend_long sort, flags = 0;
+	zend_bool rev;
 	pils *imap_le_struct;
 	unsigned long *slst, *sl;
 	char *search_criteria;
 	SORTPGM *mypgm=NIL;
 	SEARCHPGM *spg=NIL;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "rll|lS!S!", &streamind, &sort, &rev, &flags, &criteria, &charset) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "rlb|lS!S!", &streamind, &sort, &rev, &flags, &criteria, &charset) == FAILURE) {
 		RETURN_THROWS();
 	}
 
@@ -2733,6 +2741,9 @@ PHP_FUNCTION(imap_sort)
 	} else {
 		spg = mail_newsearchpgm();
 	}
+	if (spg == NIL) {
+		RETURN_FALSE;
+	}
 
 	mypgm = mail_newsortpgm();
 	mypgm->reverse = rev;
@@ -2741,6 +2752,7 @@ PHP_FUNCTION(imap_sort)
 
 	slst = mail_sort(imap_le_struct->imap_stream, (charset ? ZSTR_VAL(charset) : NIL), spg, mypgm, flags);
 
+	mail_free_sortpgm(&mypgm);
 	if (spg && !(flags & SE_FREE)) {
 		mail_free_searchpgm(&spg);
 	}

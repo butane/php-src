@@ -396,18 +396,6 @@ const mbfl_encoding *mbfl_encoding_detector_judge(mbfl_encoding_detector *identd
 			}
 			n--;
 		}
-
-		/* fallback judge */
-		if (!encoding) {
-			n = identd->filter_list_size - 1;
-			while (n >= 0) {
-				filter = identd->filter_list[n];
-				if (!filter->flag) {
-					encoding = filter->encoding;
-				}
-				n--;
- 			}
-		}
 	}
 
 	return encoding;
@@ -486,7 +474,7 @@ mbfl_convert_encoding(
 const mbfl_encoding *
 mbfl_identify_encoding(mbfl_string *string, const mbfl_encoding **elist, int elistsz, int strict)
 {
-	int i, num, bad;
+	int i, bad;
 	size_t n;
 	unsigned char *p;
 	mbfl_identify_filter *flist, *filter;
@@ -495,12 +483,9 @@ mbfl_identify_encoding(mbfl_string *string, const mbfl_encoding **elist, int eli
 	/* flist is an array of mbfl_identify_filter instances */
 	flist = ecalloc(elistsz, sizeof(mbfl_identify_filter));
 
-	num = 0;
 	if (elist != NULL) {
 		for (i = 0; i < elistsz; i++) {
-			if (!mbfl_identify_filter_init2(&flist[num], elist[i])) {
-				num++;
-			}
+			mbfl_identify_filter_init2(&flist[i], elist[i]);
 		}
 	}
 
@@ -511,7 +496,7 @@ mbfl_identify_encoding(mbfl_string *string, const mbfl_encoding **elist, int eli
 	if (p != NULL) {
 		bad = 0;
 		while (n > 0) {
-			for (i = 0; i < num; i++) {
+			for (i = 0; i < elistsz; i++) {
 				filter = &flist[i];
 				if (!filter->flag) {
 					(*filter->filter_function)(*p, filter);
@@ -520,7 +505,7 @@ mbfl_identify_encoding(mbfl_string *string, const mbfl_encoding **elist, int eli
 					}
 				}
 			}
-			if ((num - 1) <= bad && !strict) {
+			if ((elistsz - 1) <= bad && !strict) {
 				break;
 			}
 			p++;
@@ -531,7 +516,7 @@ mbfl_identify_encoding(mbfl_string *string, const mbfl_encoding **elist, int eli
 	/* judge */
 	encoding = NULL;
 
-	for (i = 0; i < num; i++) {
+	for (i = 0; i < elistsz; i++) {
 		filter = &flist[i];
 		if (!filter->flag) {
 			if (strict && filter->status) {
@@ -544,7 +529,7 @@ mbfl_identify_encoding(mbfl_string *string, const mbfl_encoding **elist, int eli
 
 	/* fall-back judge */
 	if (!encoding) {
-		for (i = 0; i < num; i++) {
+		for (i = 0; i < elistsz; i++) {
 			filter = &flist[i];
 			if (!filter->flag && (!strict || !filter->status)) {
 				encoding = filter->encoding;

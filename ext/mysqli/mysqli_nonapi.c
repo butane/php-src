@@ -383,6 +383,13 @@ PHP_METHOD(mysqli, __construct)
 	mysqli_common_connect(INTERNAL_FUNCTION_PARAM_PASSTHRU, FALSE, TRUE);
 }
 
+/* {{{ Initialize mysqli and return a resource for use with mysql_real_connect */
+PHP_METHOD(mysqli, init)
+{
+	php_mysqli_init(INTERNAL_FUNCTION_PARAM_PASSTHRU, TRUE);
+}
+/* }}} */
+
 /* {{{ Returns the numerical value of the error message from last connect command */
 PHP_FUNCTION(mysqli_connect_errno)
 {
@@ -1160,7 +1167,7 @@ PHP_FUNCTION(mysqli_begin_transaction)
 	zval		*mysql_link;
 	zend_long		flags = TRANS_START_NO_OPT;
 	char *		name = NULL;
-	size_t			name_len = -1;
+	size_t			name_len = 0;
 
 	if (zend_parse_method_parameters(ZEND_NUM_ARGS(), getThis(), "O|ls!", &mysql_link, mysqli_link_class_entry, &flags, &name, &name_len) == FAILURE) {
 		RETURN_THROWS();
@@ -1170,7 +1177,7 @@ PHP_FUNCTION(mysqli_begin_transaction)
 		zend_argument_value_error(ERROR_ARG_POS(2), "must be one of the MYSQLI_TRANS_* constants");
 		RETURN_THROWS();
 	}
-	if (!name_len) {
+	if (name && !name_len) {
 		zend_argument_value_error(ERROR_ARG_POS(3), "cannot be empty");
 		RETURN_THROWS();
 	}
